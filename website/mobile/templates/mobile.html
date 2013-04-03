@@ -3,9 +3,45 @@
 {% block main-title %} Mobile Website {% endblock %}
 
 {% block main-head %}
+<link rel="stylesheet" media="all" type="text/css" href="/static/css/Mobile.css" />
 {% endblock %}
 
 {% block content %}
-heyghj
+<div id='main-ctn'>
+    <div id='header-ctn'>
+        <div id='back-btn' class='hidden'></div>
+        <div id='title'>Select Holiday</div>
+        <div id='settings-btn'></div> 
+    </div>
+    <div id='content-ctn'>
+        <div class='list-ctn'>
+            <div class='sublist'>Offline</div>
+            <ul>
+                <li>
+                    <div class='label'>India Jul 2013</div>
+                    <div class='del-btn'></div>
+                </li>
+                <li>
+                    <div class='label'>Marokko Apr 2012</div>
+                    <div class='del-btn'></div>
+                </li>
+            </ul>
+            <div class='sublist'>Online</div>
+            <ul>
+                <li>
+                    <div class='label'>Sailing Sep 2010</div>
+                    <div class='download-btn'></div>
+                </li>
+                <li>
+                    <div class='label'>Trekking May 2008</div>
+                    <div class='download-btn'></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
+{% block main-meta %}
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+{% endblock %}
