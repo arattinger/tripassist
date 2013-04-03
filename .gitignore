@@ -63,3 +63,6 @@ nosetests.xml
 
 # Windows specific
 Thumbs.db
+
+# Temporary Files
+*~
