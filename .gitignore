@@ -60,3 +60,6 @@ nosetests.xml
 
 # Sqlite Database
 *.sqlite3
+
+# Windows specific
+Thumbs.db
