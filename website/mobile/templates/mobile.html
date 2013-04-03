@@ -3,7 +3,7 @@
 {% block main-title %} Mobile Website {% endblock %}
 
 {% block main-head %}
-<link rel="stylesheet" media="all" type="text/css" href="/static/css/Mobile.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/static/css/mobile.css" />
 {% endblock %}
 
 {% block content %}
@@ -137,8 +137,10 @@
                 </li>
             </ul>
         </div>
-        <div class='map-btn'></div>
-        <div class='navigate-btn'></div>
+        <div id='bottom-ctn'>
+            <div id='map-btn' class='map-btn'></div>
+            <div id='navigate-btn' class='navigate-btn'></div>
+        </div>
     </div>
 </div>
 {% endblock %}

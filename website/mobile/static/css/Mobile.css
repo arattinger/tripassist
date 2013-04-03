@@ -69,6 +69,27 @@ body {
   background-image: url("/static/images/download.png");
   float: right;
 }
+.map-btn {
+  width: 42px;
+  height: 42px;
+  margin: 5px;
+  background-size: 42px 42px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/static/images/map.png");
+  float: right;
+  clear: right;
+}
+.navigate-btn {
+  width: 42px;
+  height: 42px;
+  margin: 5px;
+  background-size: 42px 42px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/static/images/navigate.png");
+  float: right;
+}
 .list-ctn {
   margin: 10px;
   margin-bottom: 25px;
@@ -94,47 +115,6 @@ body {
   float: left;
   margin-top: 30px;
   font-size: 24px;
-}
-.list-ctn ul li .del-btn {
-  width: 42px;
-  height: 42px;
-  margin: 5px;
-  background-size: 42px 42px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-image: url("/static/images/delete.png");
-  float: right;
-}
-.list-ctn ul li .download-btn {
-  width: 42px;
-  height: 42px;
-  margin: 5px;
-  background-size: 42px 42px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-image: url("/static/images/download.png");
-  float: right;
-}
-.list-ctn ul li .map-btn {
-  width: 42px;
-  height: 42px;
-  margin: 5px;
-  background-size: 42px 42px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-image: url("/static/images/map.png");
-  float: right;
-  clear: right;
-}
-.list-ctn ul li .navigate-btn {
-  width: 42px;
-  height: 42px;
-  margin: 5px;
-  background-size: 42px 42px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-image: url("/static/images/navigate.png");
-  float: right;
 }
 .list-ctn ul li .info-ctn {
   width: 42px;
@@ -184,7 +164,7 @@ body {
   bottom: 0px;
   left: 0px;
   width: 100%;
-  height: 45px;
+  height: 55px;
 }
 #bottom-ctn #left-info-ctn {
   float: left;
