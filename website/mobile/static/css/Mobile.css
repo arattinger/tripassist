@@ -72,7 +72,7 @@ body {
 }
 .list-ctn ul li .label {
   float: left;
-  margin-top: 8px;
+  margin-top: 30px;
   font-size: 24px;
 }
 .list-ctn ul li .del-btn {
@@ -94,6 +94,37 @@ body {
   background-repeat: no-repeat;
   background-image: url("/static/images/download.png");
   float: right;
+}
+.list-ctn ul li .map-btn {
+  width: 42px;
+  height: 42px;
+  margin: 5px;
+  background-size: 42px 42px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/static/images/map.png");
+  float: right;
+  clear: right;
+}
+.list-ctn ul li .navigate-btn {
+  width: 42px;
+  height: 42px;
+  margin: 5px;
+  background-size: 42px 42px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/static/images/navigate.png");
+  float: right;
+}
+.list-ctn ul li .info-ctn {
+  width: 42px;
+  height: 42px;
+  margin: 5px;
+  float: right;
+}
+.list-ctn ul li .info-ctn p {
+  margin: 0px;
+  font-size: 14px;
 }
 .tiles-ctn {
   margin: auto;
