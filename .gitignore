@@ -21,6 +21,7 @@ local.properties
 
 # Python
 *.py[cod]
+*.pyc
 
 # C extensions
 *.so
