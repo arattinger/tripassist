@@ -2,7 +2,6 @@ body {
   background: #000;
   color: #fff;
   font-family: Verdana, Sans-serif;
-  overflow: hidden;
   margin: 0px;
   height: 100%;
   width: 100%;
@@ -44,8 +43,11 @@ body {
   position: absolute;
   top: 60px;
   left: 0px;
+  bottom: 0px;
+  right: 0px;
   min-height: 10px;
   width: 100%;
+  overflow: auto;
 }
 .list-ctn {
   margin: 10px;
@@ -92,4 +94,37 @@ body {
   background-repeat: no-repeat;
   background-image: url("/static/images/download.png");
   float: right;
+}
+.tiles-ctn {
+  margin: auto;
+  width: 444px;
+}
+.tiles-ctn #route-tile {
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  border: 1px solid #f00;
+  float: left;
+}
+.tiles-ctn #accomm-tile {
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  border: 1px solid #f00;
+  float: left;
+  clear: right;
+}
+.tiles-ctn #places-tile {
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  border: 1px solid #f00;
+  float: left;
+}
+.tiles-ctn #schedule-tile {
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  border: 1px solid #f00;
+  float: left;
 }
