@@ -49,6 +49,26 @@ body {
   width: 100%;
   overflow: auto;
 }
+.del-btn {
+  width: 42px;
+  height: 42px;
+  margin: 5px;
+  background-size: 42px 42px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/static/images/delete.png");
+  float: right;
+}
+.download-btn {
+  width: 42px;
+  height: 42px;
+  margin: 5px;
+  background-size: 42px 42px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/static/images/download.png");
+  float: right;
+}
 .list-ctn {
   margin: 10px;
   margin-bottom: 25px;
@@ -187,4 +207,15 @@ body {
   background-image: url("/static/images/arrow.png");
   background-repeat: no-repeat;
   background-position: center;
+}
+.detail-label-ctn {
+  margin-top: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+}
+.detail-info-ctn {
+  margin: 10px;
+  font-size: 14px;
+  text-align: right;
 }
