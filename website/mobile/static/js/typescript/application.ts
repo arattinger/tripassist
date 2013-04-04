@@ -1,5 +1,6 @@
-/// <reference path="views/selectholidayview.ts" />
 /// <reference path="../lib/jquery.d.ts" />
+/// <reference path="../lib/handlebars.d.ts" />
+/// <reference path="views/selectholidayview.ts" />
 
 module TripAssist {
     export class Application {
@@ -7,21 +8,26 @@ module TripAssist {
         /** 
          * lists all views
          */
-        views: View[];
+        private views: View[];
         
         /**
          * lists the currently displayed views as stack
          */
-        viewStack: View[];
+        private viewStack: View[];
+
+        /**
+         * the main template of the application
+         */
+        private mainTemplate: any;
 
         constructor() {
-            console.log(SelectHolidayView);
+            // define views
             this.views = [
                 new SelectHolidayView()
             ];
-            this.viewStack = [];
 
             // add first view to stack
+            this.viewStack = [];
             this.viewStack.push(this.views[0]);
         }
 
@@ -30,13 +36,22 @@ module TripAssist {
          */
         public start() {
             console.log('started application');
+
+            // load main template
+            this.mainTemplate = Handlebars.compile($("#main-template").html());
+
+            // render main application
+            $('#main-ctn').html(this.mainTemplate());
+
             this.renderView();
         }
 
         private renderView() {
             if (this.viewStack.length != 0) {
+
                 var view = this.viewStack[this.viewStack.length-1];
-                view.render(document.getElementById('main-ctn'), null, function() {
+                document.getElementById('title').innerHTML = view.title();
+                view.render(document.getElementById('content-ctn'), null, function() {
                     console.log('done rendering first view!');
                 });
             }

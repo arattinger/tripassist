@@ -2,7 +2,6 @@ var TripAssist;
 (function (TripAssist) {
     var Application = (function () {
         function Application() {
-            console.log(TripAssist.SelectHolidayView);
             this.views = [
                 new TripAssist.SelectHolidayView()
             ];
@@ -11,12 +10,15 @@ var TripAssist;
         }
         Application.prototype.start = function () {
             console.log('started application');
+            this.mainTemplate = Handlebars.compile($("#main-template").html());
+            $('#main-ctn').html(this.mainTemplate());
             this.renderView();
         };
         Application.prototype.renderView = function () {
             if(this.viewStack.length != 0) {
                 var view = this.viewStack[this.viewStack.length - 1];
-                view.render(document.getElementById('main-ctn'), null, function () {
+                document.getElementById('title').innerHTML = view.title();
+                view.render(document.getElementById('content-ctn'), null, function () {
                     console.log('done rendering first view!');
                 });
             }
