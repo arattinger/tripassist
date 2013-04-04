@@ -1,10 +1,12 @@
 from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.conf import settings
 from os.path import join, basename
 import mimetypes
 from unicodedata import normalize
 from django.http import HttpResponse
+from models import Attachment
 
 
 def mobile(request):
@@ -12,7 +14,18 @@ def mobile(request):
 
 
 def manifest(request):
-    return render_to_response('manifest.html', {}, RequestContext(request))
+    data = {"username": request.user.username}
+    return render_to_response('manifest.html', data, RequestContext(request))
+
+
+@login_required
+def cache_manifest(request):
+    attachments = Attachment.objects.filter(user=request.user)
+    data = {
+        "attachments": attachments,
+        "username": request.user.username,
+    }
+    return render_to_response('cache.manifest', data, RequestContext(request))
 
 
 def download(request, filename):

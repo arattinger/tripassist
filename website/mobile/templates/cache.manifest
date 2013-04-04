@@ -1,0 +1,10 @@
+CACHE MANIFEST
+# Version 0.1
+/mobile/download/attachment/{{username}}/testfile.txt
+/mobile/download/attachment/{{username}}/download.png
+/mobile/download/attachment/{{username}}/delete.png
+/mobile/download/attachment/{{username}}/settings.png
+/mobile/download/attachment/{{username}}/test.json
+{% for attachment in attachments %}
+	/mobile/download/{{ attachment.attachment }}
+{% endfor %}
