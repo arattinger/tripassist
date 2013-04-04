@@ -1,5 +1,6 @@
 /// <reference path="../lib/jquery.d.ts" />
 /// <reference path="../lib/handlebars.d.ts" />
+/// <reference path="templatemgr.ts" />
 /// <reference path="views/selectholidayview.ts" />
 
 module TripAssist {
@@ -38,7 +39,7 @@ module TripAssist {
             console.log('started application');
 
             // load main template
-            this.mainTemplate = Handlebars.compile($("#main-template").html());
+            this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('main.template'));
 
             // render main application
             $('#main-ctn').html(this.mainTemplate());

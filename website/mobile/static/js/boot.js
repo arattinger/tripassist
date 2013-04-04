@@ -38,13 +38,7 @@ $(document).ready(function() {
             loadTemplatesCounter++;
 
             var names = this.url.split('/');
-            
-            // TODO: replace with TypeScript template handler
-            var script = document.createElement("script");
-            script.type = "text/x-handlebars-template";
-            script.id = names[names.length-1].replace(/\./, '-'); // dots are not allowed as id identifiers
-            script.text = template;
-            document.body.appendChild(script);
+            TemplateManager.addTemplate(names[names.length-1], template);
 
             callback();
 

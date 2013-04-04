@@ -10,7 +10,7 @@ var TripAssist;
         }
         Application.prototype.start = function () {
             console.log('started application');
-            this.mainTemplate = Handlebars.compile($("#main-template").html());
+            this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('main.template'));
             $('#main-ctn').html(this.mainTemplate());
             this.renderView();
         };
