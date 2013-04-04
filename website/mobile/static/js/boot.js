@@ -2,7 +2,8 @@ $(document).ready(function() {
 
     // define all classes to be fetched from server
     var CLASSES = [
-        'application'
+        'application',
+        'views/selectholidayview'
     ];
 
     // load them and start application when done
@@ -13,7 +14,7 @@ $(document).ready(function() {
             if (loadClassCounter == CLASSES.length) {
 
                 // create application and start it
-                var app = new Application();
+                var app = new TripAssist.Application();
                 app.start();
 
             }
