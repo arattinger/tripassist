@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Tests</title>
+        <link rel="stylesheet" href="lib/mocha.css">
+        <script src="lib/mocha.js"></script>
+        <script src="lib/expect.js"></script>
+
+        <script type='text/javascript' src='../lib/jquery-1.9.1.min.js'></script>
+        <script type='text/javascript' src='../lib/handlebars.js'></script>
+        <script type='text/javascript' src='/static/js/templatemgr.js' /></script>
+        <script src="boot.js"></script>
+        <style type='text/css'>
+            div  {
+                display: none;
+            }
+            div#mocha {
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="mocha"></div>
+
+        <!-- used for rendering the application -->
+        <div id='main-ctn'></div>
+    </body>
+</html>

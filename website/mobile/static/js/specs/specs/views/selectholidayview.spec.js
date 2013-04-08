@@ -1,0 +1,3 @@
+describe('SelectHolidayView', function() {
+
+});
