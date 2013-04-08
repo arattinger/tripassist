@@ -1,0 +1,24 @@
+<div class='list-ctn'>
+    <div class='sublist'>Offline</div>
+    <ul>
+        <li>
+            <div class='label'>India Jul 2013</div>
+            <div class='del-btn'></div>
+        </li>
+        <li>
+            <div class='label'>Marokko Apr 2012</div>
+            <div class='del-btn'></div>
+        </li>
+    </ul>
+    <div class='sublist'>Online</div>
+    <ul>
+        <li>
+            <div class='label'>Sailing Sep 2010</div>
+            <div class='download-btn'></div>
+        </li>
+        <li>
+            <div class='label'>Trekking May 2008</div>
+            <div class='download-btn'></div>
+        </li>
+    </ul>
+</div>

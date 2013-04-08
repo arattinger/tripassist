@@ -8,7 +8,8 @@ $(document).ready(function() {
 
     // define all templates to be fetched from server
     var TEMPLATES = [
-        'main'
+        'main',
+        'selectholidayview'
     ];
 
     var loadClassCounter = 0;

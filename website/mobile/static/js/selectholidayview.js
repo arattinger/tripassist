@@ -2,7 +2,7 @@ var TripAssist;
 (function (TripAssist) {
     var SelectHolidayView = (function () {
         function SelectHolidayView() {
-            this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview.template'));
+            this.mainTemplate = Handlebars.compile(TemplateManager.get('selectholidayview.template'));
         }
         SelectHolidayView.prototype.title = function () {
             return "Select Holiday";
@@ -11,8 +11,8 @@ var TripAssist;
             return "SelectHolidayView";
         };
         SelectHolidayView.prototype.render = function (ctn, data, callback) {
-            ctn.innerHTML = this.mainTemplate({
-            });
+            ctn.html(this.mainTemplate({
+            }));
         };
         return SelectHolidayView;
     })();
