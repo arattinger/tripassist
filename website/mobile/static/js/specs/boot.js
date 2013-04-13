@@ -3,6 +3,7 @@ $(document).ready(function() {
     // define all classes to be fetched from server
     var CLASSES = [
         'application',
+        'datamgr',
         'views/selectholidayview'
     ];
 

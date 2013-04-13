@@ -1,6 +1,17 @@
 /// <reference path="../lib/jquery.d.ts" />
+/// <reference path="models.ts" />
 
 module DataManager {
+
+    var offline_holidays: TripAssist.Holiday[];
+    var loaded_offline: bool;
+
+    /**
+     * stores the offline_holidays list in the localStorage object
+     */
+    function storeOfflineHolidays() {
+        localStorage["offlineHolidays"] = JSON.stringify(offline_holidays);
+    }
 
     /**
      * fetches the holidays that are available online and returns
@@ -14,7 +25,14 @@ module DataManager {
      * retrieves a list of already cached holidays
      */
     export function getOfflineHolidays() {
-        // TODO
+        if (!loaded_offline) {
+            offline_holidays = [];
+            var json = localStorage["offlineHolidays"];
+            if (json)
+                offline_holidays = JSON.parse(localStorage["offlineHolidays"]);
+            loaded_offline = true;
+        }
+        return offline_holidays;
     }
 
     /**
@@ -22,8 +40,17 @@ module DataManager {
      * @param id the id of the holiday
      * @param name the name of the holiday
      */
-    export function addDownloadedHoliday(id: number, name: string) {
-        // TODO
+    export function addDownloadedHoliday(holiday : TripAssist.Holiday) {
+        // check if holiday does not exist downloaded already
+        for (var i = 0; i<offline_holidays.length; i++) {
+            if (offline_holidays[i].id == holiday.id) {
+                return;
+            }
+        }
+        offline_holidays.push(holiday);
+
+        // make changes permanent by storing in offlineadd storage
+        storeOfflineHolidays();
     }
 
     /**
@@ -31,7 +58,15 @@ module DataManager {
      * @param id the id of the holiday
      */
     export function removeDownloadedHoliday(id: number) {
-        // TODO
+        for (var i = 0; i<offline_holidays.length; i++) {
+            if (offline_holidays[i].id == id) {
+                offline_holidays.splice(i, 1);
+
+                // make changes permanent by storing in offline storage
+                storeOfflineHolidays();
+                return;
+            }
+        }   
     }
 
     /**
