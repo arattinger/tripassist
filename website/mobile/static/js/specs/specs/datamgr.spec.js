@@ -47,7 +47,8 @@ describe('DataManager', function() {
     });
 
     it('retrieve routes list from routes_1.json file', function(done) {
-        datamgr.getRoutesList(1, function(list) {
+        datamgr.loadHoliday(1, function() {
+            var list = datamgr.getRoutesList();
             expect( list.length ).to.be(1);
             expect( list[0].name ).to.be('Bus 74');
             done();
@@ -55,17 +56,17 @@ describe('DataManager', function() {
     });
 
     it('retrieve specific route after loading from server', function(done) {
-        datamgr.getRoutesList(1, function(list) {
-            datamgr.getRoute(1, function(route) {
-                expect( route.id ).to.be(1);
-                expect( route.name ).to.be('Bus 74');
-                done();
-            });
+        datamgr.loadHoliday(1, function() {
+            var route = datamgr.getRoute(1);
+            expect( route.id ).to.be(1);
+            expect( route.name ).to.be('Bus 74');
+            done();
         });
     });
 
     it('retrieve accommodations list from accommodations_1.json file', function(done) {
-        datamgr.getAccommodationsList(1, function(list) {
+        datamgr.loadHoliday(1, function() {
+            var list = datamgr.getAccommodationsList();
             expect( list.length ).to.be(2);
             expect( list[1].name ).to.be('Hôtel du mar');
             done();
@@ -73,22 +74,29 @@ describe('DataManager', function() {
     });
 
     it('retrieve accommodation after loading from server', function(done) {
-        datamgr.getAccommodationsList(1, function(list) {
-            datamgr.getAccommodation(1, function(acc) {
-                expect( acc.id ).to.be(1);
-                expect( acc.name ).to.be("Hotel d'Amour");
-                done();
-            });
+        datamgr.loadHoliday(1, function() {
+            var acc = datamgr.getAccommodation(1);
+            expect( acc.id ).to.be(1);
+            expect( acc.name ).to.be("Hotel d'Amour");
+            done();
         });
     });
 
-    it('retrieve accommodation after setting holiday id elsewhere', function(done) {
-        datamgr.getRoutesList(1, function(list) {
-            datamgr.getAccommodation(2, function(acc) {
-                expect( acc.id ).to.be(2);
-                expect( acc.name ).to.be('Hôtel du mar');
-                done();
-            });
+    it('retrieve places list from places_1.json file', function(done) {
+        datamgr.loadHoliday(1, function() {
+            var list = datamgr.getPlacesList();
+            expect( list.length ).to.be(1);
+            expect( list[0].name ).to.be('Ristorante Milano');
+            done();
+        });
+    });
+
+    it('retrieve place from server', function(done) {
+        datamgr.loadHoliday(1, function() {
+            var place = datamgr.getPlace(3);
+            expect( place.id ).to.be(3);
+            expect( place.name ).to.be("Ristorante Milano");
+            done();
         });
     });
 

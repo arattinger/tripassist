@@ -11,10 +11,12 @@ module TripAssist {
         base_url_: string;
         /** stores the current holiday id - if changes, all values will be removed */
         current_holiday_id_ : number;
+        loaded_holiday_: bool;
 
         /** Data will be cached until explicit renewal **/
         routes_: TripAssist.Route[];
         accommodations_: TripAssist.Accommodation[];
+        places_: TripAssist.Place[];
 
         /**
          * stores the offline_holidays_ list in the localStorage object
@@ -41,8 +43,75 @@ module TripAssist {
             this.loaded_offline_ = false;
             this.base_url_ = '/mobile/download/' + this.user_.username + '/';
             this.current_holiday_id_ = 0;
+            this.loaded_holiday_ = false;
             this.routes_ = [];
             this.accommodations_ = [];
+            this.places_ = [];
+        }
+
+        /**
+         * loads an entire holiday from the server
+         * @param holiday_id the id of the holiday to be fetched
+         */
+        public loadHoliday(holiday_id: number, callback: () => void) : void {
+            var routes_loaded = false;
+            var accommodations_loaded = false;
+            var places_loaded = false;
+
+            var self = this;
+            function done() {
+                if (routes_loaded && accommodations_loaded && places_loaded) {
+                    self.loaded_holiday_ = true;
+                    callback();
+                }
+            }
+
+            // only fetch if not loaded already
+            if (this.current_holiday_id_ != holiday_id) {
+                this.routes_ = [];
+                this.accommodations_ = [];
+                this.places_ = [];
+                this.current_holiday_id_ = holiday_id;
+
+                $.ajax(this.base_url_ + 'routes_' + this.current_holiday_id_ + '.json', {
+                    dataType: 'json',
+                    success: function(data, textStatus) {
+                        self.routes_ = data;
+                        routes_loaded = true;
+                        done();
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
+                    }
+                });
+
+                $.ajax(this.base_url_ + 'accommodations_' + this.current_holiday_id_ + '.json', {
+                    dataType: 'json',
+                    success: function(data, textStatus) {
+                        self.accommodations_ = data;
+                        accommodations_loaded = true;
+                        done();
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
+                    }
+                });
+
+                $.ajax(this.base_url_ + 'places_' + this.current_holiday_id_ + '.json', {
+                    dataType: 'json',
+                    success: function(data, textStatus) {
+                        self.places_ = data;
+                        places_loaded = true;
+                        done();
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
+                    }
+                });
+            }
         }
 
         /**
@@ -103,130 +172,75 @@ module TripAssist {
 
         /**
          * returns a list of routes that belong to the specified holiday
-         * @param holiday_id the id of the holiday the routes of which shall be returned
          */
-        public getRoutesList(holiday_id: number, callback: (routes: TripAssist.Route[]) => void) : void {
-            this.setHolidayId(holiday_id);
-            if (this.routes_.length > 0) {
-                callback(this.routes_);
-            } else {
-                var self = this;
-                $.ajax(this.base_url_ + 'routes_' + this.current_holiday_id_ + '.json', {
-                    dataType: 'json',
-                    success: function(data, textStatus) {
-                        self.routes_ = data;
-                        callback(data);
-                    },
-
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
-                    }
-                });
+        public getRoutesList() : TripAssist.Route[] {
+            if (this.loaded_holiday_) {
+                return this.routes_;
             }
+            console.log("ERROR: holiday was not loaded yet");
+            return [];
         }
 
         /**
          * returns all informations about the specified route
          * @param route_id the id of the route
          */
-        public getRoute(route_id: number, callback: (route: TripAssist.Route) => void) : void {
-            function extractSingleRoute(routes: TripAssist.Route[]) : TripAssist.Route {
-                for (var i = 0; i<routes.length; i++) {
-                    if (routes[i].id == route_id) {
-                        return routes[i];
-                    }
+        public getRoute(route_id: number) : TripAssist.Route {
+            for (var i = 0; i<this.routes_.length; i++) {
+                if (this.routes_[i].id == route_id) {
+                    return this.routes_[i];
                 }
-                return null;
             }
-
-            if (this.routes_.length > 0) {
-                callback(extractSingleRoute(this.routes_));
-            } else {
-                var self = this;
-                $.ajax(this.base_url_ + 'routes_' + this.current_holiday_id_ + '.json', {
-                    dataType: 'json',
-                    success: function(data, textStatus) {
-                        self.routes_ = data;
-                        callback(extractSingleRoute(self.routes_));
-                    },
-
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
-                    }
-                });
-            }
+            return null;
         }
 
         /**
          * returns a list of accommodations that belong to the specified holiday
-         * @param holiday_id the id of the holiday the accommodations of which shall be returned
          */
-        public getAccommodationsList(holiday_id: number, callback: (accommodations : TripAssist.Accommodation[]) => void) : void {
-            this.setHolidayId(holiday_id);
-            if (this.accommodations_.length > 0) {
-                callback(this.accommodations_);
-            } else {
-                var self = this;
-                $.ajax(this.base_url_ + 'accommodations_' + this.current_holiday_id_ + '.json', {
-                    dataType: 'json',
-                    success: function(data, textStatus) {
-                        self.accommodations_ = data;
-                        callback(data);
-                    },
-
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
-                    }
-                });
+        public getAccommodationsList() : TripAssist.Accommodation[]  {
+            if (this.loaded_holiday_) {
+                return this.accommodations_;
             }
+            console.log("ERROR: holiday was not loaded yet");
+            return [];
         }
 
         /**
          * returns all informations about the specified accommodation
          * @param accommodation_id the id of the accommodation
          */
-        public getAccommodation(accommodation_id: number, callback: (accommodation: TripAssist.Accommodation) => void) : void {
-            function extractSingleAccommodation(accommodations: TripAssist.Accommodation[]) : TripAssist.Accommodation {
-                for (var i = 0; i<accommodations.length; i++) {
-                    if (accommodations[i].id == accommodation_id) {
-                        return accommodations[i];
-                    }
+        public getAccommodation(accommodation_id: number) : TripAssist.Accommodation {
+            for (var i = 0; i<this.accommodations_.length; i++) {
+                if (this.accommodations_[i].id == accommodation_id) {
+                    return this.accommodations_[i];
                 }
-                return null;
             }
-
-            if (this.accommodations_.length > 0) {
-                callback(extractSingleAccommodation(this.accommodations_));
-            } else {
-                var self = this;
-                $.ajax(this.base_url_ + 'accommodations_' + this.current_holiday_id_ + '.json', {
-                    dataType: 'json',
-                    success: function(data, textStatus) {
-                        self.accommodations_ = data;
-                        callback(extractSingleAccommodation(self.accommodations_));
-                    },
-
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
-                    }
-                });
-            }
+            return null;
         }
 
         /**
          * returns a list of places that belong to the specified holiday
          * @param holiday_id the id of the holiday the places of which shall be returned
          */
-        public getPlacesList(holiday_id: number) {
-            // TODO
+        public getPlacesList(holiday_id: number) : TripAssist.Place[] {
+            if (this.loaded_holiday_) {
+                return this.places_;
+            }
+            console.log("ERROR: holiday was not loaded yet");
+            return [];
         }
 
         /**
          * returns all informations about the specified place
          * @param place_id the id of the place
          */
-        public getPlace(place_id: number) {
-            // TODO
+        public getPlace(place_id: number) : TripAssist.Place {
+            for (var i = 0; i<this.places_.length; i++) {
+                if (this.places_[i].id == place_id) {
+                    return this.places_[i];
+                }
+            }
+            return null;
         }
 
         /**
