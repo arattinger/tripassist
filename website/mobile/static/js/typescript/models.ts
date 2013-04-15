@@ -2,9 +2,14 @@
 
 module TripAssist {
 
+    export interface User {
+        username?: string;
+    }
+
     export interface Attachment {
         id? : number;
         filename? : string;
+        token? : string;
     }
 
     export interface Route {
@@ -14,11 +19,13 @@ module TripAssist {
         created? : Date;
         last_changed? : Date;
         departure_name? : string;
+        departure_time? : Date;
         departure_longitude? : number;
         departure_latitude? : number;
         departure_altitude? : number;
         departure_address? : string;
         arrival_name? : string;
+        arrival_time? : Date;
         arrival_longitude? : number;
         arrival_latitude? : number;
         arrival_altitude? : number;
@@ -66,5 +73,7 @@ module TripAssist {
         accommodations: Accommodation[];
         places?: Place[];
         routes?: Route[];
+        start? : Date;
+        end? : Date;
     }
 }

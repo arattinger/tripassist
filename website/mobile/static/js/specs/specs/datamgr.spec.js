@@ -1,5 +1,14 @@
 describe('DataManager', function() {
 
+    var datamgr;
+
+    beforeEach(function() {
+        var user = {
+            username: "test"
+        };
+        datamgr = new TripAssist.DataManager(user);
+    });
+
     function createHoliday(id) {
         var holiday = {
             id: id,
@@ -14,27 +23,27 @@ describe('DataManager', function() {
     }
 
     it('retrieve empty offline holiday list', function() {
-        expect ( DataManager.getOfflineHolidays().length ).to.be(0);
+        expect ( datamgr.getOfflineHolidays().length ).to.be(0);
     });
 
     it('store single holiday offline', function() {
         var holiday = createHoliday(1);
-        DataManager.addDownloadedHoliday(holiday);
-        expect ( DataManager.getOfflineHolidays().length ).to.be(1);
-        DataManager.removeDownloadedHoliday(1);
-        expect ( DataManager.getOfflineHolidays().length ).to.be(0);
+        datamgr.addDownloadedHoliday(holiday);
+        expect ( datamgr.getOfflineHolidays().length ).to.be(1);
+        datamgr.removeDownloadedHoliday(1);
+        expect ( datamgr.getOfflineHolidays().length ).to.be(0);
     });
 
     it('store multiple holidays offline', function() {
         var holiday1 = createHoliday(1);
         var holiday2 = createHoliday(2);
-        DataManager.addDownloadedHoliday(holiday1);
-        DataManager.addDownloadedHoliday(holiday2);
-        expect ( DataManager.getOfflineHolidays().length ).to.be(2);
-        DataManager.removeDownloadedHoliday(1);
-        expect ( DataManager.getOfflineHolidays().length ).to.be(1);
-        DataManager.removeDownloadedHoliday(2);
-        expect ( DataManager.getOfflineHolidays().length ).to.be(0);
+        datamgr.addDownloadedHoliday(holiday1);
+        datamgr.addDownloadedHoliday(holiday2);
+        expect ( datamgr.getOfflineHolidays().length ).to.be(2);
+        datamgr.removeDownloadedHoliday(1);
+        expect ( datamgr.getOfflineHolidays().length ).to.be(1);
+        datamgr.removeDownloadedHoliday(2);
+        expect ( datamgr.getOfflineHolidays().length ).to.be(0);
     });
 
 });

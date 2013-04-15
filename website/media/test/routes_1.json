@@ -1,0 +1,28 @@
+[
+    {
+        "id": 1,
+        "name": "Bus 74",
+        "type": "Bus",
+        "created": 1224043200000,
+        "last_changed": 1224043200000,
+        "departure_name": "Main Station",
+        "departure_time": 1224043400000,
+        "departure_longitude": 47.13,
+        "departure_latitude": 16.45,
+        "departure_altitude": 235,
+        "departure_address": "Main street 47",
+        "arrival_name": "Railway station",
+        "arrival_time": 1224043500000,
+        "arrival_longitude": 47.05,
+        "arrival_latitude": 16.44,
+        "arrival_altitude": 225,
+        "arrival_address": "train road 75",
+        "files": [
+            {
+                "id": 1,
+                "filename": "Bus_ticket.pdf",
+                "token": "ac5a5ad88621adadf5f6"
+            }
+        ]
+    }
+]

@@ -1,64 +1,60 @@
-var DataManager;
-(function (DataManager) {
-    var offline_holidays;
-    var loaded_offline;
-    function storeOfflineHolidays() {
-        localStorage["offlineHolidays"] = JSON.stringify(offline_holidays);
-    }
-    function getOnlineHolidays() {
-    }
-    DataManager.getOnlineHolidays = getOnlineHolidays;
-    function getOfflineHolidays() {
-        if(!loaded_offline) {
-            offline_holidays = [];
-            var json = localStorage["offlineHolidays"];
-            if(json) {
-                offline_holidays = JSON.parse(localStorage["offlineHolidays"]);
-            }
-            loaded_offline = true;
+var TripAssist;
+(function (TripAssist) {
+    var DataManager = (function () {
+        function DataManager(user) {
+            this.user = user;
+            this.offline_holidays = [];
+            this.loaded_offline = false;
         }
-        return offline_holidays;
-    }
-    DataManager.getOfflineHolidays = getOfflineHolidays;
-    function addDownloadedHoliday(holiday) {
-        for(var i = 0; i < offline_holidays.length; i++) {
-            if(offline_holidays[i].id == holiday.id) {
-                return;
+        DataManager.prototype.storeOfflineHolidays = function () {
+            localStorage["offlineHolidays"] = JSON.stringify(this.offline_holidays);
+        };
+        DataManager.prototype.getOnlineHolidays = function () {
+        };
+        DataManager.prototype.getOfflineHolidays = function () {
+            if(!this.loaded_offline) {
+                this.offline_holidays = [];
+                var json = localStorage["offlineHolidays"];
+                if(json) {
+                    this.offline_holidays = JSON.parse(localStorage["offlineHolidays"]);
+                }
+                this.loaded_offline = true;
             }
-        }
-        offline_holidays.push(holiday);
-        storeOfflineHolidays();
-    }
-    DataManager.addDownloadedHoliday = addDownloadedHoliday;
-    function removeDownloadedHoliday(id) {
-        for(var i = 0; i < offline_holidays.length; i++) {
-            if(offline_holidays[i].id == id) {
-                offline_holidays.splice(i, 1);
-                storeOfflineHolidays();
-                return;
+            return this.offline_holidays;
+        };
+        DataManager.prototype.addDownloadedHoliday = function (holiday) {
+            for(var i = 0; i < this.offline_holidays.length; i++) {
+                if(this.offline_holidays[i].id == holiday.id) {
+                    return;
+                }
             }
-        }
-    }
-    DataManager.removeDownloadedHoliday = removeDownloadedHoliday;
-    function getRoutesList(holiday_id) {
-    }
-    DataManager.getRoutesList = getRoutesList;
-    function getRoute(route_id) {
-    }
-    DataManager.getRoute = getRoute;
-    function getAccommodationsList(holiday_id) {
-    }
-    DataManager.getAccommodationsList = getAccommodationsList;
-    function getAccommodation(accommodation_id) {
-    }
-    DataManager.getAccommodation = getAccommodation;
-    function getPlacesList(holiday_id) {
-    }
-    DataManager.getPlacesList = getPlacesList;
-    function getPlace(place_id) {
-    }
-    DataManager.getPlace = getPlace;
-    function getSchedule(holiday_id) {
-    }
-    DataManager.getSchedule = getSchedule;
-})(DataManager || (DataManager = {}));
+            this.offline_holidays.push(holiday);
+            this.storeOfflineHolidays();
+        };
+        DataManager.prototype.removeDownloadedHoliday = function (id) {
+            for(var i = 0; i < this.offline_holidays.length; i++) {
+                if(this.offline_holidays[i].id == id) {
+                    this.offline_holidays.splice(i, 1);
+                    this.storeOfflineHolidays();
+                    return;
+                }
+            }
+        };
+        DataManager.prototype.getRoutesList = function (holiday_id, callback) {
+        };
+        DataManager.prototype.getRoute = function (route_id) {
+        };
+        DataManager.prototype.getAccommodationsList = function (holiday_id) {
+        };
+        DataManager.prototype.getAccommodation = function (accommodation_id) {
+        };
+        DataManager.prototype.getPlacesList = function (holiday_id) {
+        };
+        DataManager.prototype.getPlace = function (place_id) {
+        };
+        DataManager.prototype.getSchedule = function (holiday_id) {
+        };
+        return DataManager;
+    })();
+    TripAssist.DataManager = DataManager;    
+})(TripAssist || (TripAssist = {}));
