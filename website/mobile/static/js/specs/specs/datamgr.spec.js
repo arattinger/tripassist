@@ -46,4 +46,12 @@ describe('DataManager', function() {
         expect ( datamgr.getOfflineHolidays().length ).to.be(0);
     });
 
+    it('retrieve routes list from routes_1.json file', function(done) {
+        datamgr.getRoutesList(1, function(list) {
+            expect( list.length ).to.be(1);
+            expect( list[0].name ).to.be('Bus 74');
+            done();
+        });
+    });
+
 });

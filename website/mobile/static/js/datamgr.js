@@ -5,6 +5,7 @@ var TripAssist;
             this.user = user;
             this.offline_holidays = [];
             this.loaded_offline = false;
+            this.base_url = '/mobile/download/' + user.username + '/';
         }
         DataManager.prototype.storeOfflineHolidays = function () {
             localStorage["offlineHolidays"] = JSON.stringify(this.offline_holidays);
@@ -41,6 +42,15 @@ var TripAssist;
             }
         };
         DataManager.prototype.getRoutesList = function (holiday_id, callback) {
+            $.ajax(this.base_url + 'routes_' + holiday_id + '.json', {
+                dataType: 'json',
+                success: function (data, textStatus) {
+                    callback(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('ERROR: ' + textStatus + ': ' + errorThrown);
+                }
+            });
         };
         DataManager.prototype.getRoute = function (route_id) {
         };

@@ -8,6 +8,7 @@ module TripAssist {
         offline_holidays: TripAssist.Holiday[];
         loaded_offline: bool;
         user: User;
+        base_url: string;
 
         /**
          * stores the offline_holidays list in the localStorage object
@@ -20,6 +21,7 @@ module TripAssist {
             this.user = user;
             this.offline_holidays = [];
             this.loaded_offline = false;
+            this.base_url = '/mobile/download/' + user.username + '/';
         }
 
         /**
@@ -83,7 +85,16 @@ module TripAssist {
          * @param holiday_id the id of the holiday the routes of which shall be returned
          */
         public getRoutesList(holiday_id: number, callback: (routes: TripAssist.Route[]) => void) : void {
-            // TODO 
+            $.ajax(this.base_url + 'routes_' + holiday_id + '.json', {
+                dataType: 'json',
+                success: function(data, textStatus) {
+                    callback(data);
+                },
+
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('ERROR: ' + textStatus + ': ' + errorThrown);
+                }
+            });
         }
 
         /**
