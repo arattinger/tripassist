@@ -54,4 +54,14 @@ describe('DataManager', function() {
         });
     });
 
+    it('retrieve specific route after loading from server', function(done) {
+        datamgr.getRoutesList(1, function(list) {
+            datamgr.getRoute(1, function(route) {
+                expect( route.id ).to.be(1);
+                expect( route.name ).to.be('Bus 74');
+                done();
+            });
+        });
+    });
+
 });
