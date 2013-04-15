@@ -2,6 +2,14 @@
 
 module TripAssist {
 
+    export interface ScheduleElem {
+        id?: number;
+        name? : string;
+        elemType? : string; // either 'route', 'place' or 'accommodation'
+        start? : Date;
+        end? : Date;
+    }
+
     export interface User {
         username?: string;
     }

@@ -17,6 +17,7 @@ module TripAssist {
         routes_: TripAssist.Route[];
         accommodations_: TripAssist.Accommodation[];
         places_: TripAssist.Place[];
+        schedule_: TripAssist.ScheduleElem[];
 
         /**
          * stores the offline_holidays_ list in the localStorage object
@@ -26,15 +27,40 @@ module TripAssist {
         }
 
         /**
-         * clears all cached data and resets the holiday id if different
-         * from previous one
+         * creates a schedule from all routes, accommodations and places
+         * by sorting them accordingly
          */
-         private setHolidayId(id: number) {
-            if (this.current_holiday_id_ != id) {
-                this.routes_ = [];
-                this.accommodations_ = [];
+         private createSchedule() : void {
+            // add all elements to schedule
+            for (var i = 0; i<this.routes_.length; i++) {
+                var route = this.routes_[i];
+                var elem = {
+                    id: route.id,
+                    name: route.name,
+                    elemType: 'route',
+                    start: route.departure_time,
+                    end: route.arrival_time
+                };
+                this.schedule_.push(elem);
             }
-            this.current_holiday_id_ = id;
+
+            for (var i = 0; i<this.accommodations_.length; i++) {
+                var acc = this.accommodations_[i];
+                var elem = {
+                    id: acc.id,
+                    name: acc.name,
+                    elemType: 'accommodation',
+                    start: acc.start,
+                    end: acc.end
+                };
+                this.schedule_.push(elem);
+            }
+
+            // places are neglected as they do not have a start and end date
+            function mySort(a : ScheduleElem, b : ScheduleElem) {
+                return a.start.getTime() - b.start.getTime();
+            }
+            this.schedule_.sort(mySort);
          }
 
         constructor (user : User) {
@@ -47,6 +73,7 @@ module TripAssist {
             this.routes_ = [];
             this.accommodations_ = [];
             this.places_ = [];
+            this.schedule_ = [];
         }
 
         /**
@@ -71,11 +98,19 @@ module TripAssist {
                 this.routes_ = [];
                 this.accommodations_ = [];
                 this.places_ = [];
+                this.schedule_ = [];
                 this.current_holiday_id_ = holiday_id;
 
                 $.ajax(this.base_url_ + 'routes_' + this.current_holiday_id_ + '.json', {
                     dataType: 'json',
                     success: function(data, textStatus) {
+                        // create real date objects
+                        for (var i = 0; i<data.length; i++) {
+                            data[i].departure_time = new Date(data[i].departure_time);
+                            data[i].arrival_time = new Date(data[i].arrival_time);
+                            data[i].created = new Date(data[i].created);
+                            data[i].last_changed = new Date(data[i].last_changed);
+                        }
                         self.routes_ = data;
                         routes_loaded = true;
                         done();
@@ -89,6 +124,13 @@ module TripAssist {
                 $.ajax(this.base_url_ + 'accommodations_' + this.current_holiday_id_ + '.json', {
                     dataType: 'json',
                     success: function(data, textStatus) {
+                        // create real date objects
+                        for (var i = 0; i<data.length; i++) {
+                            data[i].start = new Date(data[i].start);
+                            data[i].end = new Date(data[i].end);
+                            data[i].created = new Date(data[i].created);
+                            data[i].last_changed = new Date(data[i].last_changed);
+                        }
                         self.accommodations_ = data;
                         accommodations_loaded = true;
                         done();
@@ -102,6 +144,11 @@ module TripAssist {
                 $.ajax(this.base_url_ + 'places_' + this.current_holiday_id_ + '.json', {
                     dataType: 'json',
                     success: function(data, textStatus) {
+                        // create real date objects
+                        for (var i = 0; i<data.length; i++) {
+                            data[i].created = new Date(data[i].created);
+                            data[i].last_changed = new Date(data[i].last_changed);
+                        }
                         self.places_ = data;
                         places_loaded = true;
                         done();
@@ -220,7 +267,6 @@ module TripAssist {
 
         /**
          * returns a list of places that belong to the specified holiday
-         * @param holiday_id the id of the holiday the places of which shall be returned
          */
         public getPlacesList(holiday_id: number) : TripAssist.Place[] {
             if (this.loaded_holiday_) {
@@ -245,10 +291,12 @@ module TripAssist {
 
         /**
          * returns the schedule of the specified holiday
-         * @param holiday_id the id of the holiday the schedule of which shall be returned
          */
-        public getSchedule(holiday_id: number) {
-            // TODO
+        public getSchedule() : ScheduleElem[] {
+            if (this.schedule_.length == 0) {
+                this.createSchedule();
+            }
+            return this.schedule_;
         }
     }
 }

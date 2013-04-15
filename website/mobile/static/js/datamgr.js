@@ -11,16 +11,38 @@ var TripAssist;
             this.routes_ = [];
             this.accommodations_ = [];
             this.places_ = [];
+            this.schedule_ = [];
         }
         DataManager.prototype.storeOfflineHolidays = function () {
             localStorage["offlineHolidays"] = JSON.stringify(this.offline_holidays_);
         };
-        DataManager.prototype.setHolidayId = function (id) {
-            if(this.current_holiday_id_ != id) {
-                this.routes_ = [];
-                this.accommodations_ = [];
+        DataManager.prototype.createSchedule = function () {
+            for(var i = 0; i < this.routes_.length; i++) {
+                var route = this.routes_[i];
+                var elem = {
+                    id: route.id,
+                    name: route.name,
+                    elemType: 'route',
+                    start: route.departure_time,
+                    end: route.arrival_time
+                };
+                this.schedule_.push(elem);
             }
-            this.current_holiday_id_ = id;
+            for(var i = 0; i < this.accommodations_.length; i++) {
+                var acc = this.accommodations_[i];
+                var elem = {
+                    id: acc.id,
+                    name: acc.name,
+                    elemType: 'accommodation',
+                    start: acc.start,
+                    end: acc.end
+                };
+                this.schedule_.push(elem);
+            }
+            function mySort(a, b) {
+                return a.start.getTime() - b.start.getTime();
+            }
+            this.schedule_.sort(mySort);
         };
         DataManager.prototype.loadHoliday = function (holiday_id, callback) {
             var routes_loaded = false;
@@ -37,10 +59,17 @@ var TripAssist;
                 this.routes_ = [];
                 this.accommodations_ = [];
                 this.places_ = [];
+                this.schedule_ = [];
                 this.current_holiday_id_ = holiday_id;
                 $.ajax(this.base_url_ + 'routes_' + this.current_holiday_id_ + '.json', {
                     dataType: 'json',
                     success: function (data, textStatus) {
+                        for(var i = 0; i < data.length; i++) {
+                            data[i].departure_time = new Date(data[i].departure_time);
+                            data[i].arrival_time = new Date(data[i].arrival_time);
+                            data[i].created = new Date(data[i].created);
+                            data[i].last_changed = new Date(data[i].last_changed);
+                        }
                         self.routes_ = data;
                         routes_loaded = true;
                         done();
@@ -52,6 +81,12 @@ var TripAssist;
                 $.ajax(this.base_url_ + 'accommodations_' + this.current_holiday_id_ + '.json', {
                     dataType: 'json',
                     success: function (data, textStatus) {
+                        for(var i = 0; i < data.length; i++) {
+                            data[i].start = new Date(data[i].start);
+                            data[i].end = new Date(data[i].end);
+                            data[i].created = new Date(data[i].created);
+                            data[i].last_changed = new Date(data[i].last_changed);
+                        }
                         self.accommodations_ = data;
                         accommodations_loaded = true;
                         done();
@@ -63,6 +98,10 @@ var TripAssist;
                 $.ajax(this.base_url_ + 'places_' + this.current_holiday_id_ + '.json', {
                     dataType: 'json',
                     success: function (data, textStatus) {
+                        for(var i = 0; i < data.length; i++) {
+                            data[i].created = new Date(data[i].created);
+                            data[i].last_changed = new Date(data[i].last_changed);
+                        }
                         self.places_ = data;
                         places_loaded = true;
                         done();
@@ -149,7 +188,11 @@ var TripAssist;
             }
             return null;
         };
-        DataManager.prototype.getSchedule = function (holiday_id) {
+        DataManager.prototype.getSchedule = function () {
+            if(this.schedule_.length == 0) {
+                this.createSchedule();
+            }
+            return this.schedule_;
         };
         return DataManager;
     })();

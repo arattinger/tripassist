@@ -100,4 +100,18 @@ describe('DataManager', function() {
         });
     });
 
+    it('retrieve schedule', function(done) {
+        datamgr.loadHoliday(1, function() {
+            var schedule = datamgr.getSchedule();
+            expect ( schedule.length ).to.be(3);
+            // first element should be Bus 74
+            expect ( schedule[0].name ).to.be('Bus 74');
+            expect ( schedule[0].elemType ).to.be('route');
+            // second element should be Hotel d'Amour
+            expect ( schedule[1].name ).to.be("Hotel d'Amour");
+            expect ( schedule[1].elemType ).to.be('accommodation');
+            done();
+        });
+    });
+
 });
