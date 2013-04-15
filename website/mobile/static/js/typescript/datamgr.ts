@@ -14,6 +14,7 @@ module TripAssist {
 
         /** Data will be cached until explicit renewal **/
         routes_: TripAssist.Route[];
+        accommodations_: TripAssist.Accommodation[];
 
         /**
          * stores the offline_holidays_ list in the localStorage object
@@ -29,6 +30,7 @@ module TripAssist {
          private setHolidayId(id: number) {
             if (this.current_holiday_id_ != id) {
                 this.routes_ = [];
+                this.accommodations_ = [];
             }
             this.current_holiday_id_ = id;
          }
@@ -40,6 +42,7 @@ module TripAssist {
             this.base_url_ = '/mobile/download/' + this.user_.username + '/';
             this.current_holiday_id_ = 0;
             this.routes_ = [];
+            this.accommodations_ = [];
         }
 
         /**
@@ -140,12 +143,10 @@ module TripAssist {
                 callback(extractSingleRoute(this.routes_));
             } else {
                 var self = this;
-                console.log(this.base_url_ + 'routes_' + this.current_holiday_id_ + '.json');
                 $.ajax(this.base_url_ + 'routes_' + this.current_holiday_id_ + '.json', {
                     dataType: 'json',
                     success: function(data, textStatus) {
                         self.routes_ = data;
-                        console.log(extractSingleRoute);
                         callback(extractSingleRoute(self.routes_));
                     },
 
@@ -160,16 +161,56 @@ module TripAssist {
          * returns a list of accommodations that belong to the specified holiday
          * @param holiday_id the id of the holiday the accommodations of which shall be returned
          */
-        public getAccommodationsList(holiday_id: number) {
-            // TODO
+        public getAccommodationsList(holiday_id: number, callback: (accommodations : TripAssist.Accommodation[]) => void) : void {
+            this.setHolidayId(holiday_id);
+            if (this.accommodations_.length > 0) {
+                callback(this.accommodations_);
+            } else {
+                var self = this;
+                $.ajax(this.base_url_ + 'accommodations_' + this.current_holiday_id_ + '.json', {
+                    dataType: 'json',
+                    success: function(data, textStatus) {
+                        self.accommodations_ = data;
+                        callback(data);
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
+                    }
+                });
+            }
         }
 
         /**
          * returns all informations about the specified accommodation
          * @param accommodation_id the id of the accommodation
          */
-        public getAccommodation(accommodation_id: number) {
-            // TODO
+        public getAccommodation(accommodation_id: number, callback: (accommodation: TripAssist.Accommodation) => void) : void {
+            function extractSingleAccommodation(accommodations: TripAssist.Accommodation[]) : TripAssist.Accommodation {
+                for (var i = 0; i<accommodations.length; i++) {
+                    if (accommodations[i].id == accommodation_id) {
+                        return accommodations[i];
+                    }
+                }
+                return null;
+            }
+
+            if (this.accommodations_.length > 0) {
+                callback(extractSingleAccommodation(this.accommodations_));
+            } else {
+                var self = this;
+                $.ajax(this.base_url_ + 'accommodations_' + this.current_holiday_id_ + '.json', {
+                    dataType: 'json',
+                    success: function(data, textStatus) {
+                        self.accommodations_ = data;
+                        callback(extractSingleAccommodation(self.accommodations_));
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
+                    }
+                });
+            }
         }
 
         /**

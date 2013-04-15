@@ -64,4 +64,32 @@ describe('DataManager', function() {
         });
     });
 
+    it('retrieve accommodations list from accommodations_1.json file', function(done) {
+        datamgr.getAccommodationsList(1, function(list) {
+            expect( list.length ).to.be(2);
+            expect( list[1].name ).to.be('Hôtel du mar');
+            done();
+        });
+    });
+
+    it('retrieve accommodation after loading from server', function(done) {
+        datamgr.getAccommodationsList(1, function(list) {
+            datamgr.getAccommodation(1, function(acc) {
+                expect( acc.id ).to.be(1);
+                expect( acc.name ).to.be("Hotel d'Amour");
+                done();
+            });
+        });
+    });
+
+    it('retrieve accommodation after setting holiday id elsewhere', function(done) {
+        datamgr.getRoutesList(1, function(list) {
+            datamgr.getAccommodation(2, function(acc) {
+                expect( acc.id ).to.be(2);
+                expect( acc.name ).to.be('Hôtel du mar');
+                done();
+            });
+        });
+    });
+
 });

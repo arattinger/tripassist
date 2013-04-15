@@ -51,6 +51,7 @@ module TripAssist {
 
     export interface Accommodation {
         id? : number;
+        name? : string;
         created? : Date;
         last_changed? : Date;
         longitude? : number;
