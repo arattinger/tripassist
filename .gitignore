@@ -66,3 +66,7 @@ Thumbs.db
 
 # Temporary Files
 *~
+
+# not js libs
+!website/mobile/static/js/lib
+!website/mobile/static/js/specs/lib
