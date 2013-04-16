@@ -29,6 +29,8 @@ module TripAssist {
 
         constructor() {
             // define views
+            // TODO: change username accordingly (from localstorage?)
+            // e.g. if (!this.datamgr.loadUser()) { viewStack.push(new LoginView()); }
             this.datamgr = new TripAssist.DataManager('test');
             this.views = [
                 new SelectHolidayView(this.datamgr)

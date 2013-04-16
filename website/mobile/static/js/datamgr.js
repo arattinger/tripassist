@@ -112,7 +112,8 @@ var TripAssist;
                 });
             }
         };
-        DataManager.prototype.getOnlineHolidays = function () {
+        DataManager.prototype.getOnlineHolidays = function (success, failure) {
+            success([]);
         };
         DataManager.prototype.getOfflineHolidays = function () {
             if(!this.loaded_offline_) {

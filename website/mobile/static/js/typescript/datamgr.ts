@@ -167,8 +167,10 @@ module TripAssist {
          * fetches the holidays that are available online and returns
          * those that are not cached already
          */
-        public getOnlineHolidays() {
+        public getOnlineHolidays(success: (list : TripAssist.Holiday[]) => void, failure: () => void) : void {
             // TODO
+            //failure();
+            success([]);
         }
 
         /**
