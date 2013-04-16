@@ -16,9 +16,8 @@ describe('SelectHolidayView', function() {
             name: "MyHoliday",
             created: new Date(),
             last_changed: new Date(),
-            accommodations: [],
-            places: [],
-            routes: []
+            start: new Date()-1000,
+            end: new Date()+10000
         };
         return holiday;
     }

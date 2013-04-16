@@ -14,10 +14,7 @@ describe('DataManager', function() {
             id: id,
             name: "MyHoliday",
             created: new Date(),
-            last_changed: new Date(),
-            accommodations: [],
-            places: [],
-            routes: []
+            last_changed: new Date()
         };
         return holiday;
     }

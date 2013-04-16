@@ -79,9 +79,6 @@ module TripAssist {
         name? : string;
         created? : Date;
         last_changed? : Date;
-        accommodations: Accommodation[];
-        places?: Place[];
-        routes?: Route[];
         start? : Date;
         end? : Date;
     }

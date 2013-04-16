@@ -20,6 +20,18 @@ $(document).ready(function() {
     function callback() {
         if (loadClassCounter == CLASSES.length && loadTemplatesCounter == TEMPLATES.length) {
 
+            // add dummy holiday for interactive tests
+            // TODO: remove
+            var dummy = [{
+                id: 1,
+                name: "Dummy Holiday",
+                created: 1224043400000,
+                last_changed: 1224043400000,
+                start: 1224043400000,
+                end: 1224047400000
+            }];
+            localStorage["offlineHolidays"] = JSON.stringify(dummy);
+
             // create application and start it
             var app = new TripAssist.Application();
             app.start();

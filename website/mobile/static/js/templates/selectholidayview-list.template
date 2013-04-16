@@ -2,8 +2,10 @@
 {{#if online_holidays.length}}
 <ul>
 {{#each online_holidays}}
-    <li class='label'>{{name}}</li>
-    <div class='download-btn' data-id='{{id}}'></div>
+    <li>
+        <div class='label'>{{name}}</div>
+        <div class='download-btn' data-id='{{id}}'></div>
+    </li>
 {{/each}}
 </ul>
 {{else}}
