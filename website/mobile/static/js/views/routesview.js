@@ -42,6 +42,7 @@ var TripAssist;
                     };
                 }
                 sublist.items.push({
+                    id: routes[i].id,
                     label: routes[i].name,
                     info: routes[i].departure_time.format('<p>%H:%M</p>') + routes[i].arrival_time.format('<p>%H:%M</p>')
                 });
@@ -52,6 +53,7 @@ var TripAssist;
             ctn.innerHTML = this.mainTemplate({
                 sublists: sublists
             });
+            this.addEvents();
             callback();
         };
         RoutesView.prototype.store = function () {
@@ -63,11 +65,29 @@ var TripAssist;
         RoutesView.prototype.restore = function (ctn) {
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
+            this.addEvents();
         };
         RoutesView.prototype.unload = function () {
             this.stored = false;
             this.storedHTML = null;
             this.currentCtn = null;
+        };
+        RoutesView.prototype.addEvents = function () {
+            var self = this;
+            function navigateTo(id) {
+                var route = self.datamgr.getRoute(id);
+                var navItem = {
+                    name: route.name,
+                    longitude: route.departure_longitude,
+                    latitude: route.departure_latitude,
+                    due: route.departure_time
+                };
+                self.app.loadView('NavigationView', navItem);
+            }
+            $('.navigate-btn').on('tap', function () {
+                var id = this.parentNode.getAttribute('data-id');
+                navigateTo(id);
+            });
         };
         return RoutesView;
     })();

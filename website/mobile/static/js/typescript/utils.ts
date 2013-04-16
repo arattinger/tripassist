@@ -7,6 +7,11 @@ declare interface Date {
     format(format : string) : string;
 }
 
+declare interface Window {
+    DeviceOrientationEvent : any;
+    OrientationEvent: any;
+}
+
 (function() {
     Date.prototype.format = function(format) {
 

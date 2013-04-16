@@ -3,6 +3,7 @@
 /// <reference path="templatemgr.ts" />
 /// <reference path="datamgr.ts" />
 /// <reference path="views/mainview.ts" />
+/// <reference path="views/navigationview.ts" />
 /// <reference path="views/routesview.ts" />
 /// <reference path="views/selectholidayview.ts" />
 
@@ -38,7 +39,8 @@ module TripAssist {
             this.views = [
                 new SelectHolidayView(this.datamgr, this),
                 new MainView(this.datamgr, this),
-                new RoutesView(this.datamgr, this)
+                new RoutesView(this.datamgr, this),
+                new NavigationView(this.datamgr, this)
             ];
 
             // add first view to stack

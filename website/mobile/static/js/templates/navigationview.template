@@ -1,0 +1,5 @@
+<div id='arrow-ctn' style='-webkit-transform:rotate(7deg);'></div>
+<div id='bottom-ctn'>
+    <div id='left-info-ctn'></div>
+    <div id='right-info-ctn'>--</div>
+</div>

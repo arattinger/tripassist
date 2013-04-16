@@ -52,6 +52,7 @@ module TripAssist {
                     sublist = { name: sublistName, items: []};
                 }
                 sublist.items.push({
+                    id: routes[i].id,
                     label: routes[i].name,
                     info: routes[i].departure_time.format('<p>%H:%M</p>') + routes[i].arrival_time.format('<p>%H:%M</p>')
                 });
@@ -63,6 +64,7 @@ module TripAssist {
                 sublists: sublists
             });
 
+            this.addEvents();
             callback();
         }
 
@@ -75,12 +77,32 @@ module TripAssist {
         public restore(ctn: HTMLElement) {
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
+            this.addEvents();
         }
 
         public unload() {
             this.stored = false;
             this.storedHTML = null;
             this.currentCtn = null;
+        }
+
+        private addEvents() {
+            var self = this;
+            function navigateTo(id) {
+                var route = self.datamgr.getRoute(id);
+                var navItem = {
+                    name : route.name,
+                    longitude : route.departure_longitude,
+                    latitude : route.departure_latitude,
+                    due: route.departure_time
+                };
+                self.app.loadView('NavigationView', navItem);
+            }
+
+            $('.navigate-btn').on('tap', function() {
+                var id = this.parentNode.getAttribute('data-id');
+                navigateTo(id);
+            });
         }
 
     }
