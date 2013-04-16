@@ -1,3 +1,4 @@
+$.mobile.loadingMessage = false;
 $(document).ready(function() {
 
     // define all classes to be fetched from server
