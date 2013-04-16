@@ -126,6 +126,16 @@ var TripAssist;
             }
             return this.offline_holidays_;
         };
+        DataManager.prototype.getOfflineHoliday = function (id) {
+            var holidays = this.getOfflineHolidays();
+            for(var i = 0; i < holidays.length; i++) {
+                if(holidays[i].id == id) {
+                    return holidays[i];
+                }
+            }
+            console.log("ERROR: holiday with id '" + id + "' not found!");
+            return null;
+        };
         DataManager.prototype.addDownloadedHoliday = function (holiday) {
             for(var i = 0; i < this.offline_holidays_.length; i++) {
                 if(this.offline_holidays_[i].id == holiday.id) {

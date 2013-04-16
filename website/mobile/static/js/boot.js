@@ -4,12 +4,14 @@ $(document).ready(function() {
     var CLASSES = [
         'application',
         'datamgr',
+        'views/mainview',
         'views/selectholidayview'
     ];
 
     // define all templates to be fetched from server
     var TEMPLATES = [
         'main',
+        'mainview',
         'selectholidayview',
         'selectholidayview-list'
     ];

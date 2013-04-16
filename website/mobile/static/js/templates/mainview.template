@@ -1,0 +1,6 @@
+<div class='tiles-ctn'>
+    <div id='route-tile'>Route</div>
+    <div id='accomm-tile'>Accommodations</div>
+    <div id='places-tile'>Places</div>
+    <div id='schedule-tile'>Schedule</div>
+</div>

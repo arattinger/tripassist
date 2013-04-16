@@ -50,7 +50,7 @@ describe('SelectHolidayView', function() {
 
         expect( $('#main-ctn ul').length ).to.be.greaterThan(0);
         expect( $('#main-ctn ul:first').children('li').length ).to.be(offline_holidays.length);
-        expect( $('#main-ctn ul:first').children('li')[0].innerHTML ).to.be(offline_holidays[0].name);
+        expect( $('#main-ctn ul:first').children('li').children()[0].innerHTML ).to.be(offline_holidays[0].name);
 
         datamgr.removeDownloadedHoliday(1);
         datamgr.removeDownloadedHoliday(2);

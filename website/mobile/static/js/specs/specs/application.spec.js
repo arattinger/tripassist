@@ -16,4 +16,10 @@ describe('Application', function() {
         expect ( $('#title').text() ).to.be('Select Holiday');
     });
 
+    it('loading a main view works too', function() {
+        app.start();
+        app.loadView('MainView', { name: 'MyHoliday' });
+        expect ( $('#title').text() ).to.be('MyHoliday');
+    });
+
 });

@@ -188,6 +188,20 @@ module TripAssist {
         }
 
         /**
+         * retrieves an already cached holiday
+         */
+        public getOfflineHoliday(id: number) {
+            var holidays = this.getOfflineHolidays();
+            for (var i = 0; i<holidays.length; i++) {
+                if (holidays[i].id == id) {
+                    return holidays[i];
+                }
+            }
+            console.log("ERROR: holiday with id '" + id + "' not found!");
+            return null;
+        }
+
+        /**
          * marks a holiday as cached
          * @param id the id of the holiday
          * @param name the name of the holiday

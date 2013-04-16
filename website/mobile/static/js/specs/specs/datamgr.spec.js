@@ -45,6 +45,18 @@ describe('DataManager', function() {
         expect ( datamgr.getOfflineHolidays().length ).to.be(0);
     });
 
+    it('retrieve single holiday', function() {
+        var holiday1 = createHoliday(1);
+        var holiday2 = createHoliday(2);
+        datamgr.addDownloadedHoliday(holiday1);
+        datamgr.addDownloadedHoliday(holiday2);
+        expect ( datamgr.getOfflineHoliday(2).id ).to.be(2);
+
+        expect ( datamgr.getOfflineHoliday(2).name ).to.be('MyHoliday');
+        datamgr.removeDownloadedHoliday(1);
+        datamgr.removeDownloadedHoliday(2);
+    });
+
     it('retrieve routes list from routes_1.json file', function(done) {
         datamgr.loadHoliday(1, function() {
             var list = datamgr.getRoutesList();

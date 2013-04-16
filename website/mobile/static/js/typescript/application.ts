@@ -3,6 +3,7 @@
 /// <reference path="templatemgr.ts" />
 /// <reference path="datamgr.ts" />
 /// <reference path="views/selectholidayview.ts" />
+/// <reference path="views/mainview.ts" />
 
 module TripAssist {
     export class Application {
@@ -31,9 +32,10 @@ module TripAssist {
             // define views
             // TODO: change username accordingly (from localstorage?)
             // e.g. if (!this.datamgr.loadUser()) { viewStack.push(new LoginView()); }
-            this.datamgr = new TripAssist.DataManager('test');
+            this.datamgr = new TripAssist.DataManager({ username: 'test'});
             this.views = [
-                new SelectHolidayView(this.datamgr)
+                new SelectHolidayView(this.datamgr, this),
+                new MainView(this.datamgr, this)
             ];
 
             // add first view to stack
@@ -53,13 +55,13 @@ module TripAssist {
             // render main application
             $('#main-ctn').html(this.mainTemplate());
 
-            this.renderView();
+            this.renderView(null);
         }
 
         /**
          * renders a specific view
          */
-        public loadView(name : string) : void{
+        public loadView(name : string, data: any) : void{
 
             // find view
             var view = null;
@@ -76,19 +78,19 @@ module TripAssist {
                 if (this.viewStack[this.viewStack.length-1] != view) {
                     this.viewStack.push(view);
                 }
-                this.renderView();
+                this.renderView(data);
             }
         }
 
-        private renderView() : void {
+        private renderView(data : any) : void {
             if (this.viewStack.length != 0) {
                 // clear content
                 $('.content-ctn').html('');
                 var view = this.viewStack[this.viewStack.length-1];
-                document.getElementById('title').innerHTML = view.title();
-                view.render(document.getElementById('content-ctn'), null, function() {
+                view.render(document.getElementById('content-ctn'), data, function() {
                     console.log('done rendering first view!');
                 });
+                document.getElementById('title').innerHTML = view.title();
             }
         }
     }

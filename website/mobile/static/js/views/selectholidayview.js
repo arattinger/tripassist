@@ -1,8 +1,9 @@
 var TripAssist;
 (function (TripAssist) {
     var SelectHolidayView = (function () {
-        function SelectHolidayView(datamgr) {
+        function SelectHolidayView(datamgr, app) {
             this.datamgr = datamgr;
+            this.app = app;
             this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview.template'));
             this.listTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview-list.template'));
             this.listCtn = null;
@@ -27,7 +28,10 @@ var TripAssist;
                 console.log('TODO: dowload holiday with id ' + id);
             }
             function openHoliday(id) {
-                console.log('TODO: open holiday with id ' + id);
+                self.datamgr.loadHoliday(id, function () {
+                    console.log('loading holiday with id ' + id);
+                    self.app.loadView('MainView', self.datamgr.getOfflineHoliday(id));
+                });
             }
             $('.del-btn').on('tap', function () {
                 var id = this.parentNode.getAttribute('data-id');

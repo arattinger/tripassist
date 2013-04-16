@@ -3,6 +3,7 @@
 /// <reference path="../../lib/jquery.d.ts" />
 /// <reference path="../templatemgr.ts" />
 /// <reference path="../datamgr.ts" />
+/// <reference path="../application.ts" />
 
 module TripAssist {
     export class SelectHolidayView {
@@ -11,9 +12,11 @@ module TripAssist {
         private listTemplate: any;
         private listCtn: any;
         private datamgr: TripAssist.DataManager;
+        private app: TripAssist.Application;
 
-        constructor(datamgr : TripAssist.DataManager) {
+        constructor(datamgr : TripAssist.DataManager, app: TripAssist.Application) {
             this.datamgr = datamgr;
+            this.app = app;
             this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview.template'));
             this.listTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview-list.template'));
             this.listCtn = null;
@@ -44,7 +47,10 @@ module TripAssist {
             }
 
             function openHoliday(id) {
-                console.log('TODO: open holiday with id ' + id);
+                self.datamgr.loadHoliday(id, function() {
+                    console.log('loading holiday with id ' + id);
+                    self.app.loadView('MainView', self.datamgr.getOfflineHoliday(id));
+                });
             }
 
             // add delete functionality
