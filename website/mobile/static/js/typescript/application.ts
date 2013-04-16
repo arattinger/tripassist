@@ -47,7 +47,6 @@ module TripAssist {
          * starts the application
          */
         public start() : void{
-            console.log('started application');
 
             // load main template
             this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('main.template'));
@@ -60,6 +59,8 @@ module TripAssist {
             $('#back-btn').on('tap', function() {
                 self.unloadView();
             });
+
+            this.addEvents();
 
             this.renderView(null);
         }
@@ -129,6 +130,19 @@ module TripAssist {
             }
 
             document.getElementById('title').innerHTML = this.viewStack[this.viewStack.length-1].title();
+        }
+
+        private addEvents() {
+            function resize() {
+                // resize title
+                var width = $(window).width();
+                $('#title').width( width - 2 * (10 + 20 + 42));
+            }
+
+            $(window).on('resize orientationchange', function() { resize(); });
+
+            // resize initially
+            resize();
         }
     }
 }

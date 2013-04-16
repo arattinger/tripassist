@@ -12,6 +12,7 @@ body {
 #header-ctn {
   margin-left: 5px;
   margin-right: 5px;
+  white-space: nowrap;
 }
 #header-ctn #back-btn {
   width: 42px;
@@ -38,6 +39,8 @@ body {
   font-size: 28px;
   margin-left: 10px;
   margin-top: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #content-ctn {
   position: absolute;

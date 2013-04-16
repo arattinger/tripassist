@@ -23,10 +23,11 @@ smallbutton()
 #header-ctn
     margin-left 5px
     margin-right 5px
+    white-space nowrap
 
     #back-btn
         smallbutton 'back'
-        float: left
+        float left
 
     #settings-btn
         smallbutton 'settings'
@@ -37,6 +38,9 @@ smallbutton()
         font-size titleFontSize
         margin-left 10px
         margin-top 10px
+        overflow hidden
+        text-overflow ellipsis
+
 
 #content-ctn
     position absolute
