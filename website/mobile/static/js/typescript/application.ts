@@ -2,8 +2,10 @@
 /// <reference path="../lib/handlebars.d.ts" />
 /// <reference path="templatemgr.ts" />
 /// <reference path="datamgr.ts" />
-/// <reference path="views/selectholidayview.ts" />
 /// <reference path="views/mainview.ts" />
+/// <reference path="views/routesview.ts" />
+/// <reference path="views/selectholidayview.ts" />
+
 
 module TripAssist {
     export class Application {
@@ -35,7 +37,8 @@ module TripAssist {
             this.datamgr = new TripAssist.DataManager({ username: 'test'});
             this.views = [
                 new SelectHolidayView(this.datamgr, this),
-                new MainView(this.datamgr, this)
+                new MainView(this.datamgr, this),
+                new RoutesView(this.datamgr, this)
             ];
 
             // add first view to stack

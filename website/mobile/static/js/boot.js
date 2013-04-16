@@ -5,7 +5,9 @@ $(document).ready(function() {
     var CLASSES = [
         'application',
         'datamgr',
+        'utils',
         'views/mainview',
+        'views/routesview',
         'views/selectholidayview'
     ];
 
@@ -13,6 +15,7 @@ $(document).ready(function() {
     var TEMPLATES = [
         'main',
         'mainview',
+        'routesview',
         'selectholidayview',
         'selectholidayview-list'
     ];

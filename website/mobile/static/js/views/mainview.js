@@ -21,6 +21,7 @@ var TripAssist;
             this.storedTitle = data.name;
             ctn.innerHTML = this.mainTemplate({
             });
+            this.addEvents();
             callback();
         };
         MainView.prototype.store = function () {
@@ -32,11 +33,18 @@ var TripAssist;
         MainView.prototype.restore = function (ctn) {
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
+            this.addEvents();
         };
         MainView.prototype.unload = function () {
             this.stored = false;
             this.storedHTML = null;
             this.currentCtn = null;
+        };
+        MainView.prototype.addEvents = function () {
+            var self = this;
+            $('#route-tile').on('tap', function () {
+                self.app.loadView('RoutesView', null);
+            });
         };
         return MainView;
     })();

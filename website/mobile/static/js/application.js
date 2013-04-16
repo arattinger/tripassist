@@ -7,7 +7,8 @@ var TripAssist;
             });
             this.views = [
                 new TripAssist.SelectHolidayView(this.datamgr, this), 
-                new TripAssist.MainView(this.datamgr, this)
+                new TripAssist.MainView(this.datamgr, this), 
+                new TripAssist.RoutesView(this.datamgr, this)
             ];
             this.viewStack = [];
             this.viewStack.push(this.views[0]);
