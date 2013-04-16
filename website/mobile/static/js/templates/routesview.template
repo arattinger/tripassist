@@ -1,4 +1,5 @@
 <div class='list-ctn'>
+    {{#if sublists.length}}
     {{#each sublists}}
     <div class='sublist'>{{name}}</div>
     <ul>
@@ -16,4 +17,7 @@
         {{/each}}
     </ul>
     {{/each}}
+    {{else}}
+    No routes defined yet!
+    {{/if}}
 </div>

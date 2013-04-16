@@ -125,7 +125,7 @@
                 case 'y':
                     return d.getFullYear().toString().substr(2);
                 case 'Y':
-                    return d.getFullYear();
+                    return d.getFullYear().toString();
             }
             return $1;
         });

@@ -96,7 +96,7 @@ module TripAssist {
             }
 
             // only fetch if not loaded already
-            if (this.current_holiday_id_ != holiday_id) {
+            if (this.current_holiday_id_ != holiday_id || !this.loaded_holiday_) {
                 this.routes_ = [];
                 this.accommodations_ = [];
                 this.places_ = [];

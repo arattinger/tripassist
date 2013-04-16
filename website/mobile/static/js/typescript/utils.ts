@@ -68,7 +68,7 @@ declare interface Date {
                         case 'T': return d.format('%H:%M:%S');
                         case 'w': return d.getDate();
                         case 'y': return d.getFullYear().toString().substr(2);
-                        case 'Y': return d.getFullYear();
+                        case 'Y': return d.getFullYear().toString();
                     }
                     return $1;
                 }

@@ -56,8 +56,9 @@ module TripAssist {
                     info: routes[i].departure_time.format('<p>%H:%M</p>') + routes[i].arrival_time.format('<p>%H:%M</p>')
                 });
 
-            } 
-            sublists.push(sublist);
+            }
+            if (sublist) 
+                sublists.push(sublist);
             ctn.innerHTML = this.mainTemplate({
                 sublists: sublists
             });
