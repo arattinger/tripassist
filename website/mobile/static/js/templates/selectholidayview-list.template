@@ -1,6 +1,6 @@
 <div class='sublist'>Online</div>
 {{#if online_holidays.length}}
-<ul>
+<ul id='online-holidays-list'>
 {{#each online_holidays}}
     <li data-id='{{id}}''>
         <div class='label'>{{name}}</div>

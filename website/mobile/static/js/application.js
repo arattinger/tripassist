@@ -34,6 +34,7 @@ var TripAssist;
                 console.log("ERROR: view with name '" + name + "' not found!");
             } else {
                 if(this.viewStack[this.viewStack.length - 1] != view) {
+                    this.viewStack[this.viewStack.length - 1].store();
                     this.viewStack.push(view);
                 }
                 this.renderView(data);
@@ -42,7 +43,8 @@ var TripAssist;
         Application.prototype.unloadView = function () {
             if(this.viewStack.length > 1) {
                 this.viewStack.pop();
-                this.renderView(null);
+                this.viewStack[this.viewStack.length - 1].restore(document.getElementById('content-ctn'));
+                this.renderTopBar();
             }
         };
         Application.prototype.renderView = function (data) {
@@ -51,14 +53,17 @@ var TripAssist;
                 $('.content-ctn').html('');
                 var view = this.viewStack[this.viewStack.length - 1];
                 view.render(document.getElementById('content-ctn'), data, function () {
-                    if(self.viewStack.length > 1) {
-                        $('#back-btn').show();
-                    } else {
-                        $('#back-btn').hide();
-                    }
-                    document.getElementById('title').innerHTML = view.title();
+                    self.renderTopBar();
                 });
             }
+        };
+        Application.prototype.renderTopBar = function () {
+            if(this.viewStack.length > 1) {
+                $('#back-btn').show();
+            } else {
+                $('#back-btn').hide();
+            }
+            document.getElementById('title').innerHTML = this.viewStack[this.viewStack.length - 1].title();
         };
         return Application;
     })();

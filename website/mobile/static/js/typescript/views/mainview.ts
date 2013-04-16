@@ -10,18 +10,24 @@ module TripAssist {
 
         private mainTemplate: any;
         private datamgr: TripAssist.DataManager;
-        private title_: string;
+        private storedTitle: string;
         private app: TripAssist.Application;
+        private stored: bool;
+        private storedHTML: string;
+        private currentCtn: HTMLElement;
 
         constructor(datamgr : TripAssist.DataManager, app: TripAssist.Application) {
             this.datamgr = datamgr;
             this.app = app;
             this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('mainview.template'));
-            this.title_ = 'Main View';
+            this.storedTitle = 'Main View';
+            this.stored = false;
+            this.storedHTML = "";
+            this.currentCtn = null;
         }
 
         public title() {
-            return this.title_;
+            return this.storedTitle;
         }
 
         public name() {
@@ -29,11 +35,29 @@ module TripAssist {
         }
 
         public render(ctn: HTMLElement, data: TripAssist.Holiday, callback: () => any) {
-            this.title_ = data.name;
+            this.currentCtn = ctn;
+            this.storedTitle = data.name;
             ctn.innerHTML = this.mainTemplate({
             });
 
             callback();
+        }
+
+        public store() {
+        this.stored = true;
+        if (this.currentCtn)
+            this.storedHTML = this.currentCtn.innerHTML;
+        }
+
+        public restore(ctn: HTMLElement) {
+            this.stored = false;
+            ctn.innerHTML = this.storedHTML;
+        }
+
+        public unload() {
+            this.stored = false;
+            this.storedHTML = null;
+            this.currentCtn = null;
         }
 
     }

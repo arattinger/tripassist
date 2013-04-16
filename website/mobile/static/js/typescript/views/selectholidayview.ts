@@ -10,18 +10,20 @@ module TripAssist {
 
         private mainTemplate: any;
         private listTemplate: any;
-        private listCtn: any;
         private datamgr: TripAssist.DataManager;
         private app: TripAssist.Application;
-        private lastData: any;
+        private stored: bool;
+        private storedHTML: string;
+        private currentCtn: HTMLElement;
 
         constructor(datamgr : TripAssist.DataManager, app: TripAssist.Application) {
             this.datamgr = datamgr;
             this.app = app;
             this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview.template'));
             this.listTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview-list.template'));
-            this.listCtn = null;
-            this.lastData = null;
+            this.stored = false;
+            this.storedHTML = "";
+            this.currentCtn = null;
         }
 
         public title() {
@@ -33,14 +35,41 @@ module TripAssist {
         }
 
         public render(ctn: HTMLElement, data: any, callback: () => any) {
-            this.lastData = data;
+            this.currentCtn = ctn;
             var offline_holidays = this.datamgr.getOfflineHolidays();
             ctn.innerHTML = this.mainTemplate({
                 offline_holidays: offline_holidays
             });
-            this.listCtn = $('.list-ctn');
 
+            this.addEvents();
+            this.loadOnlineHolidays($('.list-ctn'));
+
+            callback();
+        }
+
+
+        public store() {
+            this.stored = true;
+            if (this.currentCtn)
+                this.storedHTML = this.currentCtn.innerHTML;
+        }
+
+        public restore(ctn: HTMLElement) {
+            this.stored = false;
+            ctn.innerHTML = this.storedHTML;
+            this.addEvents();
+            this.loadOnlineHolidays($('.list-ctn'));
+        }
+
+        public unload() {
+            this.stored = false;
+            this.storedHTML = null;
+            this.currentCtn = null;
+        }
+
+        private addEvents() {
             var self = this;
+            // TODO: allow swipe to remove/download item?
             function deleteHoliday(id) {
                 console.log('TODO: remove offline holiday with id ' + id);
             }
@@ -67,33 +96,45 @@ module TripAssist {
                 openHoliday(id);
             });
 
-            // TODO: allow swipe to remove/download item?
-
-            // load online holidays
-            function loadOnline() {
-                self.datamgr.getOnlineHolidays(function(online_holidays) {
-                    var html = self.listTemplate({
-                        online_holidays : online_holidays
-                    });
-                    if (self.listCtn) {
-                        self.listCtn.append(html);
-                        // add delete functionality
-                        $('.download-btn').on('tap', function() {
-                            var id = this.parentNode.getAttribute('data-id');
-                            downloadHoliday(id);
-                        });
-
-                    }
-                }, function() {
-                    // retry after interval
-                    window.setTimeout(loadOnline, 3000);
-                });
-            }
-
-            loadOnline();
-
-            callback();
+            // add delete functionality
+            $('.download-btn').on('tap', function() {
+                var id = this.parentNode.getAttribute('data-id');
+                downloadHoliday(id);
+            });
         }
 
+        private loadOnlineHolidays(ctn : any) {
+            // load online holidays
+            var self = this;
+            function loadOnline() {
+                self.datamgr.getOnlineHolidays(function(online_holidays) {
+                    if (!self.stored) {
+                        var previousList = $('#online-holidays-list');
+                        if (previousList) { // attach to list
+                            previousList.empty();
+                            var html = "";
+                            for (var i = 0; i<online_holidays.length; i++) {
+                                html += "<li data-id='" + online_holidays[i].id + "'>\n"
+                                     +  "    <div class='label'>" + online_holidays[i].name + "'>\n"
+                                     +  "    <div class='download-btn'></div>";
+                            }
+                            previousList.html(html);
+                        } else { // create new list
+                            var html = self.listTemplate({
+                                online_holidays : online_holidays
+                            });
+                            
+                            ctn.append(html);
+                        }
+                        self.addEvents();
+                    }
+                }, function() {
+                    // retry after timeout
+                    if (!self.stored)
+                        window.setTimeout(loadOnline, 3000);
+                });
+            }
+            loadOnline();
+        }
     }
 }

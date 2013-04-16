@@ -18,5 +18,20 @@ module TripAssist {
         * @param callback a callback function for when the view is fully loaded
         */
         render(ctn: HTMLElement, data: any, callback: () => any);
+
+        /**
+         * stores the current view to show it again later on
+         */
+        store();
+
+        /**
+         * restores a view from a stored state
+         */
+        restore(ctn: HTMLElement);
+
+        /**
+         * unloads the entire view
+         */
+         unload();
     }
 }

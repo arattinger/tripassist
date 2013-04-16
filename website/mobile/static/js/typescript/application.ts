@@ -84,6 +84,9 @@ module TripAssist {
             } else {
                 // add to stack if not already at end
                 if (this.viewStack[this.viewStack.length-1] != view) {
+                    // store current view
+                    this.viewStack[this.viewStack.length-1].store();
+                    // push new view
                     this.viewStack.push(view);
                 }
                 this.renderView(data);
@@ -97,7 +100,10 @@ module TripAssist {
 
             if (this.viewStack.length > 1) {
                 this.viewStack.pop();
-                this.renderView(null);
+                // restore previous view
+                this.viewStack[this.viewStack.length-1].restore(document.getElementById('content-ctn'));
+            
+                this.renderTopBar();
             }
         }
 
@@ -109,16 +115,20 @@ module TripAssist {
                 $('.content-ctn').html('');
                 var view = this.viewStack[this.viewStack.length-1];
                 view.render(document.getElementById('content-ctn'), data, function() {
-                    // enable back button
-                    if (self.viewStack.length > 1) {
-                        $('#back-btn').show();
-                    } else {
-                        $('#back-btn').hide();
-                    }
-
-                    document.getElementById('title').innerHTML = view.title();
+                    self.renderTopBar();
                 });
             }
+        }
+
+        private renderTopBar() {
+            // enable back button
+            if (this.viewStack.length > 1) {
+                $('#back-btn').show();
+            } else {
+                $('#back-btn').hide();
+            }
+
+            document.getElementById('title').innerHTML = this.viewStack[this.viewStack.length-1].title();
         }
     }
 }

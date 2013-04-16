@@ -50,7 +50,6 @@ var TripAssist;
             var places_loaded = false;
             var self = this;
             function done() {
-                console.log('done called()');
                 if(routes_loaded && accommodations_loaded && places_loaded) {
                     self.loaded_holiday_ = true;
                     callback();
