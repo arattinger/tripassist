@@ -7,6 +7,7 @@ var TripAssist;
             this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview.template'));
             this.listTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview-list.template'));
             this.listCtn = null;
+            this.lastData = null;
         }
         SelectHolidayView.prototype.title = function () {
             return "Select Holiday";
@@ -15,6 +16,7 @@ var TripAssist;
             return "SelectHolidayView";
         };
         SelectHolidayView.prototype.render = function (ctn, data, callback) {
+            this.lastData = data;
             var offline_holidays = this.datamgr.getOfflineHolidays();
             ctn.innerHTML = this.mainTemplate({
                 offline_holidays: offline_holidays
@@ -29,7 +31,6 @@ var TripAssist;
             }
             function openHoliday(id) {
                 self.datamgr.loadHoliday(id, function () {
-                    console.log('loading holiday with id ' + id);
                     self.app.loadView('MainView', self.datamgr.getOfflineHoliday(id));
                 });
             }
@@ -58,6 +59,7 @@ var TripAssist;
                 });
             }
             loadOnline();
+            callback();
         };
         return SelectHolidayView;
     })();

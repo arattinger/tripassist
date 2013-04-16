@@ -16,6 +16,10 @@ var TripAssist;
             console.log('started application');
             this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('main.template'));
             $('#main-ctn').html(this.mainTemplate());
+            var self = this;
+            $('#back-btn').on('tap', function () {
+                self.unloadView();
+            });
             this.renderView(null);
         };
         Application.prototype.loadView = function (name, data) {
@@ -35,14 +39,25 @@ var TripAssist;
                 this.renderView(data);
             }
         };
+        Application.prototype.unloadView = function () {
+            if(this.viewStack.length > 1) {
+                this.viewStack.pop();
+                this.renderView(null);
+            }
+        };
         Application.prototype.renderView = function (data) {
+            var self = this;
             if(this.viewStack.length != 0) {
                 $('.content-ctn').html('');
                 var view = this.viewStack[this.viewStack.length - 1];
                 view.render(document.getElementById('content-ctn'), data, function () {
-                    console.log('done rendering first view!');
+                    if(self.viewStack.length > 1) {
+                        $('#back-btn').show();
+                    } else {
+                        $('#back-btn').hide();
+                    }
+                    document.getElementById('title').innerHTML = view.title();
                 });
-                document.getElementById('title').innerHTML = view.title();
             }
         };
         return Application;

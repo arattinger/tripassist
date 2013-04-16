@@ -17,6 +17,7 @@ var TripAssist;
             this.title_ = data.name;
             ctn.innerHTML = this.mainTemplate({
             });
+            callback();
         };
         return MainView;
     })();

@@ -16,10 +16,26 @@ describe('Application', function() {
         expect ( $('#title').text() ).to.be('Select Holiday');
     });
 
-    it('loading a main view works too', function() {
+    it('loading a main view works too', function(done) {
         app.start();
         app.loadView('MainView', { name: 'MyHoliday' });
-        expect ( $('#title').text() ).to.be('MyHoliday');
+        window.setTimeout(function() {
+            expect ( $('#title').text() ).to.be('MyHoliday');
+            done();
+        }, 10);
+    });
+
+    it('back button works', function(done) {
+        app.start();
+        app.loadView('MainView', { name: 'MyHoliday' });
+        window.setTimeout(function() {
+            $('#back-btn').trigger('tap');
+        }, 10);
+        window.setTimeout(function() {
+            expect ( $('#title').text() ).to.be('Select Holiday');
+            done();    
+        }, 20);
+        
     });
 
 });

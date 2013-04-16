@@ -160,6 +160,8 @@ module TripAssist {
                         console.log('ERROR: ' + textStatus + ': ' + errorThrown);
                     }
                 });
+            } else {
+                callback();
             }
         }
 

@@ -32,6 +32,8 @@ module TripAssist {
             this.title_ = data.name;
             ctn.innerHTML = this.mainTemplate({
             });
+
+            callback();
         }
 
     }

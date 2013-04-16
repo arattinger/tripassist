@@ -13,6 +13,7 @@ module TripAssist {
         private listCtn: any;
         private datamgr: TripAssist.DataManager;
         private app: TripAssist.Application;
+        private lastData: any;
 
         constructor(datamgr : TripAssist.DataManager, app: TripAssist.Application) {
             this.datamgr = datamgr;
@@ -20,6 +21,7 @@ module TripAssist {
             this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview.template'));
             this.listTemplate = Handlebars.compile(TemplateManager.getTemplate('selectholidayview-list.template'));
             this.listCtn = null;
+            this.lastData = null;
         }
 
         public title() {
@@ -31,6 +33,7 @@ module TripAssist {
         }
 
         public render(ctn: HTMLElement, data: any, callback: () => any) {
+            this.lastData = data;
             var offline_holidays = this.datamgr.getOfflineHolidays();
             ctn.innerHTML = this.mainTemplate({
                 offline_holidays: offline_holidays
@@ -48,7 +51,6 @@ module TripAssist {
 
             function openHoliday(id) {
                 self.datamgr.loadHoliday(id, function() {
-                    console.log('loading holiday with id ' + id);
                     self.app.loadView('MainView', self.datamgr.getOfflineHoliday(id));
                 });
             }
@@ -89,6 +91,8 @@ module TripAssist {
             }
 
             loadOnline();
+
+            callback();
         }
 
     }

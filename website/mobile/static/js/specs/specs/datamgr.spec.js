@@ -57,6 +57,14 @@ describe('DataManager', function() {
         datamgr.removeDownloadedHoliday(2);
     });
 
+    it('load Holiday', function(done) {
+        datamgr.loadHoliday(1, function() {
+            datamgr.loadHoliday(1, function() {
+                done();
+            })
+        });
+    });
+
     it('retrieve routes list from routes_1.json file', function(done) {
         datamgr.loadHoliday(1, function() {
             var list = datamgr.getRoutesList();

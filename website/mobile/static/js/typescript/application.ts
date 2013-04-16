@@ -55,11 +55,19 @@ module TripAssist {
             // render main application
             $('#main-ctn').html(this.mainTemplate());
 
+            // add back functionality
+            var self = this;
+            $('#back-btn').on('tap', function() {
+                self.unloadView();
+            });
+
             this.renderView(null);
         }
 
         /**
          * renders a specific view
+         * @param the name of the view
+         * @param data the data to be passed to the render function of the view
          */
         public loadView(name : string, data: any) : void{
 
@@ -82,15 +90,34 @@ module TripAssist {
             }
         }
 
+        /**
+         * unloads the top view
+         */
+        public unloadView() : void{
+
+            if (this.viewStack.length > 1) {
+                this.viewStack.pop();
+                this.renderView(null);
+            }
+        }
+
         private renderView(data : any) : void {
+            var self = this;
             if (this.viewStack.length != 0) {
+
                 // clear content
                 $('.content-ctn').html('');
                 var view = this.viewStack[this.viewStack.length-1];
                 view.render(document.getElementById('content-ctn'), data, function() {
-                    console.log('done rendering first view!');
+                    // enable back button
+                    if (self.viewStack.length > 1) {
+                        $('#back-btn').show();
+                    } else {
+                        $('#back-btn').hide();
+                    }
+
+                    document.getElementById('title').innerHTML = view.title();
                 });
-                document.getElementById('title').innerHTML = view.title();
             }
         }
     }

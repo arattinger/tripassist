@@ -1,5 +1,6 @@
 module TripAssist {
     export interface View {
+
         /**
         * returns the title of the view
         */
