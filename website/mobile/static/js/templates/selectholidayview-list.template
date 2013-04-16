@@ -3,7 +3,7 @@
 <ul>
 {{#each online_holidays}}
     <li class='label'>{{name}}</li>
-    <div class='del-btn'></div>
+    <div class='download-btn' data-id='{{id}}'></div>
 {{/each}}
 </ul>
 {{else}}

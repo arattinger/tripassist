@@ -4,7 +4,7 @@
     <ul>
     {{#each offline_holidays}}
         <li class='label'>{{name}}</li>
-        <div class='del-btn'></div>
+        <div class='del-btn' data-id='{{id}}'></div>
     {{/each}}
     </ul>
     {{else}}

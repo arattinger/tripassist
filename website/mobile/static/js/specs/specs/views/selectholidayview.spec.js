@@ -49,7 +49,6 @@ describe('SelectHolidayView', function() {
 
         app.loadView('SelectHolidayView');
 
-        console.log($('#main-ctn').html());
         expect( $('#main-ctn ul').length ).to.be.greaterThan(0);
         expect( $('#main-ctn ul:first').children('li').length ).to.be(offline_holidays.length);
         expect( $('#main-ctn ul:first').children('li')[0].innerHTML ).to.be(offline_holidays[0].name);
