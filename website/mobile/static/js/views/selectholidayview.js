@@ -26,9 +26,16 @@ var TripAssist;
             function downloadHoliday(id) {
                 console.log('TODO: dowload holiday with id ' + id);
             }
-            $('.del-btn').click(function () {
-                var id = this.getAttribute('data-id');
+            function openHoliday(id) {
+                console.log('TODO: open holiday with id ' + id);
+            }
+            $('.del-btn').on('tap', function () {
+                var id = this.parentNode.getAttribute('data-id');
                 deleteHoliday(id);
+            });
+            $('.label').on('tap', function () {
+                var id = this.parentNode.getAttribute('data-id');
+                openHoliday(id);
             });
             function loadOnline() {
                 self.datamgr.getOnlineHolidays(function (online_holidays) {
@@ -37,8 +44,8 @@ var TripAssist;
                     });
                     if(self.listCtn) {
                         self.listCtn.append(html);
-                        $('.download-btn').click(function () {
-                            var id = this.data;
+                        $('.download-btn').on('tap', function () {
+                            var id = this.parentNode.getAttribute('data-id');
                             downloadHoliday(id);
                         });
                     }

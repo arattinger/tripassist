@@ -3,9 +3,9 @@
     {{#if offline_holidays.length}}
     <ul>
     {{#each offline_holidays}}
-        <li>
+        <li data-id='{{id}}'>
             <div class='label'>{{name}}</div>
-            <div class='del-btn' data-id='{{id}}'></div>
+            <div class='del-btn'></div>
         </li>
     {{/each}}
     </ul>

@@ -43,11 +43,23 @@ module TripAssist {
                 console.log('TODO: dowload holiday with id ' + id);
             }
 
+            function openHoliday(id) {
+                console.log('TODO: open holiday with id ' + id);
+            }
+
             // add delete functionality
-            $('.del-btn').click(function() {
-                var id = this.getAttribute('data-id');
+            $('.del-btn').on('tap', function() {
+                var id = this.parentNode.getAttribute('data-id');
                 deleteHoliday(id);
             });
+
+            // add select functionality
+            $('.label').on('tap', function() {
+               var id = this.parentNode.getAttribute('data-id');
+                openHoliday(id);
+            });
+
+            // TODO: allow swipe to remove/download item?
 
             // load online holidays
             function loadOnline() {
@@ -58,8 +70,8 @@ module TripAssist {
                     if (self.listCtn) {
                         self.listCtn.append(html);
                         // add delete functionality
-                        $('.download-btn').click(function() {
-                            var id = this.getAttribute('data-id');
+                        $('.download-btn').on('tap', function() {
+                            var id = this.parentNode.getAttribute('data-id');
                             downloadHoliday(id);
                         });
 
