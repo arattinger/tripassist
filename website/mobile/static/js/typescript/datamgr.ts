@@ -1,6 +1,8 @@
 /// <reference path="../lib/jquery.d.ts" />
 /// <reference path="models.ts" />
 
+// TODO: add functionality to change user at later point
+
 module TripAssist {
 
     export class DataManager {

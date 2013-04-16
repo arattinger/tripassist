@@ -23,6 +23,8 @@ describe('DataManager', function() {
     }
 
     it('retrieve empty offline holiday list', function() {
+        // remove all offline holidays
+        localStorage["offlineHolidays"] = [];
         expect ( datamgr.getOfflineHolidays().length ).to.be(0);
     });
 

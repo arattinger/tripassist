@@ -1,6 +1,7 @@
 /// <reference path="../lib/jquery.d.ts" />
 /// <reference path="../lib/handlebars.d.ts" />
 /// <reference path="templatemgr.ts" />
+/// <reference path="datamgr.ts" />
 /// <reference path="views/selectholidayview.ts" />
 
 module TripAssist {
@@ -9,22 +10,28 @@ module TripAssist {
         /** 
          * lists all views
          */
-        private views: View[];
+        views: View[];
         
         /**
          * lists the currently displayed views as stack
          */
-        private viewStack: View[];
+        viewStack: View[];
 
         /**
          * the main template of the application
          */
-        private mainTemplate: any;
+        mainTemplate: any;
+
+        /**
+         * the data manager of the current user
+         */
+        datamgr: TripAssist.DataManager;
 
         constructor() {
             // define views
+            this.datamgr = new TripAssist.DataManager('test');
             this.views = [
-                new SelectHolidayView()
+                new SelectHolidayView(this.datamgr)
             ];
 
             // add first view to stack
@@ -35,7 +42,7 @@ module TripAssist {
         /**
          * starts the application
          */
-        public start() {
+        public start() : void{
             console.log('started application');
 
             // load main template
@@ -47,9 +54,34 @@ module TripAssist {
             this.renderView();
         }
 
-        private renderView() {
-            if (this.viewStack.length != 0) {
+        /**
+         * renders a specific view
+         */
+        public loadView(name : string) : void{
 
+            // find view
+            var view = null;
+            for (var i = 0; i<this.views.length; i++) {
+                if (this.views[i].name() == name) {
+                    view = this.views[i];
+                    break;
+                }
+            }
+            if (view == null) {
+                console.log("ERROR: view with name '" + name + "' not found!");
+            } else {
+                // add to stack if not already at end
+                if (this.viewStack[this.viewStack.length-1] != view) {
+                    this.viewStack.push(view);
+                }
+                this.renderView();
+            }
+        }
+
+        private renderView() : void {
+            if (this.viewStack.length != 0) {
+                // clear content
+                $('.content-ctn').html('');
                 var view = this.viewStack[this.viewStack.length-1];
                 document.getElementById('title').innerHTML = view.title();
                 view.render(document.getElementById('content-ctn'), null, function() {

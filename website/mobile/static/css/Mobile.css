@@ -105,6 +105,12 @@ body {
   font-size: 16px;
   clear: both;
 }
+.list-ctn .empty-list {
+  font-size: 14px;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
 .list-ctn ul {
   list-style-type: none;
   margin: 0px;

@@ -1,15 +1,15 @@
 <div class='list-ctn'>
     <div class='sublist'>Offline</div>
+    {{#if offline_holidays.length}}
     <ul>
-        <li>
-            <div class='label'>India Jul 2013</div>
-            <div class='del-btn'></div>
-        </li>
-        <li>
-            <div class='label'>Marokko Apr 2012</div>
-            <div class='del-btn'></div>
-        </li>
+    {{#each offline_holidays}}
+        <li class='label'>{{name}}</li>
+        <div class='del-btn'></div>
+    {{/each}}
     </ul>
+    {{else}}
+    <div class='empty-list'>No holiday is currently stored offline.</div>
+    {{/if}}
     <div class='sublist'>Online</div>
     <ul>
         <li>
