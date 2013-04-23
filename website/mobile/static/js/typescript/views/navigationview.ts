@@ -83,7 +83,9 @@ module TripAssist {
 
             function setArrow(phone_angle, target_angle) {
                 var angle = parseInt(-phone_angle + target_angle, 10);
+                angle = -angle; // revert for correct display
                 if (angle < 0) angle+= 360;
+                if (angle > 360) angle-= 360;
                 console.log(phone_angle + ', ' + target_angle + ' => ' + angle);
                 $('#arrow-ctn').css('-webkit-transform', 'rotate(' + angle + 'deg)')
             }
@@ -100,6 +102,7 @@ module TripAssist {
                 else if (targetAngle >= 202.5 && targetAngle < 247.5) dir = 'SW';
                 else if (targetAngle >= 247.5 && targetAngle < 292.5) dir = 'W';
                 else dir = 'NW';
+                dir += ' (' + Math.round(targetAngle) + ')';
                 $('#right-info-ctn').html('<p>' + dist + '</p><p>' + dir + '</p>');
             }
 
@@ -148,6 +151,7 @@ module TripAssist {
                 targetAngle = rad2deg(Math.atan2(y, x));
 
                 setArrow(phone_angle, targetAngle);
+                setInfo();
             }
 
             function handleError(error) {

@@ -6,6 +6,7 @@ $(document).ready(function() {
         'datamgr',
         'utils',
         'views/mainview',
+        'views/navigationview',
         'views/routesview',
         'views/selectholidayview'
     ];
@@ -14,6 +15,7 @@ $(document).ready(function() {
     var TEMPLATES = [
         'main',
         'mainview',
+        'navigationview',
         'routesview',
         'selectholidayview',
         'selectholidayview-list'

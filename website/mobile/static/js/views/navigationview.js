@@ -53,10 +53,15 @@ var TripAssist;
             var self = this;
             function setArrow(phone_angle, target_angle) {
                 var angle = parseInt(-phone_angle + target_angle, 10);
+                angle = -angle;
                 if(angle < 0) {
                     angle += 360;
                 }
+                if(angle > 360) {
+                    angle -= 360;
+                }
                 console.log(phone_angle + ', ' + target_angle + ' => ' + angle);
+                targetAngle = angle;
                 $('#arrow-ctn').css('-webkit-transform', 'rotate(' + angle + 'deg)');
             }
             function setInfo() {
@@ -82,6 +87,7 @@ var TripAssist;
                 } else {
                     dir = 'NW';
                 }
+                dir += ' (' + Math.round(targetAngle) + ')';
                 $('#right-info-ctn').html('<p>' + dist + '</p><p>' + dir + '</p>');
             }
             function deg2rad(deg) {
@@ -118,6 +124,7 @@ var TripAssist;
                 var x = Math.cos(currentPosition.latitude) * Math.sin(self.currentNavItem.latitude) - Math.sin(currentPosition.latitude) * Math.cos(self.currentNavItem.latitude) * Math.cos(dLon);
                 targetAngle = rad2deg(Math.atan2(y, x));
                 setArrow(phone_angle, targetAngle);
+                setInfo();
             }
             function handleError(error) {
                 switch(error.code) {
