@@ -1,10 +1,12 @@
 /**
  * some parts taken from mootools
- * (https://github.com/mootools/mootools-more/blob/master/Source/Types/Date.js)
+ * (https://github.com/mootools/mootools-more/blob/master/Source/Types/Date.js and
+ * https://github.com/mootools/mootools-more/blob/master/Source/Types/Date.Extras.js)
  */
 
 declare interface Date {
     format(format : string) : string;
+    diffInWords(other: Date) : string;
 }
 
 declare interface Window {
@@ -13,6 +15,46 @@ declare interface Window {
 }
 
 (function() {
+    Date.prototype.diffInWords = function(other) {
+        var delta = Math.round((this.getTime() - other.getTime())/1000);
+        if (Math.abs(delta) < 60) return 'Now'; // same minute
+        var suffix = delta > 0 ? 'from now' : 'ago';
+        if (delta < 0) delta = -delta;
+
+        var units = {
+            minute: 60,
+            hour: 60,
+            day: 24,
+            week: 7,
+            month: 52 / 12,
+            year: 12,
+            eon: Infinity
+        };
+
+        var msg = 'Now';
+
+        for (var unit in units){
+            var interval = units[unit];
+            if (delta < 1.5 * interval){
+                if (delta > 0.75 * interval) {
+                    delta /= interval;
+                    msg = unit;
+                }
+                break;
+            }
+            delta /= interval;
+            msg = unit + 's';
+        }
+
+        delta = Math.round(delta);
+        if (delta == 1) {
+            msg = 'about one ' + msg + ' ' + suffix;
+        } else {
+            msg = 'about ' + delta + ' ' + msg + ' ' + suffix;
+        }
+        return msg;
+    };
+
     Date.prototype.format = function(format) {
 
         function pad(n, digits, string){

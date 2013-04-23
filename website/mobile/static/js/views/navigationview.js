@@ -11,6 +11,8 @@ var TripAssist;
             this.storedHTML = "";
             this.currentCtn = null;
             this.currentNavItem = null;
+            this.checkSignalInterval = null;
+            this.TIMEOUT_NO_SIGNAL = 30000;
         }
         NavigationView.prototype.title = function () {
             return this.currentNavItem ? this.currentNavItem.name : "Navigation";
@@ -31,17 +33,32 @@ var TripAssist;
             if(this.currentCtn) {
                 this.storedHTML = this.currentCtn.innerHTML;
             }
+            window.clearInterval(this.checkSignalInterval);
         };
         NavigationView.prototype.restore = function (ctn) {
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.startNavigation();
+            this.checkSignalInterval = window.setInterval(this.checkSignal, this.TIMEOUT_NO_SIGNAL);
         };
         NavigationView.prototype.unload = function () {
             this.stored = false;
             this.storedHTML = null;
             this.currentCtn = null;
             this.currentNavItem = null;
+            window.clearInterval(this.checkSignalInterval);
+        };
+        NavigationView.prototype.checkSignal = function () {
+            console.log('checking signal');
+            var now = new Date().getTime();
+            if(this.lastLocation && this.lastOrientation) {
+                console.log((now - this.lastLocation.getTime()) + ' and ' + (now - this.lastOrientation.getTime()));
+                if((now - this.lastLocation.getTime()) < this.TIMEOUT_NO_SIGNAL && (now - this.lastOrientation.getTime()) < this.TIMEOUT_NO_SIGNAL) {
+                    $('#waiting-msg').hide();
+                    return;
+                }
+            }
+            $('#waiting-msg').show();
         };
         NavigationView.prototype.startNavigation = function () {
             var targetAngle = 0.0;
@@ -51,6 +68,7 @@ var TripAssist;
                 latitude: 0.0
             };
             var self = this;
+            this.checkSignalInterval = window.setInterval(this.checkSignal, this.TIMEOUT_NO_SIGNAL);
             function setArrow(phone_angle, target_angle) {
                 var angle = parseInt(-phone_angle + target_angle, 10);
                 angle = -angle;
@@ -60,17 +78,19 @@ var TripAssist;
                 if(angle > 360) {
                     angle -= 360;
                 }
-                console.log(phone_angle + ', ' + target_angle + ' => ' + angle);
-                targetAngle = angle;
                 $('#arrow-ctn').css('-webkit-transform', 'rotate(' + angle + 'deg)');
+                $('#arrow-ctn').css('-moz-transform', 'rotate(' + angle + 'deg)');
+                $('#arrow-ctn').css('-ms-transform', 'rotate(' + angle + 'deg)');
+                $('#arrow-ctn').css('-o-transform', 'rotate(' + angle + 'deg)');
+                $('#arrow-ctn').css('transform', 'rotate(' + angle + 'deg)');
             }
             function setInfo() {
-                var dist = parseInt(targetDistance, 10) + 'm';
+                var dist = Math.round(targetDistance) + 'm';
                 if(targetDistance > 1000) {
                     dist = (targetDistance / 1000.0).toFixed(1) + 'km';
                 }
                 var dir = '';
-                if(targetAngle >= 337.5 && targetAngle < 22.5) {
+                if(targetAngle >= 337.5 || targetAngle < 22.5) {
                     dir = 'N';
                 } else if(targetAngle >= 22.5 && targetAngle < 67.5) {
                     dir = 'NE';
@@ -87,8 +107,10 @@ var TripAssist;
                 } else {
                     dir = 'NW';
                 }
-                dir += ' (' + Math.round(targetAngle) + ')';
                 $('#right-info-ctn').html('<p>' + dist + '</p><p>' + dir + '</p>');
+                if(self.currentNavItem.due) {
+                    $('#left-info-ctn').html(self.currentNavItem.due.diffInWords(new Date()));
+                }
             }
             function deg2rad(deg) {
                 return deg * (Math.PI / 180.0);
@@ -114,6 +136,8 @@ var TripAssist;
                     longitude: currentLongitude,
                     latitude: currentLatitude
                 };
+                self.lastLocation = new Date();
+                self.checkSignal();
                 calculateDistance(currentPosition, self.currentNavItem);
                 setInfo();
             }
@@ -123,6 +147,8 @@ var TripAssist;
                 var y = Math.sin(dLon) * Math.cos(dLon);
                 var x = Math.cos(currentPosition.latitude) * Math.sin(self.currentNavItem.latitude) - Math.sin(currentPosition.latitude) * Math.cos(self.currentNavItem.latitude) * Math.cos(dLon);
                 targetAngle = rad2deg(Math.atan2(y, x));
+                self.lastOrientation = new Date();
+                self.checkSignal();
                 setArrow(phone_angle, targetAngle);
                 setInfo();
             }

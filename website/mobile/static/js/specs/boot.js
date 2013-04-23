@@ -68,6 +68,6 @@ $(document).ready(function() {
     // setup mocha
     mocha.setup({
         ui: 'bdd',
-        globals:["_", "$", "jQuery*"]
+        globals:["_", "$", "jQuery*", "navigator"]
     });
 });

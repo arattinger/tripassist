@@ -4,7 +4,7 @@
         if(Math.abs(delta) < 60) {
             return 'Now';
         }
-        var suffix = delta < 0 ? 'from now' : 'ago';
+        var suffix = delta > 0 ? 'from now' : 'ago';
         if(delta < 0) {
             delta = -delta;
         }

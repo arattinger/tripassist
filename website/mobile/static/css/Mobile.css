@@ -223,6 +223,18 @@ body {
   background-repeat: no-repeat;
   background-position: center;
 }
+#waiting-msg {
+  position: absolute;
+  top: 30px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 3;
+  background-color: #000;
+  font-size: 24px;
+  text-align: center;
+  line-height: 100%;
+}
 .detail-label-ctn {
   margin-top: 40px;
   margin-left: 10px;
