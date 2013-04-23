@@ -6,6 +6,22 @@ describe('Utils', function() {
         d = new Date(2013, 3, 16, 14, 43, 0, 0);
     });
 
+    it('test diff in words now', function() {
+        expect( d.diffInWords(new Date(2013, 3, 16, 14, 43, 12, 0)) ).to.be('Now');
+    });
+
+    it('test diff in words one minute from now', function() {
+        expect( d.diffInWords(new Date(2013, 3, 16, 14, 44, 12, 0)) ).to.be('about one minute from now');
+    });
+
+    it('test diff in words 4 minutes from now', function() {
+        expect( d.diffInWords(new Date(2013, 3, 16, 14, 47, 12, 0)) ).to.be('about 4 minutes from now');
+    });
+
+    it('test diff in words 2 hours ago', function() {
+        expect( d.diffInWords(new Date(2013, 3, 16, 12, 47, 12, 0)) ).to.be('about 2 hours ago');
+    });
+
     it('test date format %a', function() {
         expect( d.format('%a') ).to.be('Tue');
     });
