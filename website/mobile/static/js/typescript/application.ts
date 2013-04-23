@@ -4,8 +4,10 @@
 /// <reference path="datamgr.ts" />
 /// <reference path="views/mainview.ts" />
 /// <reference path="views/navigationview.ts" />
+/// <reference path="views/routedetailview.ts" />
 /// <reference path="views/routesview.ts" />
 /// <reference path="views/selectholidayview.ts" />
+/// <reference path="views/svgview.ts" />
 
 
 module TripAssist {
@@ -39,7 +41,9 @@ module TripAssist {
             this.views = [
                 new SelectHolidayView(this.datamgr, this),
                 new MainView(this.datamgr, this),
+                new RouteDetailView(this.datamgr, this),
                 new RoutesView(this.datamgr, this),
+                new SVGView(this.datamgr, this),
                 new NavigationView(this.datamgr, this)
             ];
 

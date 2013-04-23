@@ -84,9 +84,17 @@ var TripAssist;
                 };
                 self.app.loadView('NavigationView', navItem);
             }
+            function openDetail(id) {
+                var route = self.datamgr.getRoute(id);
+                self.app.loadView('RouteDetailView', route);
+            }
             $('.navigate-btn').on('tap', function () {
                 var id = this.parentNode.getAttribute('data-id');
                 navigateTo(id);
+            });
+            $('.label').on('tap', function () {
+                var id = this.parentNode.getAttribute('data-id');
+                openDetail(id);
             });
         };
         return RoutesView;

@@ -44,6 +44,9 @@ var TripAssist;
             }
             this.schedule_.sort(mySort);
         };
+        DataManager.prototype.getAttachmentUrl = function (token, extension) {
+            return this.base_url_ + token + extension;
+        };
         DataManager.prototype.loadHoliday = function (holiday_id, callback) {
             var routes_loaded = false;
             var accommodations_loaded = false;

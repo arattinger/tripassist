@@ -7,6 +7,7 @@ $(document).ready(function() {
         'utils',
         'views/mainview',
         'views/navigationview',
+        'views/routedetailview',
         'views/routesview',
         'views/selectholidayview'
     ];
@@ -16,6 +17,7 @@ $(document).ready(function() {
         'main',
         'mainview',
         'navigationview',
+        'routedetailview',
         'routesview',
         'selectholidayview',
         'selectholidayview-list'

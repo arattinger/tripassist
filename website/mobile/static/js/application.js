@@ -8,7 +8,9 @@ var TripAssist;
             this.views = [
                 new TripAssist.SelectHolidayView(this.datamgr, this), 
                 new TripAssist.MainView(this.datamgr, this), 
+                new TripAssist.RouteDetailView(this.datamgr, this), 
                 new TripAssist.RoutesView(this.datamgr, this), 
+                new TripAssist.SVGView(this.datamgr, this), 
                 new TripAssist.NavigationView(this.datamgr, this)
             ];
             this.viewStack = [];

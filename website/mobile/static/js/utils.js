@@ -170,3 +170,24 @@
         });
     };
 })();
+var Utils;
+(function (Utils) {
+    function deg2rad(deg) {
+        return deg * (Math.PI / 180.0);
+    }
+    function rad2deg(rad) {
+        return rad * (180.0 / Math.PI);
+    }
+    function distanceInMetres(posA, posB) {
+        var R = 6371000;
+        var dLat = deg2rad(posA.latitude - posB.latitude);
+        var dLon = deg2rad(posA.longitude - posB.longitude);
+        var lat1 = deg2rad(posA.latitude);
+        var lat2 = deg2rad(posB.latitude);
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        return d;
+    }
+    Utils.distanceInMetres = distanceInMetres;
+})(Utils || (Utils = {}));

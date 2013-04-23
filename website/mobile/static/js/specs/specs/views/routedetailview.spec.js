@@ -1,0 +1,3 @@
+describe('RouteDetailView', function() {
+
+});

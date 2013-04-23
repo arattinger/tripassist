@@ -112,22 +112,8 @@ var TripAssist;
                     $('#left-info-ctn').html(self.currentNavItem.due.diffInWords(new Date()));
                 }
             }
-            function deg2rad(deg) {
-                return deg * (Math.PI / 180.0);
-            }
             function rad2deg(rad) {
                 return rad * (180.0 / Math.PI);
-            }
-            function calculateDistance(current, target) {
-                var R = 6371000;
-                var dLat = deg2rad(current.latitude - target.latitude);
-                var dLon = deg2rad(current.longitude - target.longitude);
-                var lat1 = deg2rad(current.latitude);
-                var lat2 = deg2rad(target.latitude);
-                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                var d = R * c;
-                targetDistance = d;
             }
             function getPosition(pos) {
                 var currentLongitude = pos.coords.longitude;
@@ -138,7 +124,7 @@ var TripAssist;
                 };
                 self.lastLocation = new Date();
                 self.checkSignal();
-                calculateDistance(currentPosition, self.currentNavItem);
+                targetDistance = Utils.distanceInMetres(currentPosition, self.currentNavItem);
                 setInfo();
             }
             function deviceorientation(eventData) {

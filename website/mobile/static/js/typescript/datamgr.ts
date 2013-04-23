@@ -78,6 +78,10 @@ module TripAssist {
             this.schedule_ = [];
         }
 
+        public getAttachmentUrl(token : string, extension: string) : string {
+            return this.base_url_ + token + extension;
+        }
+
         /**
          * loads an entire holiday from the server
          * @param holiday_id the id of the holiday to be fetched
