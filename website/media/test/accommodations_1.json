@@ -8,11 +8,11 @@
         "latitude": 16.45,
         "altitude": 235,
         "website": "http://www.hoteldamour.fr",
-        "arrival_name": "office@hoteldamour.fr",
+        "email": "office@hoteldamour.fr",
         "phone_number": "+51 7568566",
         "address": "Rue du poisson 53, Nice",
-        "start": 1224043500000,
-        "end": 1224043400000,
+        "start": 1369778400000,
+        "end": 1369864800000,
         "files": [
             {
                 "id": 2,
@@ -30,11 +30,11 @@
         "latitude": 16.42,
         "altitude": 212,
         "website": "http://www.hoteldumar.fr",
-        "arrival_name": "office@hoteldumar.fr",
+        "email": "office@hoteldumar.fr",
         "phone_number": "+51 7568546",
         "address": "Champs Elysée 53, Nice",
-        "start": 1224047500000,
-        "end": 1224040400000,
+        "start": 1369864800000,
+        "end": 1370124000000,
         "files": []
     }
 ]

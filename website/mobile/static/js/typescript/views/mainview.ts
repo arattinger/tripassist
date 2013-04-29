@@ -67,6 +67,11 @@ module TripAssist {
                 self.app.loadView('RoutesView', null);
                 return false;
             });
+
+            $('#accomm-tile').on('tap', function() {
+                self.app.loadView('AccommodationsView', null);
+                return false;
+            });
         }
 
     }

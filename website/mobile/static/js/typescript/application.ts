@@ -2,6 +2,7 @@
 /// <reference path="../lib/handlebars.d.ts" />
 /// <reference path="templatemgr.ts" />
 /// <reference path="datamgr.ts" />
+/// <reference path="views/accommodationsview.ts" />
 /// <reference path="views/mainview.ts" />
 /// <reference path="views/navigationview.ts" />
 /// <reference path="views/routedetailview.ts" />
@@ -44,7 +45,8 @@ module TripAssist {
                 new RouteDetailView(this.datamgr, this),
                 new RoutesView(this.datamgr, this),
                 new SVGView(this.datamgr, this),
-                new NavigationView(this.datamgr, this)
+                new NavigationView(this.datamgr, this),
+                new AccommodationsView(this.datamgr, this)
             ];
 
             // add first view to stack
