@@ -48,4 +48,18 @@ describe('RouteDetailView', function() {
             });    
         });
     });
+
+    it('test attachment', function(done) {
+        datamgr.loadHoliday(1, function() {
+            var ctn = document.getElementById('test-ctn');
+            detailView.render(ctn, datamgr.getRoute(1), function() {
+                $('.label').trigger('tap');
+                expect( app.loadedName ).to.be('SVGView');
+                expect( app.loadedData ).not.to.be(null);
+                expect( app.loadedData.title ).to.be('Bus_ticket.pdf');
+                expect( app.loadedData.token ).to.be('ac5a5ad88621adadf5f6');
+                done();
+            });    
+        });
+    });
 });

@@ -5,6 +5,7 @@ $(document).ready(function() {
         'application',
         'datamgr',
         'utils',
+        'views/accommodationdetailview',
         'views/accommodationsview',
         'views/mainview',
         'views/navigationview',
@@ -17,6 +18,7 @@ $(document).ready(function() {
     // define all templates to be fetched from server
     var TEMPLATES = [
         'main',
+        'accommodationdetailview',
         'accommodationsview',
         'mainview',
         'navigationview',

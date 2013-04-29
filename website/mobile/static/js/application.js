@@ -12,7 +12,8 @@ var TripAssist;
                 new TripAssist.RoutesView(this.datamgr, this), 
                 new TripAssist.SVGView(this.datamgr, this), 
                 new TripAssist.NavigationView(this.datamgr, this), 
-                new TripAssist.AccommodationsView(this.datamgr, this)
+                new TripAssist.AccommodationsView(this.datamgr, this), 
+                new TripAssist.AccommodationDetailView(this.datamgr, this)
             ];
             this.viewStack = [];
             this.viewStack.push(this.views[0]);
