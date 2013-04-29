@@ -88,18 +88,21 @@ module TripAssist {
             $('.del-btn').on('tap', function() {
                 var id = this.parentNode.getAttribute('data-id');
                 deleteHoliday(id);
+                return false;
             });
 
             // add select functionality
             $('.label').on('tap', function() {
                var id = this.parentNode.getAttribute('data-id');
                 openHoliday(id);
+                return false;
             });
 
             // add delete functionality
             $('.download-btn').on('tap', function() {
                 var id = this.parentNode.getAttribute('data-id');
                 downloadHoliday(id);
+                return false;
             });
         }
 

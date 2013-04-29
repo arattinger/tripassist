@@ -97,6 +97,7 @@ module TripAssist {
             $('#navigate-btn').on('tap', function() {
                 var id = this.parentNode.getAttribute('data-id');
                 navigateTo();
+                return false;
             });
 
             $('li div').on('tap', function() {
@@ -106,6 +107,7 @@ module TripAssist {
                     title: name,
                     token: token
                 });
+                return false;
             });
             
         }

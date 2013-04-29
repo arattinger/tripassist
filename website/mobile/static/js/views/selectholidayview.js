@@ -59,14 +59,17 @@ var TripAssist;
             $('.del-btn').on('tap', function () {
                 var id = this.parentNode.getAttribute('data-id');
                 deleteHoliday(id);
+                return false;
             });
             $('.label').on('tap', function () {
                 var id = this.parentNode.getAttribute('data-id');
                 openHoliday(id);
+                return false;
             });
             $('.download-btn').on('tap', function () {
                 var id = this.parentNode.getAttribute('data-id');
                 downloadHoliday(id);
+                return false;
             });
         };
         SelectHolidayView.prototype.loadOnlineHolidays = function (ctn) {

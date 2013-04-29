@@ -67,6 +67,7 @@ module TripAssist {
             var self = this;
             $('#back-btn').on('tap', function() {
                 self.unloadView();
+                return false;
             });
 
             this.addEvents();

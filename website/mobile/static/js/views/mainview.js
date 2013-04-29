@@ -44,6 +44,7 @@ var TripAssist;
             var self = this;
             $('#route-tile').on('tap', function () {
                 self.app.loadView('RoutesView', null);
+                return false;
             });
         };
         return MainView;

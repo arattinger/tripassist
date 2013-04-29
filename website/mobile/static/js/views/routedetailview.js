@@ -74,6 +74,7 @@ var TripAssist;
             $('#navigate-btn').on('tap', function () {
                 var id = this.parentNode.getAttribute('data-id');
                 navigateTo();
+                return false;
             });
             $('li div').on('tap', function () {
                 var token = this.getAttribute('data-token');
@@ -82,6 +83,7 @@ var TripAssist;
                     title: name,
                     token: token
                 });
+                return false;
             });
         };
         return RouteDetailView;

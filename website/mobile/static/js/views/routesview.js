@@ -91,10 +91,12 @@ var TripAssist;
             $('.navigate-btn').on('tap', function () {
                 var id = this.parentNode.getAttribute('data-id');
                 navigateTo(id);
+                return false;
             });
             $('.label').on('tap', function () {
                 var id = this.parentNode.getAttribute('data-id');
                 openDetail(id);
+                return false;
             });
         };
         return RoutesView;

@@ -22,12 +22,16 @@ var TripAssist;
         SVGView.prototype.render = function (ctn, data, callback) {
             this.title_ = data.title;
             this.currentCtn = ctn;
-            ctn.innerHTML = this.mainTemplate({
-                url: this.datamgr.getAttachmentUrl(data.token, '.svg')
+            var self = this;
+            $.ajax(this.datamgr.getAttachmentUrl(data.token, '.svg'), {
+                dataType: 'text',
+                success: function (svg) {
+                    ctn.innerHTML = '<div style="background:white; overflow:auto; width:100%;height:100%">' + svg + '</div>';
+                    self.addEvents();
+                    self.setZoomable();
+                    callback();
+                }
             });
-            this.addEvents();
-            this.setZoomable();
-            callback();
         };
         SVGView.prototype.store = function () {
             this.stored = true;
