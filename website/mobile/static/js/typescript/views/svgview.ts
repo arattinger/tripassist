@@ -47,16 +47,17 @@ module TripAssist {
             this.currentCtn = ctn;
 
             var self = this;
-
+            ctn.innerHTML = "loading...";
             $.ajax(this.datamgr.getAttachmentUrl(data.token, '.svg'), {
                 dataType: 'text', // otherwise xml will be returned
                 success: function(svg) {
-                    ctn.innerHTML = '<div style="background:white; overflow:auto; width:100%;height:100%">' + svg + '</div>';
+                    ctn.innerHTML = '<div id="svg-ctn">' + svg + '</div>';
                     self.addEvents();
                     self.setZoomable();
-                    callback();
                 }
             });
+
+            callback();
         }
 
         public store() {
