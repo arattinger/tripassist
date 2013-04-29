@@ -78,6 +78,12 @@ module TripAssist {
             this.schedule_ = [];
         }
 
+        /**
+         * concatenates the URL for a downloadable file
+         * @param token the token of the file
+         * @param extension: the extension (including the dot) to be appended to the token
+         * @return the full url to the file
+         */
         public getAttachmentUrl(token : string, extension: string) : string {
             return this.base_url_ + token + extension;
         }

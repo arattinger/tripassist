@@ -1,7 +1,7 @@
-describe('RoutesView', function() {
+describe('AccommodationsView', function() {
     var datamgr;
     var app;
-    var routesView;
+    var accommodationsView;
 
     beforeEach(function() {
         var user = {
@@ -17,31 +17,30 @@ describe('RoutesView', function() {
                 this.loadedData = data;
             }
         };
-        routesView = new TripAssist.RoutesView(datamgr, app);
+        accommodationsView = new TripAssist.AccommodationsView(datamgr, app);
     });
 
-    it('test routes listed', function(done) {
+    it('test accommodations listed', function(done) {
         datamgr.loadHoliday(1, function() {
             var ctn = document.getElementById('test-ctn');
-            routesView.render(ctn, null, function() {
-                expect( $('#test-ctn .sublist').length ).to.be(1);
-                expect( $('#test-ctn ul .label').text() ).to.be('Bus 74');
+            accommodationsView.render(ctn, null, function() {
+                expect( $('#test-ctn .sublist').length ).to.be(2);
+                expect( $('#test-ctn ul:first .label').text() ).to.be("Hotel d'Amour");
                 done();
             });    
         });
     });
 
-    it('test navigate to route', function(done) {
+    it('test navigate to first accomodation', function(done) {
        datamgr.loadHoliday(1, function() {
             var ctn = document.getElementById('test-ctn');
-            routesView.render(ctn, null, function() {
-                $('.navigate-btn').trigger('tap');
+            accommodationsView.render(ctn, null, function() {
+                $('.navigate-btn:first').trigger('tap');
                 expect( app.loadedName ).to.be('NavigationView');
                 expect( app.loadedData ).not.to.be(null);
-                expect( app.loadedData.name ).to.be('Bus 74');
-                expect( app.loadedData.longitude ).to.be(15.437272);
-                expect( app.loadedData.latitude ).to.be(47.074258);
-                expect( app.loadedData.due.getTime() ) .to.be(1366730839549);
+                expect( app.loadedData.name ).to.be("Hotel d'Amour");
+                expect( app.loadedData.longitude ).to.be(47.13);
+                expect( app.loadedData.latitude ).to.be(16.45);
                 done();
             });    
         }); 

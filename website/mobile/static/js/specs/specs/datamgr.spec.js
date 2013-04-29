@@ -124,13 +124,17 @@ describe('DataManager', function() {
             var schedule = datamgr.getSchedule();
             expect ( schedule.length ).to.be(3);
             // last element should be Bus 74
-            expect ( schedule[2].name ).to.be('Bus 74');
-            expect ( schedule[2].elemType ).to.be('route');
+            expect ( schedule[2].name ).to.be('Hôtel du mar');
+            expect ( schedule[2].elemType ).to.be('accommodation');
             // first element should be Hotel d'Amour
-            expect ( schedule[0].name ).to.be("Hotel d'Amour");
-            expect ( schedule[0].elemType ).to.be('accommodation');
+            expect ( schedule[0].name ).to.be("Bus 74");
+            expect ( schedule[0].elemType ).to.be('route');
             done();
         });
+    });
+
+    it('test attachment url', function() {
+        expect( datamgr.getAttachmentUrl('mytoken', '.ext') ).to.be('/mobile/download/test/mytoken.ext');
     });
 
 });

@@ -5,22 +5,26 @@ $(document).ready(function() {
         'application',
         'datamgr',
         'utils',
+        'views/accommodationsview',
         'views/mainview',
         'views/navigationview',
         'views/routedetailview',
         'views/routesview',
-        'views/selectholidayview'
+        'views/selectholidayview',
+        'views/svgview'
     ];
 
     // define all templates to be fetched from server
     var TEMPLATES = [
         'main',
+        'accommodationsview',
         'mainview',
         'navigationview',
         'routedetailview',
         'routesview',
         'selectholidayview',
-        'selectholidayview-list'
+        'selectholidayview-list',
+        'svgview'
     ];
 
     var loadClassCounter = 0;
