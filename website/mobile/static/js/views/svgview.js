@@ -11,6 +11,7 @@ var TripAssist;
             this.storedHTML = "";
             this.currentCtn = null;
             this.title_ = 'Route';
+            this.currentZoom_ = 1.0;
         }
         SVGView.prototype.title = function () {
             return this.title_;
@@ -25,6 +26,7 @@ var TripAssist;
                 url: this.datamgr.getAttachmentUrl(data.token, '.svg')
             });
             this.addEvents();
+            this.setZoomable();
             callback();
         };
         SVGView.prototype.store = function () {
@@ -32,19 +34,36 @@ var TripAssist;
             if(this.currentCtn) {
                 this.storedHTML = this.currentCtn.innerHTML;
             }
+            this.unsetZoomable();
         };
         SVGView.prototype.restore = function (ctn) {
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.addEvents();
+            this.setZoomable();
         };
         SVGView.prototype.unload = function () {
             this.stored = false;
             this.storedHTML = null;
             this.currentCtn = null;
+            this.unsetZoomable();
         };
         SVGView.prototype.addEvents = function () {
             var self = this;
+            function scale(level) {
+                $('#svg-ctn').css('transform', 'scale(' + level + ',' + level + ')');
+                $('#svg-ctn').css('-ms-transform', 'scale(' + level + ',' + level + ')');
+                $('#svg-ctn').css('-webkit-transform', 'scale(' + level + ',' + level + ')');
+                $('#svg-ctn').css('transform-origin', 'left top');
+                $('#svg-ctn').css('-ms-transform-origin', 'left top');
+                $('#svg-ctn').css('-webkit-transform-origin', 'left top');
+            }
+        };
+        SVGView.prototype.setZoomable = function () {
+            $('#content-ctn').css('overflow', 'hidden');
+        };
+        SVGView.prototype.unsetZoomable = function () {
+            $('#content-ctn').css('overflow', 'auto');
         };
         return SVGView;
     })();

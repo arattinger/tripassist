@@ -1,1 +1,3 @@
+<div id='svg-ctn'>
 <embed class='svg' src="{{url}}" type="image/svg+xml"></embed>
+</div>

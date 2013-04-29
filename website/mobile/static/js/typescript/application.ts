@@ -109,6 +109,7 @@ module TripAssist {
         public unloadView() : void{
 
             if (this.viewStack.length > 1) {
+                this.viewStack[this.viewStack.length-1].unload();
                 this.viewStack.pop();
                 // restore previous view
                 this.viewStack[this.viewStack.length-1].restore(document.getElementById('content-ctn'));

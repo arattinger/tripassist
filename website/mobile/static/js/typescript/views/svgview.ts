@@ -21,6 +21,7 @@ module TripAssist {
         private storedHTML: string;
         private currentCtn: HTMLElement;
         private title_: string;
+        private currentZoom_: number;
 
         constructor(datamgr : TripAssist.DataManager, app: TripAssist.Application) {
             this.datamgr = datamgr;
@@ -30,6 +31,7 @@ module TripAssist {
             this.storedHTML = "";
             this.currentCtn = null;
             this.title_ = 'Route';
+            this.currentZoom_ = 1.0;
         }
 
         public title() {
@@ -43,11 +45,13 @@ module TripAssist {
         public render(ctn: HTMLElement, data: SVGItem, callback: () => any) {
             this.title_ = data.title;
             this.currentCtn = ctn;
+
             ctn.innerHTML = this.mainTemplate({
                 url: this.datamgr.getAttachmentUrl(data.token, '.svg')
             });
 
             this.addEvents();
+            this.setZoomable();
             callback();
         }
 
@@ -55,23 +59,61 @@ module TripAssist {
         this.stored = true;
         if (this.currentCtn)
             this.storedHTML = this.currentCtn.innerHTML;
+        this.unsetZoomable();
         }
 
         public restore(ctn: HTMLElement) {
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.addEvents();
+            this.setZoomable();
         }
 
         public unload() {
             this.stored = false;
             this.storedHTML = null;
             this.currentCtn = null;
+            this.unsetZoomable();
         }
 
         private addEvents() {
             var self = this;
-            
+
+            function scale(level) {
+                $('#svg-ctn').css('transform', 'scale('+level+','+level+')');
+                $('#svg-ctn').css('-ms-transform', 'scale('+level+','+level+')');
+                $('#svg-ctn').css('-webkit-transform', 'scale('+level+','+level+')');
+                $('#svg-ctn').css('transform-origin', 'left top');
+                $('#svg-ctn').css('-ms-transform-origin', 'left top');
+                $('#svg-ctn').css('-webkit-transform-origin', 'left top');
+            }
+
+            /*// make svg zoomable
+            $("#svg-ctn").swipe( {
+                pinchIn: function(event, direction, distance, duration, fingerCount, pinchZoom)
+                {
+                    alert('open');
+                    //self.currentCtn.innerHTML = "this was pinch";
+                    self.currentZoom_ += 0.5;
+                    scale(self.currentZoom_);
+                },
+                pinchOut:function(event, direction, distance, duration, fingerCount, pinchZoom)
+                {
+                    self.currentZoom_ -= 0.5;
+                    scale(self.currentZoom_);
+                },
+                fingers:2,  
+                pinchThreshold:0    
+            });*/
+        }
+
+        private setZoomable() {
+            // prevent scrolling on content by setting overflow to hidden
+            $('#content-ctn').css('overflow', 'hidden');
+        }
+
+        private unsetZoomable() {
+            $('#content-ctn').css('overflow', 'auto');
         }
 
     }

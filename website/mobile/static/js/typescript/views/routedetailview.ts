@@ -99,7 +99,7 @@ module TripAssist {
                 navigateTo();
             });
 
-            $('.attachments li div.label').on('tap', function() {
+            $('li div').on('tap', function() {
                 var token = this.getAttribute('data-token');
                 var name = this.innerHTML;
                 self.app.loadView('SVGView', {

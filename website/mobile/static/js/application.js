@@ -46,6 +46,7 @@ var TripAssist;
         };
         Application.prototype.unloadView = function () {
             if(this.viewStack.length > 1) {
+                this.viewStack[this.viewStack.length - 1].unload();
                 this.viewStack.pop();
                 this.viewStack[this.viewStack.length - 1].restore(document.getElementById('content-ctn'));
                 this.renderTopBar();
