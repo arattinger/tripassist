@@ -38,7 +38,7 @@ describe('AccommodationDetailView', function() {
                 expect( $('.detail-info-ctn').get(2).innerHTML ).to.be('http://www.hoteldamour.fr');
                 expect( $('.detail-info-ctn').get(3).innerHTML ).to.be('office@hoteldamour.fr');
                 expect( $('.detail-info-ctn').get(4).innerHTML ).to.be('+51 7568566');
-                expect( $('.label').get(0).innerHTML ).to.be('Hotel reservation.pdf');
+                expect( $('.attachments .label').get(0).innerHTML ).to.be('Hotel reservation.pdf');
                 done();
             });    
         });
