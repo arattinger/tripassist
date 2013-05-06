@@ -1,0 +1,13 @@
+<div class='sublist'>Online</div>
+{{#if online_holidays.length}}
+<ul id='online-holidays-list'>
+{{#each online_holidays}}
+    <li data-id='{{id}}''>
+        <div class='label'>{{name}}</div>
+        <div class='download-btn'></div>
+    </li>
+{{/each}}
+</ul>
+{{else}}
+<div class='empty-list'>No holiday available online - please create one.</div>
+{{/if}}

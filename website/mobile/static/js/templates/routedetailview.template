@@ -1,0 +1,22 @@
+<div class='detail-label-ctn'>Departure</div>
+<div class='detail-info-ctn'>{{departureTime}} at {{departureAddress}}</div>
+<div class='detail-label-ctn'>Arrival</div>
+<div class='detail-info-ctn'>{{arrivalTime}} at {{arrivalAddress}}</div>
+<div class='detail-label-ctn'>Info</div>
+<div class='detail-info-ctn'>{{timeTravelled}}, {{distanceTravelled}}</div>
+{{#if attachments.length}}
+<div class='list-ctn'>
+    <div class='sublist'>Attached Files</div>
+    <ul class='attachments'>
+        {{#each attachments}}
+        <li>
+            <div class='label' data-token='{{token}}'>{{filename}}</div>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+{{/if}}
+<div id='bottom-ctn'>
+    <div id='map-btn' class='map-btn'></div>
+    <div id='navigate-btn' class='navigate-btn'></div>
+</div>

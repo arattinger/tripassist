@@ -1,3 +1,5 @@
+@import 'definitions'
+
 body
     background black
     color white
@@ -21,10 +23,11 @@ smallbutton()
 #header-ctn
     margin-left 5px
     margin-right 5px
+    white-space nowrap
 
     #back-btn
         smallbutton 'back'
-        float: left
+        float left
 
     #settings-btn
         smallbutton 'settings'
@@ -32,9 +35,12 @@ smallbutton()
 
     #title
         float left
-        font-size 26px
+        font-size titleFontSize
         margin-left 10px
         margin-top 10px
+        overflow hidden
+        text-overflow ellipsis
+
 
 #content-ctn
     position absolute
@@ -64,8 +70,5 @@ smallbutton()
     float right
     
 #bottom-ctn
-    position absolute
-    bottom 0px
-    left 0px
     width 100%
     height 55px

@@ -1,0 +1,23 @@
+[
+    {
+        "id": 3,
+        "name": "Ristorante Milano",
+        "type": "Restaurant",
+        "created": 1224043200000,
+        "last_changed": 1224043200000,
+        "longitude": 47.13,
+        "latitude": 16.45,
+        "altitude": 235,
+        "website": "http://www.milanovenezia.it",
+        "arrival_name": "ristorante@milanovenezia.it",
+        "phone_number": "+32 7568566",
+        "address": "Via Castorale 7, Venezia",
+        "files": [
+            {
+                "id": 3,
+                "filename": "DSC753245.jpg",
+                "token": "ad92ad9adl8adli2laso"
+            }
+        ]
+    }
+]
