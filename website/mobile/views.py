@@ -7,6 +7,7 @@ import mimetypes
 from unicodedata import normalize
 from django.http import HttpResponse
 from models import Attachment
+import time
 
 
 def mobile(request):
@@ -24,6 +25,7 @@ def cache_manifest(request):
     data = {
         "attachments": attachments,
         "username": request.user.username,
+        "timestamp": int(time.time()),
     }
     return render_to_response('cache.manifest', data, RequestContext(request))
 
