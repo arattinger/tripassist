@@ -1,12 +1,25 @@
 from django.forms import ModelForm
 from models import Holiday
-from models import Accomodation
+from models import Route
+from models import Accommodation
+from models import Place
+
 
 class HolidayForm(ModelForm):
     class Meta:
         model = Holiday
 
 
-class AccomodationForm(ModelForm):
+class RouteForm(ModelForm):
     class Meta:
-        model = Accomodation
+        model = Route
+
+
+class AccommodationForm(ModelForm):
+    class Meta:
+        model = Accommodation
+
+
+class PlaceForm(ModelForm):
+    class Meta:
+        model = Place

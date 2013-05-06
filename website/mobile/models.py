@@ -61,7 +61,7 @@ class Place(models.Model):
         return u"%s: %s" % (self.name, self.type)
 
 
-class Accomodation(models.Model):
+class Accommodation(models.Model):
     name = models.CharField(max_length=255, blank=True)
     type = models.PositiveSmallIntegerField()
     created = models.DateTimeField(default=now)
@@ -86,7 +86,7 @@ class Holiday(models.Model):
     name = models.CharField(max_length=255, blank=True)
     created = models.DateTimeField(default=now)
     last_changed = models.DateTimeField(default=now)
-    accomodations = models.ManyToManyField(Accomodation, blank=True)
+    accommodations = models.ManyToManyField(Accommodation, blank=True)
     places = models.ManyToManyField(Place, blank=True)
     routes = models.ManyToManyField(Route, blank=True)
     description = models.TextField(blank=True)

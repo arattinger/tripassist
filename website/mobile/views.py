@@ -7,7 +7,7 @@ import mimetypes
 from unicodedata import normalize
 from django.http import HttpResponse
 from models import Attachment
-from forms import HolidayForm, AccommodationForm
+from forms import HolidayForm, RouteForm, AccommodationForm, PlaceForm
 import time
 
 
@@ -15,9 +15,31 @@ def mobile(request):
     return render_to_response('mobile.html', {}, RequestContext(request))
 
 
+def homepage(request):
+    return render_to_response('homepage.html', {}, RequestContext(request))
+
+
 def holiday(request):
     form = HolidayForm()
     return render_to_response('holiday.html', {'form': form},
+                              RequestContext(request))
+
+
+def route(request):
+    form = RouteForm()
+    return render_to_response('route.html', {'form': form},
+                              RequestContext(request))
+
+
+def accommodation(request):
+    form = AccommodationForm()
+    return render_to_response('accommodation.html', {'form': form},
+                              RequestContext(request))
+
+
+def place(request):
+    form = PlaceForm()
+    return render_to_response('place.html', {'form': form},
                               RequestContext(request))
 
 
