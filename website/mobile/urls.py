@@ -5,7 +5,7 @@ import views
 urlpatterns = patterns(
     '',
     url(r'^$', views.mobile, name='mobile'),
-    url(r'^main/$', views.homepage),
+    url(r'^home/$', views.home, name='home'),
     url(r'^holiday/$', views.holiday, name='holiday'),
     url(r'^route/$', views.route, name='route'),
     url(r'^accommodation/$', views.accommodation, name='accommodation'),

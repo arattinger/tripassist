@@ -6,16 +6,35 @@ from os.path import join, basename
 import mimetypes
 from unicodedata import normalize
 from django.http import HttpResponse
-from models import Attachment
+from models import Attachment, Holiday, Route, Accommodation, Place
 from forms import HolidayForm, RouteForm, AccommodationForm, PlaceForm
 import time
+import re
 
 
 def mobile(request):
     return render_to_response('mobile.html', {}, RequestContext(request))
 
 
-def homepage(request):
+@login_required
+def home(request):
+    referer = request.META.get('HTTP_REFERER')
+    if referer:
+        referer = re.sub('^https?:\/\/', '', referer).split('/')[1]
+        if Holiday.__name__.lower() == referer:
+            form = HolidayForm(request.POST)
+        elif Route.__name__.lower() == referer:
+            form = RouteForm(request.POST)
+        elif Accommodation.__name__.lower() == referer:
+            form = AccommodationForm(request.POST)
+        elif Place.__name__.lower() == referer:
+            form = PlaceForm(request.POST)
+        print(referer)
+        if form.is_valid():
+            form.save()
+        else:
+            # TODO: Error handling!
+            print("Error: not valid or missing input")
     return render_to_response('homepage.html', {}, RequestContext(request))
 
 

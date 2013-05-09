@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<form action="/contact/" method="post">{% csrf_token %}
+<form action="{% url "home" %}" method="post">{% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>
