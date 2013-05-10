@@ -7,15 +7,25 @@
 {% endblock %}
 
 {% block content %}
-<h1>Homepage</h1>
+<h1>Holidays</h1>
 <div class='tiles-wrapper'>
     <div class='tiles-ctn'>
-        <div class='dummy-tile'></div>
-        <div id='route-tile'><a href={% url "holiday" %}>Add Holiday</a></div>
-        <div id='accomm-tile'><a href={% url "route" %}>Add Route</a></div>
-        <div id='places-tile'>
-        	<a href={% url "accommodation" %}>Add Accommodation</a></div>
-        <div id='schedule-tile'><a href={% url "place" %}>Add Place</a></div>
+        <div id='holiday-list'>
+            <ul>
+            {% for holiday in holiday_list %}
+                <li>
+                    <div class='holiday-tile'>
+                        <a href={% url 'holiday_home' holiday.name %}>
+                            {{ holiday.name }}
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div id='add-holiday-tile'>
+            <a href={% url 'holiday' %}>Add Holiday</a>
+        </div>
     </div>
 </div>
 {% endblock %}

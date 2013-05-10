@@ -9,7 +9,6 @@ from django.http import HttpResponse
 from models import Attachment, Holiday, Route, Accommodation, Place
 from forms import HolidayForm, RouteForm, AccommodationForm, PlaceForm
 import time
-import re
 
 
 def mobile(request):
@@ -18,24 +17,36 @@ def mobile(request):
 
 @login_required
 def home(request):
+    holiday_list = Holiday.objects.all()
+    data = {"holiday_list": holiday_list}
+    return render_to_response('homepage.html', data, RequestContext(request))
+
+
+def holiday_home(request, holiday):
     referer = request.META.get('HTTP_REFERER')
     if referer:
-        referer = re.sub('^https?:\/\/', '', referer).split('/')[1]
-        if Holiday.__name__.lower() == referer:
-            form = HolidayForm(request.POST)
-        elif Route.__name__.lower() == referer:
+        referer = referer.rsplit('/', 2)[1]
+        if Route.__name__.lower() == referer:
             form = RouteForm(request.POST)
         elif Accommodation.__name__.lower() == referer:
             form = AccommodationForm(request.POST)
         elif Place.__name__.lower() == referer:
             form = PlaceForm(request.POST)
-        print(referer)
-        if form.is_valid():
-            form.save()
         else:
-            # TODO: Error handling!
-            print("Error: not valid or missing input")
-    return render_to_response('homepage.html', {}, RequestContext(request))
+            form = ''
+        if form:
+            if form.is_valid():
+                form.save()
+                # TODO: save holiday reference
+                # TODO: Print message saved successfully
+                print("Save successful!")
+            else:
+                # TODO: Print error message and redirect back to form
+                print("Error: Not valid input!")
+    holiday_obj = Holiday.objects.get(name=holiday)
+    data = {"holiday_obj": holiday_obj}
+    return render_to_response('holiday_home.html', data,
+                              RequestContext(request))
 
 
 def holiday(request):
@@ -44,21 +55,36 @@ def holiday(request):
                               RequestContext(request))
 
 
-def route(request):
-    form = RouteForm()
-    return render_to_response('route.html', {'form': form},
+def route(request, holiday, route):
+    holiday_obj = Holiday.objects.get(name=holiday)
+    if route:
+        route_obj = holiday_obj.routes.get(name=route)
+        form = RouteForm(instance=route_obj)
+    else:
+        form = RouteForm()
+    return render_to_response('route.html', {'form': form, 'holiday': holiday},
                               RequestContext(request))
 
 
-def accommodation(request):
-    form = AccommodationForm()
-    return render_to_response('accommodation.html', {'form': form},
-                              RequestContext(request))
+def accommodation(request, holiday, accom):
+    holiday_obj = Holiday.objects.get(name=holiday)
+    if accom:
+        accom_obj = holiday_obj.accommodations.get(name=accom)
+        form = AccommodationForm(instance=accom_obj)
+    else:
+        form = AccommodationForm()
+    return render_to_response('accommodation.html', {'form': form,
+                              'holiday': holiday}, RequestContext(request))
 
 
-def place(request):
-    form = PlaceForm()
-    return render_to_response('place.html', {'form': form},
+def place(request, holiday, place):
+    holiday_obj = Holiday.objects.get(name=holiday)
+    if place:
+        place_obj = holiday_obj.places.get(name=place)
+        form = PlaceForm(instance=place_obj)
+    else:
+        form = PlaceForm()
+    return render_to_response('place.html', {'form': form, 'holiday': holiday},
                               RequestContext(request))
 
 
