@@ -18,18 +18,22 @@ window.addEventListener = function(name, callback, b) {
 
 (function ($) {
     $.fn.rotationDegrees = function () {
-         var matrix = this.css("-webkit-transform") ||
-    this.css("-moz-transform")    ||
-    this.css("-ms-transform")     ||
-    this.css("-o-transform")      ||
-    this.css("transform");
-    if(typeof matrix === 'string' && matrix !== 'none') {
-        var values = matrix.split('(')[1].split(')')[0].split(',');
-        var a = values[0];
-        var b = values[1];
-        var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
-    } else { var angle = 0; }
-    return angle;
+        if (this.get(0).style.webkitTransform) {
+            return parseInt(this.get(0).style.webkitTransform.substring('rotate('.length));
+        }
+
+        var matrix = this.css("-webkit-transform") ||
+        this.css("-moz-transform")    ||
+        this.css("-ms-transform")     ||
+        this.css("-o-transform")      ||
+        this.css("transform");
+        if(typeof matrix === 'string' && matrix !== 'none') {
+            var values = matrix.split('(')[1].split(')')[0].split(',');
+            var a = values[0];
+            var b = values[1];
+            var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+        } else { var angle = 0; }
+        return angle;
    };
 }(jQuery));
 
@@ -97,13 +101,13 @@ describe('NavigationView', function() {
             // wait until events are fired
             window.setTimeout(function() {
                 deviceorientationCallback({
-                    alpha: 35.0
+                    alpha: 305.0
                 });
                 var angle = $('#arrow-ctn').rotationDegrees();
                 expect( angle ).to.be(35);
                 ctn.innerHTML = '';
                 done();
-            }, 50);
+            }, 100);
         });
     });
 

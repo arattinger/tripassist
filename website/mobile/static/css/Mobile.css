@@ -130,9 +130,10 @@ body {
   margin-top: 10px;
 }
 .list-ctn ul li .info-ctn {
-  width: 42px;
+  width: 120px;
   height: 42px;
   margin: 5px;
+  text-align: right;
   float: right;
 }
 .list-ctn ul li .info-ctn p {

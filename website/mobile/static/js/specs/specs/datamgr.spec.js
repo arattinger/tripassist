@@ -104,7 +104,7 @@ describe('DataManager', function() {
     it('retrieve places list from places_1.json file', function(done) {
         datamgr.loadHoliday(1, function() {
             var list = datamgr.getPlacesList();
-            expect( list.length ).to.be(1);
+            expect( list.length ).to.be(3);
             expect( list[0].name ).to.be('Ristorante Milano');
             done();
         });

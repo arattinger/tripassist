@@ -1,0 +1,24 @@
+<div id='waiting-msg'>Waiting for location...</div>
+<div class='list-ctn'>
+    {{#if sublists.length}}
+    {{#each sublists}}
+    {{#if items.length}}
+    <div class='sublist'>{{name}}</div>
+    <ul>
+        {{#each items}}
+        <li data-id='{{id}}'>
+            <div class='label'>{{label}}</div>
+            {{#if info}}
+            <div class='info-ctn'>{{info}}</div>
+            {{/if}}
+            <div class='map-btn'></div>
+            <div class='navigate-btn'></div>
+        </li>
+        {{/each}}
+    </ul>
+    {{/if}}
+    {{/each}}
+    {{else}}
+    No accommodations defined yet!
+    {{/if}}
+</div>

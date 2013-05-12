@@ -10,6 +10,8 @@ $(document).ready(function() {
         'views/accommodationsview',
         'views/mainview',
         'views/navigationview',
+        'views/placesview',
+        'views/placedetailview',
         'views/routedetailview',
         'views/routesview',
         'views/selectholidayview',
@@ -23,11 +25,14 @@ $(document).ready(function() {
         'accommodationsview',
         'mainview',
         'navigationview',
+        'placesview',
+        'placedetailview',
         'routedetailview',
         'routesview',
         'selectholidayview',
         'selectholidayview-list',
-        'svgview'
+        'svgview',
+        'waiting'
     ];
 
     var loadClassCounter = 0;

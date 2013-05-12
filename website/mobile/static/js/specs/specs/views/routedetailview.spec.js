@@ -26,7 +26,7 @@ describe('RouteDetailView', function() {
             detailView.render(ctn, datamgr.getRoute(1), function() {
                 expect( $('.detail-info-ctn').get(0).innerHTML ).to.be('Apr 23<sup>rd</sup>, 17:27 at Main Station');
                 expect( $('.detail-info-ctn').get(1).innerHTML ).to.be('Apr 24<sup>th</sup>, 21:15 at Railway station');
-                expect( $('.detail-info-ctn').get(2).innerHTML ).to.be('27 h 48 min, 76.0 km');
+                expect( $('.detail-info-ctn').get(2).innerHTML ).to.be('27 h 48 min, 39 m');
                 expect( $('.label').get(0).innerHTML ).to.be('Bus_ticket.pdf');
                 done();
             });    

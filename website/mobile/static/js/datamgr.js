@@ -189,7 +189,7 @@ var TripAssist;
             }
             return null;
         };
-        DataManager.prototype.getPlacesList = function (holiday_id) {
+        DataManager.prototype.getPlacesList = function () {
             if(this.loaded_holiday_) {
                 return this.places_;
             }

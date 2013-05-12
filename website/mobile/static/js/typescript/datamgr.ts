@@ -298,7 +298,7 @@ module TripAssist {
         /**
          * returns a list of places that belong to the specified holiday
          */
-        public getPlacesList(holiday_id: number) : TripAssist.Place[] {
+        public getPlacesList() : TripAssist.Place[] {
             if (this.loaded_holiday_) {
                 return this.places_;
             }
