@@ -3,19 +3,6 @@ $(document).ready(function() {
 
     // define all classes to be fetched from server
     var CLASSES = [
-        'application',
-        'datamgr',
-        'utils',
-        'views/accommodationdetailview',
-        'views/accommodationsview',
-        'views/mainview',
-        'views/navigationview',
-        'views/placesview',
-        'views/placedetailview',
-        'views/routedetailview',
-        'views/routesview',
-        'views/selectholidayview',
-        'views/svgview'
     ];
 
     // define all templates to be fetched from server

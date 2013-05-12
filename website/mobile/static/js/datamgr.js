@@ -5,7 +5,7 @@ var TripAssist;
             this.user_ = user;
             this.offline_holidays_ = [];
             this.loaded_offline_ = false;
-            this.base_url_ = '/mobile/download/' + this.user_.username + '/';
+            this.base_url_ = '/download/' + this.user_.username + '/';
             this.current_holiday_id_ = 0;
             this.loaded_holiday_ = false;
             this.routes_ = [];
