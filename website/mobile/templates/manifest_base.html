@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" manifest="/mobile/manifest/cache.manifest">
+
+<head>
+  <meta charset="utf-8" />
+  <title>{% block main-title %}{% endblock %}</title>
+
+  <!--[if IE 9]>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+  <![endif]-->
+  {% block main-meta %}{% endblock %}
+
+  <!-- Hacks for Microsoft -->
+  <!--[if lt IE 9]>
+  <script src="https://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js">
+    IE7_PNG_SUFFIX=".png";
+  </script>
+  <![endif]-->
+  {% block main-head %}{% endblock %}
+</head>
+
+<body>
+<div class="ez-wm">
+  <div id="main-header-wrapper" class="ez-box">
+  </div>
+
+  <div id="main-content-wrapper" class="ez-box">
+    <div id="main-content">
+      {% block main-content %}{% endblock %}
+    </div>
+  </div>
+
+  <div id="main-footer-wrapper" class="ez-box">
+    <div id="main-footer">
+    </div>
+  </div>
+</div>
+
+{% block body-end %}
+{% endblock %}
+
+</body>
+</html>
+

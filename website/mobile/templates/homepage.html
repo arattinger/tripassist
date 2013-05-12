@@ -1,0 +1,34 @@
+{% extends "content_base.html" %}
+
+{% block main-title %} Homepage {% endblock %}
+
+{% block main-head %}
+
+{% endblock %}
+
+{% block content %}
+<h1>Holidays</h1>
+<div class='tiles-wrapper'>
+    <div class='tiles-ctn'>
+        <div id='holiday-list'>
+            <ul>
+            {% for holiday in holiday_list %}
+                <li>
+                    <div class='holiday-tile'>
+                        <a href={% url 'holiday_home' holiday.name %}>
+                            {{ holiday.name }}
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div id='add-holiday-tile'>
+            <a href={% url 'holiday' %}>Add Holiday</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block main-meta %}
+{% endblock %}
