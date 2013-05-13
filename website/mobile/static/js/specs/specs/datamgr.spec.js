@@ -134,7 +134,7 @@ describe('DataManager', function() {
     });
 
     it('test attachment url', function() {
-        expect( datamgr.getAttachmentUrl('mytoken', '.ext') ).to.be('/mobile/download/test/mytoken.ext');
+        expect( datamgr.getAttachmentUrl('mytoken', '.ext') ).to.be('/download/test/mytoken.ext');
     });
 
 });

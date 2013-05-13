@@ -13,6 +13,7 @@ var TripAssist;
                 new TripAssist.SVGView(this.datamgr, this), 
                 new TripAssist.NavigationView(this.datamgr, this), 
                 new TripAssist.PlacesView(this.datamgr, this), 
+                new TripAssist.ScheduleView(this.datamgr, this), 
                 new TripAssist.PlaceDetailView(this.datamgr, this), 
                 new TripAssist.AccommodationsView(this.datamgr, this), 
                 new TripAssist.AccommodationDetailView(this.datamgr, this)

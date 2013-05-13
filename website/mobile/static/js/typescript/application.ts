@@ -10,6 +10,7 @@
 /// <reference path="views/placedetailview.ts" />
 /// <reference path="views/routedetailview.ts" />
 /// <reference path="views/routesview.ts" />
+/// <reference path="views/scheduleview.ts" />
 /// <reference path="views/selectholidayview.ts" />
 /// <reference path="views/svgview.ts" />
 
@@ -50,6 +51,7 @@ module TripAssist {
                 new SVGView(this.datamgr, this),
                 new NavigationView(this.datamgr, this),
                 new PlacesView(this.datamgr, this),
+                new ScheduleView(this.datamgr, this),
                 new PlaceDetailView(this.datamgr, this),
                 new AccommodationsView(this.datamgr, this),
                 new AccommodationDetailView(this.datamgr, this)

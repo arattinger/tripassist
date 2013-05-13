@@ -16,6 +16,7 @@ $(document).ready(function() {
         'placedetailview',
         'routedetailview',
         'routesview',
+        'scheduleview',
         'selectholidayview',
         'selectholidayview-list',
         'svgview',

@@ -77,6 +77,11 @@ module TripAssist {
                 self.app.loadView('PlacesView', null);
                 return false;
             });
+
+            $('#schedule-tile').on('tap', function() {
+                self.app.loadView('ScheduleView', null);
+                return false;
+            });
         }
 
     }

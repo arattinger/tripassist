@@ -13,6 +13,7 @@ $(document).ready(function() {
         'views/navigationview',
         'views/routedetailview',
         'views/routesview',
+        'views/scheduleview',
         'views/selectholidayview',
         'views/svgview'
     ];
@@ -28,6 +29,7 @@ $(document).ready(function() {
         'placedetailview',
         'routedetailview',
         'routesview',
+        'scheduleview',
         'selectholidayview',
         'selectholidayview-list',
         'svgview',
