@@ -1,11 +1,9 @@
 var TripAssist;
 (function (TripAssist) {
     var DataManager = (function () {
-        function DataManager(user) {
-            this.user_ = user;
+        function DataManager() {
             this.offline_holidays_ = [];
             this.loaded_offline_ = false;
-            this.base_url_ = '/download/' + this.user_.username + '/';
             this.current_holiday_id_ = 0;
             this.loaded_holiday_ = false;
             this.routes_ = [];
@@ -43,6 +41,26 @@ var TripAssist;
                 return a.start.getTime() - b.start.getTime();
             }
             this.schedule_.sort(mySort);
+        };
+        DataManager.prototype.setUsername = function (username) {
+            this.base_url_ = '/download/' + username + '/';
+        };
+        DataManager.prototype.login = function (username, password, callback) {
+            localStorage["userdata"] = JSON.stringify({
+                username: username,
+                password: password
+            });
+            this.setUsername(username);
+            callback(true, '');
+        };
+        DataManager.prototype.loadUser = function () {
+            if(localStorage["userdata"]) {
+                var result = JSON.parse(localStorage['userdata']);
+                this.setUsername(result.username);
+                return result;
+            } else {
+                return null;
+            }
         };
         DataManager.prototype.getAttachmentUrl = function (token, extension) {
             return this.base_url_ + token + extension;

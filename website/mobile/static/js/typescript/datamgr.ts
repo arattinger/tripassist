@@ -65,17 +65,49 @@ module TripAssist {
             this.schedule_.sort(mySort);
          }
 
-        constructor (user : User) {
-            this.user_ = user;
+        private setUsername(username: string) : void {
+            this.base_url_ = '/download/' + username + '/';
+        }
+
+        constructor () {
             this.offline_holidays_ = [];
             this.loaded_offline_ = false;
-            this.base_url_ = '/download/' + this.user_.username + '/';
             this.current_holiday_id_ = 0;
             this.loaded_holiday_ = false;
             this.routes_ = [];
             this.accommodations_ = [];
             this.places_ = [];
             this.schedule_ = [];
+        }
+
+        /**
+         * logs a user in and saves the login data
+         * @param username the username
+         * @param password the password credentials
+         * @param callback(success, errorMsg) is called when login has finished
+         */
+        public login(username : string, password: string, callback: (success: bool, errorMsg: string) => void) : void {
+            localStorage["userdata"] = JSON.stringify({
+                username: username,
+                password: password
+            });
+            // TODO: check username online?
+            this.setUsername(username);
+            callback(true, '');
+        }
+
+        /**
+         * loads the offline user data
+         * @return a struct containing a username and password member or null if no data was stored
+         */
+        public loadUser() : any {
+            if (localStorage["userdata"]) {
+                var result = JSON.parse(localStorage['userdata']);
+                this.setUsername(result.username);
+                return result;
+            } else {
+                return null;
+            }
         }
 
         /**

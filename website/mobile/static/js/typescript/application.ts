@@ -11,6 +11,7 @@
 /// <reference path="views/routedetailview.ts" />
 /// <reference path="views/routesview.ts" />
 /// <reference path="views/scheduleview.ts" />
+/// <reference path="views/loginview.ts" />
 /// <reference path="views/selectholidayview.ts" />
 /// <reference path="views/svgview.ts" />
 
@@ -42,8 +43,9 @@ module TripAssist {
             // define views
             // TODO: change username accordingly (from localstorage?)
             // e.g. if (!this.datamgr.loadUser()) { viewStack.push(new LoginView()); }
-            this.datamgr = new TripAssist.DataManager({ username: 'test'});
+            this.datamgr = new TripAssist.DataManager();
             this.views = [
+                new LoginView(this.datamgr, this),
                 new SelectHolidayView(this.datamgr, this),
                 new MainView(this.datamgr, this),
                 new RouteDetailView(this.datamgr, this),
@@ -54,12 +56,17 @@ module TripAssist {
                 new ScheduleView(this.datamgr, this),
                 new PlaceDetailView(this.datamgr, this),
                 new AccommodationsView(this.datamgr, this),
-                new AccommodationDetailView(this.datamgr, this)
+                new AccommodationDetailView(this.datamgr, this),
             ];
 
             // add first view to stack
             this.viewStack = [];
-            this.viewStack.push(this.views[0]);
+
+            if (this.datamgr.loadUser() == null) {
+                this.viewStack.push(this.views[0]); // load login view
+            } else {
+                this.viewStack.push(this.views[1]); // load select holidayview
+            }
         }
 
         /**
@@ -130,6 +137,22 @@ module TripAssist {
         }
 
         /**
+         * to be called when login or settings are done
+         */
+        public settingsDone() : void {
+            if (this.viewStack.length > 1) {
+                if (history && history.pushState) {
+                    history.back();
+                } else {
+                    this.unloadView();
+                }
+            } else {
+                this.viewStack = [this.views[1]]; // select holiday view
+                this.renderView(null);
+            }
+        }
+
+        /**
          * unloads the top view
          */
         private unloadView() : void{
@@ -179,6 +202,12 @@ module TripAssist {
 
             // resize initially
             resize();
+
+            var self = this;
+            $('#settings-btn').on('tap', function() {
+                self.loadView('LoginView', null);
+                return false;
+            })
         }
     }
 }
