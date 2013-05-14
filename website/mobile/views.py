@@ -17,33 +17,45 @@ def mobile(request):
 
 @login_required
 def home(request):
+    referer = request.META.get('HTTP_REFERER')
+    if referer:
+        referer = referer.rsplit('/', 2)[1]
+        if Holiday.__name__.lower() == referer:
+            form = HolidayForm(request.POST)
+            if form.is_valid():
+                form.save()
+            else:
+                print("Error")
     holiday_list = Holiday.objects.all()
     data = {"holiday_list": holiday_list}
     return render_to_response('homepage.html', data, RequestContext(request))
 
 
 def holiday_home(request, holiday):
+    holiday_obj = Holiday.objects.get(name=holiday)
     referer = request.META.get('HTTP_REFERER')
     if referer:
         referer = referer.rsplit('/', 2)[1]
         if Route.__name__.lower() == referer:
             form = RouteForm(request.POST)
+            model = holiday_obj.routes
         elif Accommodation.__name__.lower() == referer:
             form = AccommodationForm(request.POST)
+            model = holiday_obj.accommodations
         elif Place.__name__.lower() == referer:
             form = PlaceForm(request.POST)
+            model = holiday_obj.places
         else:
             form = ''
         if form:
             if form.is_valid():
-                form.save()
-                # TODO: save holiday reference
+                instance = form.save()
+                model.add(instance)
                 # TODO: Print message saved successfully
                 print("Save successful!")
             else:
                 # TODO: Print error message and redirect back to form
                 print("Error: Not valid input!")
-    holiday_obj = Holiday.objects.get(name=holiday)
     data = {"holiday_obj": holiday_obj}
     return render_to_response('holiday_home.html', data,
                               RequestContext(request))
