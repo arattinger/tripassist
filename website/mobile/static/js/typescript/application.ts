@@ -76,9 +76,19 @@ module TripAssist {
             // add back functionality
             var self = this;
             $('#back-btn').on('tap', function() {
-                self.unloadView();
+                if (history && history.pushState) {
+                    history.back();
+                } else {
+                    self.unloadView();
+                }
                 return false;
             });
+
+            if (window.addEventListener) {
+                window.addEventListener('popstate', function(e) {
+                    self.unloadView();
+                });
+            }
 
             this.addEvents();
 
@@ -109,6 +119,11 @@ module TripAssist {
                     this.viewStack[this.viewStack.length-1].store();
                     // push new view
                     this.viewStack.push(view);
+
+                    // add history item
+                    if (history && history.pushState) {
+                        history.pushState(null, null, '?' + view.name());
+                    }
                 }
                 this.renderView(data);
             }
@@ -117,7 +132,7 @@ module TripAssist {
         /**
          * unloads the top view
          */
-        public unloadView() : void{
+        private unloadView() : void{
 
             if (this.viewStack.length > 1) {
                 this.viewStack[this.viewStack.length-1].unload();

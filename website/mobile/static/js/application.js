@@ -26,9 +26,18 @@ var TripAssist;
             $('#main-ctn').html(this.mainTemplate());
             var self = this;
             $('#back-btn').on('tap', function () {
-                self.unloadView();
+                if(history && history.pushState) {
+                    history.back();
+                } else {
+                    self.unloadView();
+                }
                 return false;
             });
+            if(window.addEventListener) {
+                window.addEventListener('popstate', function (e) {
+                    self.unloadView();
+                });
+            }
             this.addEvents();
             this.renderView(null);
         };
@@ -46,6 +55,9 @@ var TripAssist;
                 if(this.viewStack[this.viewStack.length - 1] != view) {
                     this.viewStack[this.viewStack.length - 1].store();
                     this.viewStack.push(view);
+                    if(history && history.pushState) {
+                        history.pushState(null, null, '?' + view.name());
+                    }
                 }
                 this.renderView(data);
             }
