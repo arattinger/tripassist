@@ -93,7 +93,8 @@ module TripAssist {
             });
             // TODO: check username online?
             this.setUsername(username);
-            callback(true, '');
+            if (callback)
+                callback(true, '');
         }
 
         /**

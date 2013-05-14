@@ -6,7 +6,8 @@ describe('DataManager', function() {
         var user = {
             username: "test"
         };
-        datamgr = new TripAssist.DataManager(user);
+        datamgr = new TripAssist.DataManager();
+        datamgr.login('test', 'emptypwd', null);
     });
 
     function createHoliday(id) {

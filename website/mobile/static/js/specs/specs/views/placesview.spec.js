@@ -10,7 +10,8 @@ describe('PlacesView', function() {
         var user = {
             username: "test"
         };
-        datamgr = new TripAssist.DataManager(user);
+        datamgr = new TripAssist.DataManager();
+        datamgr.login('test', 'emptypwd', null);
         app = {
             loadedName: null,
             loadedData: null,

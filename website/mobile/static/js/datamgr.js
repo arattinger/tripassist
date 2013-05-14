@@ -51,7 +51,9 @@ var TripAssist;
                 password: password
             });
             this.setUsername(username);
-            callback(true, '');
+            if(callback) {
+                callback(true, '');
+            }
         };
         DataManager.prototype.loadUser = function () {
             if(localStorage["userdata"]) {
