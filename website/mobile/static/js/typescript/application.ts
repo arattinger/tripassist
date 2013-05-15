@@ -140,21 +140,10 @@ module TripAssist {
          * to be called when login or settings are done
          */
         public settingsDone() : void {
-            if (this.viewStack.length == 1) {
-                for (var i = 0; i<this.views.length; i++) {
-                        this.views[i].unload(); // need to be reloaded
-                    }
-                if (history && history.pushState) {
-                    history.back();
-                } else {
-                    this.unloadView();
-                }
-            } else {
-                this.unloadView();
-                this.views[1].unload();
-                this.viewStack = [this.views[1]]; // select holiday view
-                this.renderView(null);
-            }
+            this.views[0].unload(); // unload login view properly
+            this.views[1].unload(); // restore select holiday view
+            this.viewStack = [this.views[1]]; // select holiday view
+            this.renderView(null);
         }
 
         /**

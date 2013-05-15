@@ -67,23 +67,12 @@ var TripAssist;
             }
         };
         Application.prototype.settingsDone = function () {
-            if(this.viewStack.length == 1) {
-                for(var i = 0; i < this.views.length; i++) {
-                    this.views[i].unload();
-                }
-                if(history && history.pushState) {
-                    history.back();
-                } else {
-                    this.unloadView();
-                }
-            } else {
-                this.unloadView();
-                this.views[1].unload();
-                this.viewStack = [
-                    this.views[1]
-                ];
-                this.renderView(null);
-            }
+            this.views[0].unload();
+            this.views[1].unload();
+            this.viewStack = [
+                this.views[1]
+            ];
+            this.renderView(null);
         };
         Application.prototype.unloadView = function () {
             if(this.viewStack.length > 1) {
