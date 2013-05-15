@@ -1,7 +1,19 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url("/static/css/opensans.woff") format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url("/static/css/opensans.woff") format('woff');
+}
 body {
   background: #000;
   color: #fff;
-  font-family: Verdana, Sans-serif;
+  font-family: "Open Sans", "Segoe UI", Verdana, Sans-serif;
   margin: 0px;
   height: 100%;
   width: 100%;
@@ -36,11 +48,13 @@ body {
 }
 #header-ctn #title {
   float: left;
-  font-size: 28px;
+  font-size: 16px;
   margin-left: 10px;
-  margin-top: 10px;
+  margin-top: 18px;
+  letter-spacing: 0px;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: lowercase;
 }
 #content-ctn {
   position: absolute;
@@ -97,25 +111,32 @@ body {
   width: 100%;
   height: 55px;
 }
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url("/static/css/opensans.woff") format('woff');
+}
 .list-ctn {
   margin: 10px;
-  margin-bottom: 25px;
+  margin-bottom: 45px;
 }
 .list-ctn .sublist {
   font-size: 16px;
   clear: both;
+  text-transform: uppercase;
 }
 .list-ctn .empty-list {
-  font-size: 14px;
+  font-size: 12px;
   margin-left: 10px;
   margin-top: 10px;
-  margin-bottom: 25px;
 }
 .list-ctn ul {
   list-style-type: none;
   margin: 0px;
-  margin-top: 10px;
+  margin-top: 0px;
   padding-left: 10px;
+  margin-bottom: 20px;
 }
 .list-ctn ul li {
   clear: right;
@@ -126,7 +147,7 @@ body {
 }
 .list-ctn ul li .label {
   float: left;
-  font-size: 24px;
+  font-size: 26px;
   margin-top: 10px;
 }
 .list-ctn ul li .info-ctn {
@@ -138,7 +159,7 @@ body {
 }
 .list-ctn ul li .info-ctn p {
   margin: 0px;
-  font-size: 14px;
+  font-size: 12px;
 }
 .tiles-wrapper {
   text-align: center;
@@ -199,6 +220,12 @@ body {
   top: 50%;
   bottom: 0%;
 }
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url("/static/css/opensans.woff") format('woff');
+}
 #bottom-ctn {
   position: fixed;
   bottom: 0px;
@@ -231,20 +258,23 @@ body {
   right: 0px;
   z-index: 3;
   background-color: #000;
-  font-size: 24px;
+  font-size: 26px;
   text-align: center;
   line-height: 100%;
 }
 .detail-label-ctn {
-  margin-top: 40px;
   margin-left: 10px;
   margin-right: 10px;
-  font-size: 18px;
+  font-size: 16px;
+  text-transform: uppercase;
 }
 .detail-info-ctn {
   margin: 10px;
-  font-size: 14px;
-  text-align: right;
+  margin-left: 20px;
+  margin-bottom: 35px;
+  font-size: 16px;
+  text-align: left;
+  color: #ddd;
 }
 #svg-ctn {
   background-color: #fff;
@@ -252,8 +282,15 @@ body {
   width: 100%;
   height: 100%;
 }
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url("/static/css/opensans.woff") format('woff');
+}
 .login-wrapper {
   text-align: center;
+  margin: auto;
 }
 .login-wrapper .logo-ctn {
   width: 128px;
@@ -277,21 +314,26 @@ body {
 }
 .login-wrapper .form-ctn .form-field .form-label {
   text-align: left;
-  font-size: 14px;
+  font-size: 12px;
 }
 .login-wrapper .form-ctn .form-field input {
   clear: none;
   border: 1px solid #fff;
-  font-size: 24px;
+  font-size: 26px;
   max-width: 168px;
 }
 .login-wrapper .form-ctn .form-btn {
-  border: 1px solid #fff;
-  background: #00f;
+  border: 2px solid #fff;
+  background: #000;
   color: #fff;
-  font-size: 24px;
-  padding: 3px;
-  width: 168px;
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 5px;
+  width: 166px;
+}
+.login-wrapper .form-ctn .form-btn:active {
+  background: #fff;
+  color: #000;
 }
 .login-wrapper #info-ctn {
   position: absolute;
@@ -305,11 +347,11 @@ body {
 }
 @media all and (max-height: 400px) {
   .login-wrapper .logo-ctn {
-    float: left;
+    display: inline-block;
     margin: 5px;
   }
   .login-wrapper .form-ctn {
+    display: inline-block;
     margin: 0px;
-    float: left;
   }
 }

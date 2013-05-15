@@ -11,7 +11,7 @@ var TripAssist;
             this.currentCtn = null;
         }
         SelectHolidayView.prototype.title = function () {
-            return "Select Holiday";
+            return "select holiday";
         };
         SelectHolidayView.prototype.name = function () {
             return "SelectHolidayView";
@@ -90,7 +90,7 @@ var TripAssist;
                             previousList.html(html);
                         } else {
                             var html = self.listTemplate({
-                                title: 'Online',
+                                title: 'ONLINE',
                                 id: 'online-holidays-list',
                                 offline: false,
                                 holidays: online_holidays
@@ -122,7 +122,7 @@ var TripAssist;
                             previousList.html(html);
                         } else {
                             var html = self.listTemplate({
-                                title: 'Offline',
+                                title: 'OFFLINE',
                                 offline: true,
                                 id: 'offline-holidays-list',
                                 holidays: holidays

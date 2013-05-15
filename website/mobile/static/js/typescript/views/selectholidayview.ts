@@ -27,7 +27,7 @@ module TripAssist {
         }
 
         public title() {
-            return "Select Holiday";
+            return "select holiday";
         }
 
         public name() {
@@ -126,7 +126,7 @@ module TripAssist {
                             previousList.html(html);
                         } else { // create new list
                             var html = self.listTemplate({
-                                title: 'Online',
+                                title: 'ONLINE',
                                 id: 'online-holidays-list',
                                 offline: false,
                                 holidays : online_holidays
@@ -163,7 +163,7 @@ module TripAssist {
                             previousList.html(html);
                         } else { // create new list
                             var html = self.listTemplate({
-                                title: 'Offline',
+                                title: 'OFFLINE',
                                 offline: true,
                                 id: 'offline-holidays-list',
                                 holidays : holidays
