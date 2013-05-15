@@ -59,12 +59,14 @@ module TripAssist {
             this.storedHTML = this.currentCtn.innerHTML;
         }
 
-        public restore(ctn: HTMLElement) {
+        public restore(ctn: HTMLElement) : bool {
+            if (!this.stored) return false;
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.addEvents();
             this.loadPosition();
             this.checkSignalInterval = window.setInterval(this.checkSignal, this.TIMEOUT_NO_SIGNAL);
+            return true;
         }
 
         public unload() {

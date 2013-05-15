@@ -54,11 +54,13 @@ module TripAssist {
                 this.storedHTML = this.currentCtn.innerHTML;
         }
 
-        public restore(ctn: HTMLElement) {
+        public restore(ctn: HTMLElement) : bool {
+            if (!this.stored) return false;
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.addEvents();
             this.loadOnlineHolidays($('.list-ctn'));
+            return true;
         }
 
         public unload() {
@@ -118,7 +120,7 @@ module TripAssist {
                             var html = "";
                             for (var i = 0; i<online_holidays.length; i++) {
                                 html += "<li data-id='" + online_holidays[i].id + "'>\n"
-                                     +  "    <div class='label'>" + online_holidays[i].name + "'>\n"
+                                     +  "    <div class='label'>" + online_holidays[i].name + "'\n"
                                      +  "    <div class='download-btn'></div>";
                             }
                             previousList.html(html);
@@ -155,7 +157,7 @@ module TripAssist {
                             var html = "";
                             for (var i = 0; i<holidays.length; i++) {
                                 html += "<li data-id='" + holidays[i].id + "'>\n"
-                                     +  "    <div class='label'>" + holidays[i].name + "'>\n"
+                                     +  "    <div class='label'>" + holidays[i].name + "'\n"
                                      +  "    <div class='download-btn'></div>";
                             }
                             previousList.html(html);

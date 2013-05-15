@@ -36,10 +36,14 @@ var TripAssist;
             window.clearInterval(this.checkSignalInterval);
         };
         NavigationView.prototype.restore = function (ctn) {
+            if(!this.stored) {
+                return false;
+            }
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.startNavigation();
             this.checkSignalInterval = window.setInterval(this.checkSignal, this.TIMEOUT_NO_SIGNAL);
+            return true;
         };
         NavigationView.prototype.unload = function () {
             this.stored = false;

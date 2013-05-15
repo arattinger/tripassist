@@ -32,10 +32,14 @@ var TripAssist;
             }
         };
         SelectHolidayView.prototype.restore = function (ctn) {
+            if(!this.stored) {
+                return false;
+            }
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.addEvents();
             this.loadOnlineHolidays($('.list-ctn'));
+            return true;
         };
         SelectHolidayView.prototype.unload = function () {
             this.stored = false;
@@ -81,7 +85,7 @@ var TripAssist;
                             previousList.empty();
                             var html = "";
                             for(var i = 0; i < online_holidays.length; i++) {
-                                html += "<li data-id='" + online_holidays[i].id + "'>\n" + "    <div class='label'>" + online_holidays[i].name + "'>\n" + "    <div class='download-btn'></div>";
+                                html += "<li data-id='" + online_holidays[i].id + "'>\n" + "    <div class='label'>" + online_holidays[i].name + "'\n" + "    <div class='download-btn'></div>";
                             }
                             previousList.html(html);
                         } else {
@@ -113,7 +117,7 @@ var TripAssist;
                             previousList.empty();
                             var html = "";
                             for(var i = 0; i < holidays.length; i++) {
-                                html += "<li data-id='" + holidays[i].id + "'>\n" + "    <div class='label'>" + holidays[i].name + "'>\n" + "    <div class='download-btn'></div>";
+                                html += "<li data-id='" + holidays[i].id + "'>\n" + "    <div class='label'>" + holidays[i].name + "'\n" + "    <div class='download-btn'></div>";
                             }
                             previousList.html(html);
                         } else {

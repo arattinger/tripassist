@@ -39,9 +39,13 @@ var TripAssist;
             }
         };
         PlaceDetailView.prototype.restore = function (ctn) {
+            if(!this.stored) {
+                return false;
+            }
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.addEvents();
+            return true;
         };
         PlaceDetailView.prototype.unload = function () {
             this.stored = false;

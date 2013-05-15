@@ -31,10 +31,14 @@ var TripAssist;
             }
         };
         LoginView.prototype.restore = function (ctn) {
+            if(!this.stored) {
+                return false;
+            }
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             $('#settings-btn').hide();
             this.addEvents();
+            return true;
         };
         LoginView.prototype.unload = function () {
             this.stored = false;

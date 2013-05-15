@@ -40,11 +40,15 @@ var TripAssist;
             }
         };
         PlacesView.prototype.restore = function (ctn) {
+            if(!this.stored) {
+                return false;
+            }
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.addEvents();
             this.loadPosition();
             this.checkSignalInterval = window.setInterval(this.checkSignal, this.TIMEOUT_NO_SIGNAL);
+            return true;
         };
         PlacesView.prototype.unload = function () {
             this.stored = false;

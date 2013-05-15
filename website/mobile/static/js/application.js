@@ -67,13 +67,18 @@ var TripAssist;
             }
         };
         Application.prototype.settingsDone = function () {
-            if(this.viewStack.length > 1) {
+            if(this.viewStack.length == 1) {
+                for(var i = 0; i < this.views.length; i++) {
+                    this.views[i].unload();
+                }
                 if(history && history.pushState) {
                     history.back();
                 } else {
                     this.unloadView();
                 }
             } else {
+                this.unloadView();
+                this.views[1].unload();
                 this.viewStack = [
                     this.views[1]
                 ];
@@ -84,7 +89,9 @@ var TripAssist;
             if(this.viewStack.length > 1) {
                 this.viewStack[this.viewStack.length - 1].unload();
                 this.viewStack.pop();
-                this.viewStack[this.viewStack.length - 1].restore(document.getElementById('content-ctn'));
+                if(!this.viewStack[this.viewStack.length - 1].restore(document.getElementById('content-ctn'))) {
+                    this.renderView(null);
+                }
                 this.renderTopBar();
             }
         };

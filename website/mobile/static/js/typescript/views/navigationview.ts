@@ -65,11 +65,13 @@ module TripAssist {
             window.clearInterval(this.checkSignalInterval);
         }
 
-        public restore(ctn: HTMLElement) {
+        public restore(ctn: HTMLElement) : bool {
+            if (!this.stored) return false;
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.startNavigation();
             this.checkSignalInterval = window.setInterval(this.checkSignal, this.TIMEOUT_NO_SIGNAL);
+            return true;
         }
 
         public unload() {
