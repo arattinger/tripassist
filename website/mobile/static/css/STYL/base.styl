@@ -1,0 +1,76 @@
+@import 'definitions'
+
+body
+    background black
+    color white
+    font-family "Open Sans", "Segoe UI", Verdana, Sans-serif
+    margin 0px
+    height 100%
+    width 100%
+
+smallbutton()
+    width 42px
+    height 42px
+    margin 5px
+    background-size 42px 42px
+    background-position center
+    background-repeat no-repeat
+    background-image url('/static/images/'arguments'.png')
+
+.hidden
+    display: none
+
+#header-ctn
+    margin-left 5px
+    margin-right 5px
+    white-space nowrap
+
+    #back-btn
+        smallbutton 'back'
+        float left
+
+    #settings-btn
+        smallbutton 'settings'
+        float right
+
+    #title
+        float left
+        font-size mediumFontSize
+        margin-left 10px
+        margin-top ((52 - mediumFontSize)/2)px
+        letter-spacing 0px
+        overflow hidden
+        text-overflow ellipsis
+        text-transform lowercase
+
+
+#content-ctn
+    position absolute
+    top 60px
+    left 0px
+    bottom 0px
+    right 0px
+    min-height 10px
+    width 100%
+    overflow auto
+
+.del-btn
+    smallbutton 'delete'
+    float right
+
+.download-btn
+    smallbutton 'download'
+    float right
+
+.map-btn
+    smallbutton 'map'
+    float right
+    clear right
+
+.navigate-btn
+    smallbutton 'navigate'
+    float right
+    
+#bottom-ctn
+    width 100%
+    height 55px

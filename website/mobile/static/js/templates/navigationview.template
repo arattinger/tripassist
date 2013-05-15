@@ -1,0 +1,6 @@
+<div id='arrow-ctn' style='-webkit-transform:rotate(0deg);'></div>
+<div id='waiting-msg'>Waiting for location...</div>
+<div id='bottom-ctn'>
+    <div id='left-info-ctn'></div>
+    <div id='right-info-ctn'>--</div>
+</div>

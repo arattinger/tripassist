@@ -1,0 +1,9 @@
+<div class='view'>
+    <div id='header-ctn'>
+        <div id='back-btn' class='hidden'></div>
+        <div id='title'>title</div>
+        <div id='settings-btn'></div> 
+    </div>
+    <div id='content-ctn'>
+    </div>
+</div>

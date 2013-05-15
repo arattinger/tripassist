@@ -1,0 +1,50 @@
+tile()
+    max-width 200px
+    max-height 200px
+    margin 10px
+    border 1px solid red
+
+    position absolute
+
+.tiles-wrapper
+    text-align center
+    width: 100%
+    height: 100%
+
+    .tiles-ctn
+        position relative
+        width 90%
+        max-width 420px
+        max-height 90%
+        display inline-block
+
+        .dummy-tile
+            margin-top: 100%
+
+        #route-tile
+            tile()
+            right 50%
+            left: 0%
+            top: 0%
+            bottom: 50%
+
+        #accomm-tile
+            tile()
+            right 0%
+            left: 50%
+            top: 0%
+            bottom: 50%
+
+        #places-tile
+            tile()
+            right 50%
+            left: 0%
+            top: 50%
+            bottom: 0%
+
+        #schedule-tile
+            tile()
+            right 0%
+            left: 50%
+            top: 50%
+            bottom: 0%
