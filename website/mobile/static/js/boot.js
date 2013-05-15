@@ -49,14 +49,28 @@ $(document).ready(function() {
     }
 
     // load them and start application when done
-    for (var i = 0; i<CLASSES.length; i++) {
-        $.getScript('/static/js/' + CLASSES[i] + '.js').done(function() {
-            loadClassCounter++;
-            callback();
-        }).fail(function(jqxhr, settings, exception) {
-            console.log(exception);
-        })
-    }
+    // for (var i = 0; i<CLASSES.length; i++) {
+    //     $.getScript('/static/js/' + CLASSES[i] + '.js').done(function() {
+    //         loadClassCounter++;
+    //         callback();
+    //     }).fail(function(jqxhr, settings, exception) {
+    //         console.log(exception);
+    //     })
+    // }
+
+    // load them and start application when done
+    // for (var i = 0; i<CLASSES.length; i++) {
+    //     script = document.createElement('script');
+    //     script.src = '/static/js/' + CLASSES[i] + '.js';
+    //     script.type = 'text/javascript';
+    //     document.getElementsByTagName('head')[0].appendChild(script);
+    //     loadClassCounter++;
+    //     callback();
+    // }
+    //
+    //
+
+    callback();
 
     for (var i = 0; i<TEMPLATES.length; i++) {
         $.get('/static/js/templates/' + TEMPLATES[i] + '.template', null, null, 'html').done(function(template, textStatus, jqxhr) {
