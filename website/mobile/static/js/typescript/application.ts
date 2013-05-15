@@ -93,7 +93,6 @@ module TripAssist {
 
             if (window.addEventListener) {
                 window.addEventListener('popstate', function(e) {
-                    alert('popstate');
                     self.unloadView();
                 });
             }
