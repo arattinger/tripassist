@@ -37,7 +37,7 @@ var TripAssist;
                 departureAddress: this.route.departure_name,
                 arrivalAddress: this.route.arrival_name,
                 timeTravelled: (hours == 0 ? '' : hours + ' h ') + mins + ' min',
-                distanceTravelled: (distanceInMetres > 1000 ? (distanceInMetres / 1000).toFixed(1) + ' km' : distanceInMetres + ' m'),
+                distanceTravelled: (distanceInMetres > 1000 ? (distanceInMetres / 1000).toFixed(1) + ' km' : (distanceInMetres.toFixed(0)) + ' m'),
                 attachments: this.route.files
             });
             this.addEvents();

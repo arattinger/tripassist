@@ -153,4 +153,31 @@ module Utils {
         var d = R * c;
         return d;
     }
+
+    export function directionInDeg(origin : Position, destination: Position) {
+        var dLon = deg2rad(destination.longitude - origin.longitude);
+        var lat1 = deg2rad(origin.latitude);
+        var lat2 = deg2rad(destination.latitude);
+
+        var y = Math.sin(dLon) * Math.cos(lat2);
+        var x = Math.cos(lat1)*Math.sin(lat2) -
+                Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+
+        var result = rad2deg(Math.atan2(y, x));
+        if (result < 0) result+= 360.0;
+        return result;
+    }
+
+    export function angleInWords(angle: number) {
+        var dir = '';
+        if (angle >= 337.5 || angle < 22.5) dir = 'N';
+        else if (angle >= 22.5 && angle < 67.5) dir = 'NE';
+        else if (angle >= 67.5 && angle < 112.5) dir = 'E';
+        else if (angle >= 112.5 && angle < 157.5) dir = 'SE';
+        else if (angle >= 157.5 && angle < 202.5) dir = 'S';
+        else if (angle >= 202.5 && angle < 247.5) dir = 'SW';
+        else if (angle >= 247.5 && angle < 292.5) dir = 'W';
+        else dir = 'NW';
+        return dir;
+    }
 }

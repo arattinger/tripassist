@@ -7,7 +7,8 @@ describe('SVGView', function() {
         var user = {
             username: "test"
         };
-        datamgr = new TripAssist.DataManager(user);
+        datamgr = new TripAssist.DataManager();
+        datamgr.login('test', 'emptypwd', null);
         app = null;
         svgView = new TripAssist.SVGView(datamgr, app);
     });

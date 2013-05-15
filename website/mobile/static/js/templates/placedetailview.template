@@ -1,0 +1,35 @@
+{{#if address.length}}
+<div class='detail-label-ctn'>Address</div>
+<div class='detail-info-ctn'>{{address}}</div>
+{{/if}}
+{{#if website.length}}
+<div class='detail-label-ctn'>Web</div>
+<div class='detail-info-ctn' id='web-btn'>{{website}}</div>
+{{/if}}
+{{#if email.length}}
+<div class='detail-label-ctn'>Email</div>
+<div class='detail-info-ctn' id='email-btn'>{{email}}</div>
+{{/if}}
+{{#if phone_number.length}}
+<div class='detail-label-ctn'>Phone</div>
+<div class='detail-info-ctn' id='phone-btn'>{{phone_number}}</div>
+{{/if}}
+{{#if attachments.length}}
+<div class='list-ctn'>
+    <div class='sublist'>Attached Files</div>
+    <ul class='attachments'>
+        {{#each attachments}}
+        <li>
+            <div class='label' data-token='{{token}}'>{{filename}}</div>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+{{/if}}
+{{#if position}}
+<div id='bottom-ctn'>
+    <div id='map-btn' class='map-btn'></div>
+    <div id='navigate-btn' class='navigate-btn'></div>
+</div>
+{{/if}}
+<iframe class='hidden' name='link-target'></iframe>

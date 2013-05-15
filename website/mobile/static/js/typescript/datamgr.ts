@@ -22,13 +22,6 @@ module TripAssist {
         schedule_: TripAssist.ScheduleElem[];
 
         /**
-         * stores the offline_holidays_ list in the localStorage object
-         */
-        private storeOfflineHolidays() {
-            localStorage["offlineHolidays"] = JSON.stringify(this.offline_holidays_);
-        }
-
-        /**
          * creates a schedule from all routes, accommodations and places
          * by sorting them accordingly
          */
@@ -65,17 +58,50 @@ module TripAssist {
             this.schedule_.sort(mySort);
          }
 
-        constructor (user : User) {
-            this.user_ = user;
+        private setUsername(username: string) : void {
+            this.base_url_ = '/download/' + username + '/';
+        }
+
+        constructor () {
             this.offline_holidays_ = [];
             this.loaded_offline_ = false;
-            this.base_url_ = '/mobile/download/' + this.user_.username + '/';
             this.current_holiday_id_ = 0;
             this.loaded_holiday_ = false;
             this.routes_ = [];
             this.accommodations_ = [];
             this.places_ = [];
             this.schedule_ = [];
+        }
+
+        /**
+         * logs a user in and saves the login data
+         * @param username the username
+         * @param password the password credentials
+         * @param callback(success, errorMsg) is called when login has finished
+         */
+        public login(username : string, password: string, callback: (success: bool, errorMsg: string) => void) : void {
+            localStorage["userdata"] = JSON.stringify({
+                username: username,
+                password: password
+            });
+            // TODO: check username online?
+            this.setUsername(username);
+            if (callback)
+                callback(true, '');
+        }
+
+        /**
+         * loads the offline user data
+         * @return a struct containing a username and password member or null if no data was stored
+         */
+        public loadUser() : any {
+            if (localStorage["userdata"]) {
+                var result = JSON.parse(localStorage['userdata']);
+                this.setUsername(result.username);
+                return result;
+            } else {
+                return null;
+            }
         }
 
         /**
@@ -188,25 +214,41 @@ module TripAssist {
         /**
          * retrieves a list of already cached holidays
          */
-        public getOfflineHolidays() {
+        public getOfflineHolidays(callback: (list : TripAssist.Holiday[]) => void, failure: () => void) : void {
+            var self = this;
             if (!this.loaded_offline_) {
-                this.offline_holidays_ = [];
-                var json = localStorage["offlineHolidays"];
-                if (json)
-                    this.offline_holidays_ = JSON.parse(localStorage["offlineHolidays"]);
-                this.loaded_offline_ = true;
+                $.ajax(this.base_url_ + 'holidays.json', {
+                    dataType: 'json',
+                    success: function(data, textStatus) {
+                        // create real date objects
+                        for (var i = 0; i<data.length; i++) {
+                            data[i].created = new Date(data[i].created);
+                            data[i].last_changed = new Date(data[i].last_changed);
+                            data[i].start = new Date(data[i].start);
+                            data[i].end = new Date(data[i].end);
+                        }
+                        self.offline_holidays_ = data;
+                        self.loaded_offline_ = true;
+                        callback(self.offline_holidays_);
+                    },
+
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
+                        failure();
+                    }
+                });
+            } else {
+                callback(self.offline_holidays_);
             }
-            return this.offline_holidays_;
         }
 
         /**
          * retrieves an already cached holiday
          */
         public getOfflineHoliday(id: number) {
-            var holidays = this.getOfflineHolidays();
-            for (var i = 0; i<holidays.length; i++) {
-                if (holidays[i].id == id) {
-                    return holidays[i];
+            for (var i = 0; i<this.offline_holidays_.length; i++) {
+                if (this.offline_holidays_[i].id == id) {
+                    return this.offline_holidays_[i];
                 }
             }
             console.log("ERROR: holiday with id '" + id + "' not found!");
@@ -214,34 +256,17 @@ module TripAssist {
         }
 
         /**
-         * marks a holiday as cached
-         * @param id the id of the holiday
-         * @param name the name of the holiday
-         */
-        public addDownloadedHoliday(holiday : TripAssist.Holiday) {
-            // check if holiday does not exist downloaded already
-            for (var i = 0; i<this.offline_holidays_.length; i++) {
-                if (this.offline_holidays_[i].id == holiday.id) {
-                    return;
-                }
-            }
-            this.offline_holidays_.push(holiday);
-
-            // make changes permanent by storing in offlineadd storage
-            this.storeOfflineHolidays();
-        }
-
-        /**
          * marks a holiday as not cached
          * @param id the id of the holiday
          */
         public removeDownloadedHoliday(id: number) {
+            // TODO
             for (var i = 0; i<this.offline_holidays_.length; i++) {
                 if (this.offline_holidays_[i].id == id) {
                     this.offline_holidays_.splice(i, 1);
 
                     // make changes permanent by storing in offline storage
-                    this.storeOfflineHolidays();
+                    //this.storeOfflineHolidays();
                     return;
                 }
             }   
@@ -298,7 +323,7 @@ module TripAssist {
         /**
          * returns a list of places that belong to the specified holiday
          */
-        public getPlacesList(holiday_id: number) : TripAssist.Place[] {
+        public getPlacesList() : TripAssist.Place[] {
             if (this.loaded_holiday_) {
                 return this.places_;
             }

@@ -110,4 +110,62 @@ describe('Utils', function() {
         expect( d.format('%Y') ).to.be('2013');
     });
 
+    it('test angle in words N', function() {
+        expect ( Utils.angleInWords(0) ).to.be('N');
+    });
+
+    it('test angle in words NE', function() {
+        expect ( Utils.angleInWords(45) ).to.be('NE');
+    });
+
+    it('test angle in words E', function() {
+        expect ( Utils.angleInWords(90) ).to.be('E');
+    });
+
+    it('test angle in words SE', function() {
+        expect ( Utils.angleInWords(124) ).to.be('SE');
+    });
+
+    it('test angle in words S', function() {
+        expect ( Utils.angleInWords(170) ).to.be('S');
+    });
+
+    it('test angle in words SW', function() {
+        expect ( Utils.angleInWords(220) ).to.be('SW');
+    });
+
+    it('test angle in words W', function() {
+        expect ( Utils.angleInWords(275) ).to.be('W');
+    });
+
+    it('test angle in words NW', function() {
+        expect ( Utils.angleInWords(300) ).to.be('NW');
+    });
+
+    it('test direction in degrees', function() {
+        var pos1 = {
+            longitude: 15.13,
+            latitude: 47.12
+        };
+
+        var pos2 = {
+            longitude: 15.12,
+            latitude: 46.99
+        };
+        expect ( Math.round(Utils.directionInDeg(pos1, pos2)) ).to.be(183);
+    });
+
+    it('test direction in degrees 2', function() {
+        var pos1 = {
+            longitude: 15.433871,
+            latitude: 47.070644
+        };
+
+        var pos2 = {
+            longitude: 15.437486,
+            latitude: 47.073943
+        };
+        expect ( Math.round(Utils.directionInDeg(pos1, pos2)) ).to.be(37);
+    });
+
 });

@@ -37,7 +37,7 @@ module TripAssist {
             this.currentCtn = null;
             this.currentNavItem = null;
             this.checkSignalInterval = null;
-            this.TIMEOUT_NO_SIGNAL = 30000;
+            this.TIMEOUT_NO_SIGNAL = 120000;
         }
 
         public title() {
@@ -81,11 +81,9 @@ module TripAssist {
         }
 
         private checkSignal() {
-            console.log('checking signal');
             // hide message if signal and orientation are available, display otherwise
             var now = new Date().getTime();
             if (this.lastLocation && this.lastOrientation) {
-                console.log((now - this.lastLocation.getTime()) + ' and ' + (now - this.lastOrientation.getTime()));
                 if ( (now - this.lastLocation.getTime()) < this.TIMEOUT_NO_SIGNAL && (now - this.lastOrientation.getTime()) < this.TIMEOUT_NO_SIGNAL ) {
                     $('#waiting-msg').hide();
                     return;
@@ -106,10 +104,10 @@ module TripAssist {
             this.checkSignalInterval = window.setInterval(this.checkSignal, this.TIMEOUT_NO_SIGNAL);
 
             function setArrow(phone_angle, target_angle) {
+                phone_angle = 360-phone_angle; // revert for correct display
                 var angle = parseInt(-phone_angle + target_angle, 10);
-                angle = -angle; // revert for correct display
-                if (angle < 0) angle+= 360;
-                if (angle > 360) angle-= 360;
+                while (angle < 0) angle+= 360;
+                while (angle > 360) angle-= 360;
                 $('#arrow-ctn').css('-webkit-transform', 'rotate(' + angle + 'deg)');
                 $('#arrow-ctn').css('-moz-transform', 'rotate(' + angle + 'deg)');
                 $('#arrow-ctn').css('-ms-transform', 'rotate(' + angle + 'deg)');
@@ -120,15 +118,7 @@ module TripAssist {
             function setInfo() {
                 var dist = Math.round(targetDistance) + 'm';
                 if (targetDistance > 1000) dist = (targetDistance / 1000.0).toFixed(1) + 'km';
-                var dir = '';
-                if (targetAngle >= 337.5 || targetAngle < 22.5) dir = 'N';
-                else if (targetAngle >= 22.5 && targetAngle < 67.5) dir = 'NE';
-                else if (targetAngle >= 67.5 && targetAngle < 112.5) dir = 'E';
-                else if (targetAngle >= 112.5 && targetAngle < 157.5) dir = 'SE';
-                else if (targetAngle >= 157.5 && targetAngle < 202.5) dir = 'S';
-                else if (targetAngle >= 202.5 && targetAngle < 247.5) dir = 'SW';
-                else if (targetAngle >= 247.5 && targetAngle < 292.5) dir = 'W';
-                else dir = 'NW';
+                var dir = Utils.angleInWords(targetAngle);
                 $('#right-info-ctn').html('<p>' + dist + '</p><p>' + dir + '</p>');
 
                 // calculate remaining time
@@ -156,13 +146,20 @@ module TripAssist {
 
             function deviceorientation(eventData) {
                 var phone_angle = eventData.alpha;
-
-                var dLon = currentPosition.longitude - self.currentNavItem.longitude;
-
-                var y = Math.sin(dLon) * Math.cos(dLon);
-                var x = Math.cos(currentPosition.latitude)*Math.sin(self.currentNavItem.latitude) -
-                Math.sin(currentPosition.latitude)*Math.cos(self.currentNavItem.latitude)*Math.cos(dLon);
-                targetAngle = rad2deg(Math.atan2(y, x));
+                // add or remove according to browser
+                // see http://lists.w3.org/Archives/Public/public-geolocation/2012Jun/0000.html
+                var nua = navigator.userAgent;
+                if (nua.indexOf('Android') > -1 && nua.indexOf('Opera') == -1 && nua.indexOf('Gecko') == -1) {// native android or chrome
+                    phone_angle -= 90;
+                    if (phone_angle < 0)
+                        phone_angle += 360;
+                }
+                if (nua.indexOf('Safari') > -1) { // if IOS
+                    phone_angle += 90;
+                    if (phone_angle > 360)
+                        phone_angle -= 360;
+                }
+                targetAngle = Utils.directionInDeg(currentPosition, self.currentNavItem);
 
                 self.lastOrientation = new Date();
                 self.checkSignal();
@@ -195,7 +192,7 @@ module TripAssist {
                     }
                 );
                 if (window.DeviceOrientationEvent) {
-                    window.addEventListener('deviceorientation', deviceorientation, true);
+                    window.addEventListener('deviceorientation', deviceorientation, false);
                 } else {
                     console.log('TODO: handle moz event');
                 }

@@ -130,9 +130,10 @@ body {
   margin-top: 10px;
 }
 .list-ctn ul li .info-ctn {
-  width: 42px;
+  width: 120px;
   height: 42px;
   margin: 5px;
+  text-align: right;
   float: right;
 }
 .list-ctn ul li .info-ctn p {
@@ -248,4 +249,65 @@ body {
   overflow: auto;
   width: 100%;
   height: 100%;
+}
+.login-wrapper {
+  text-align: center;
+}
+.login-wrapper .logo-ctn {
+  width: 128px;
+  height: 128px;
+  background-size: 128px 128px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/static/images/logo.png");
+  margin: auto;
+}
+.login-wrapper .form-ctn {
+  margin: auto;
+  text-align: center;
+  width: 200px;
+}
+.login-wrapper .form-ctn .form-field:first-child {
+  margin-top: 0px;
+}
+.login-wrapper .form-ctn .form-field {
+  margin: 15px;
+}
+.login-wrapper .form-ctn .form-field .form-label {
+  text-align: left;
+  font-size: 14px;
+}
+.login-wrapper .form-ctn .form-field input {
+  clear: none;
+  border: 1px solid #fff;
+  font-size: 24px;
+  max-width: 168px;
+}
+.login-wrapper .form-ctn .form-btn {
+  border: 1px solid #fff;
+  background: #00f;
+  color: #fff;
+  font-size: 24px;
+  padding: 3px;
+  width: 168px;
+}
+.login-wrapper #info-ctn {
+  position: absolute;
+  top: 30px;
+  z-index: 2;
+  background: #000;
+  color: #fff;
+  display: none;
+  width: 100%;
+  height: 50%;
+}
+@media all and (max-height: 400px) {
+  .login-wrapper .logo-ctn {
+    float: left;
+    margin: 5px;
+  }
+  .login-wrapper .form-ctn {
+    margin: 0px;
+    float: left;
+  }
 }

@@ -9,8 +9,8 @@
         "latitude": 16.45,
         "altitude": 235,
         "website": "http://www.milanovenezia.it",
-        "arrival_name": "ristorante@milanovenezia.it",
-        "phone_number": "+32 7568566",
+        "email": "ristorante@milanovenezia.it",
+        "phone_number": "+32 (0) 7568566",
         "address": "Via Castorale 7, Venezia",
         "files": [
             {
@@ -18,6 +18,40 @@
                 "filename": "DSC753245.jpg",
                 "token": "ad92ad9adl8adli2laso"
             }
+        ]
+    },
+
+    {
+        "id": 4,
+        "name": "Starcke Haus",
+        "type": "Restaurant",
+        "created": 1367484835226,
+        "last_changed": 1367484835226,
+        "longitude": 15.436113,
+        "latitude": 47.075602,
+        "altitude": 335,
+        "website": "",
+        "email": "",
+        "phone_number": "",
+        "address": "",
+        "files": [
+        ]
+    },
+
+    {
+        "id": 5,
+        "name": "Ragnitz Haltestelle",
+        "type": "Museum",
+        "created": 1367484835226,
+        "last_changed": 1367484835226,
+        "longitude": 15.517105,
+        "latitude": 47.075405,
+        "altitude": 335,
+        "website": "",
+        "email": "",
+        "phone_number": "",
+        "address": "",
+        "files": [
         ]
     }
 ]

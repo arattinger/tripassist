@@ -2,30 +2,46 @@ var TripAssist;
 (function (TripAssist) {
     var Application = (function () {
         function Application() {
-            this.datamgr = new TripAssist.DataManager({
-                username: 'test'
-            });
+            this.datamgr = new TripAssist.DataManager();
             this.views = [
+                new TripAssist.LoginView(this.datamgr, this), 
                 new TripAssist.SelectHolidayView(this.datamgr, this), 
                 new TripAssist.MainView(this.datamgr, this), 
                 new TripAssist.RouteDetailView(this.datamgr, this), 
                 new TripAssist.RoutesView(this.datamgr, this), 
                 new TripAssist.SVGView(this.datamgr, this), 
                 new TripAssist.NavigationView(this.datamgr, this), 
+                new TripAssist.PlacesView(this.datamgr, this), 
+                new TripAssist.ScheduleView(this.datamgr, this), 
+                new TripAssist.PlaceDetailView(this.datamgr, this), 
                 new TripAssist.AccommodationsView(this.datamgr, this), 
-                new TripAssist.AccommodationDetailView(this.datamgr, this)
+                new TripAssist.AccommodationDetailView(this.datamgr, this), 
+                
             ];
             this.viewStack = [];
-            this.viewStack.push(this.views[0]);
+            if(this.datamgr.loadUser() == null) {
+                this.viewStack.push(this.views[0]);
+            } else {
+                this.viewStack.push(this.views[1]);
+            }
         }
         Application.prototype.start = function () {
             this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('main.template'));
             $('#main-ctn').html(this.mainTemplate());
             var self = this;
             $('#back-btn').on('tap', function () {
-                self.unloadView();
+                if(history && history.pushState) {
+                    history.back();
+                } else {
+                    self.unloadView();
+                }
                 return false;
             });
+            if(window.addEventListener) {
+                window.addEventListener('popstate', function (e) {
+                    self.unloadView();
+                });
+            }
             this.addEvents();
             this.renderView(null);
         };
@@ -43,8 +59,25 @@ var TripAssist;
                 if(this.viewStack[this.viewStack.length - 1] != view) {
                     this.viewStack[this.viewStack.length - 1].store();
                     this.viewStack.push(view);
+                    if(history && history.pushState) {
+                        history.pushState(null, null, '?' + view.name());
+                    }
                 }
                 this.renderView(data);
+            }
+        };
+        Application.prototype.settingsDone = function () {
+            if(this.viewStack.length > 1) {
+                if(history && history.pushState) {
+                    history.back();
+                } else {
+                    this.unloadView();
+                }
+            } else {
+                this.viewStack = [
+                    this.views[1]
+                ];
+                this.renderView(null);
             }
         };
         Application.prototype.unloadView = function () {
@@ -82,6 +115,11 @@ var TripAssist;
                 resize();
             });
             resize();
+            var self = this;
+            $('#settings-btn').on('tap', function () {
+                self.loadView('LoginView', null);
+                return false;
+            });
         };
         return Application;
     })();

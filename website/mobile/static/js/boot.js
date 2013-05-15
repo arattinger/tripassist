@@ -3,31 +3,25 @@ $(document).ready(function() {
 
     // define all classes to be fetched from server
     var CLASSES = [
-        'application',
-        'datamgr',
-        'utils',
-        'views/accommodationdetailview',
-        'views/accommodationsview',
-        'views/mainview',
-        'views/navigationview',
-        'views/routedetailview',
-        'views/routesview',
-        'views/selectholidayview',
-        'views/svgview'
     ];
 
     // define all templates to be fetched from server
     var TEMPLATES = [
         'main',
+        'loginview',
         'accommodationdetailview',
         'accommodationsview',
         'mainview',
         'navigationview',
+        'placesview',
+        'placedetailview',
         'routedetailview',
         'routesview',
+        'scheduleview',
         'selectholidayview',
         'selectholidayview-list',
-        'svgview'
+        'svgview',
+        'waiting'
     ];
 
     var loadClassCounter = 0;
@@ -38,7 +32,7 @@ $(document).ready(function() {
 
             // add dummy holiday for interactive tests
             // TODO: remove
-            var dummy = [{
+            /*var dummy = [{
                 id: 1,
                 name: "Dummy Holiday",
                 created: 1224043400000,
@@ -46,7 +40,7 @@ $(document).ready(function() {
                 start: 1224043400000,
                 end: 1224047400000
             }];
-            localStorage["offlineHolidays"] = JSON.stringify(dummy);
+            localStorage["offlineHolidays"] = JSON.stringify(dummy);*/
 
             // create application and start it
             var app = new TripAssist.Application();
