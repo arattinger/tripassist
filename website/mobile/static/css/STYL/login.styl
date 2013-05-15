@@ -1,0 +1,69 @@
+@import 'definitions'
+
+.login-wrapper
+    text-align center
+    margin auto
+
+    .logo-ctn
+        width 128px
+        height 128px
+        background-size 128px 128px
+        background-position center
+        background-repeat no-repeat
+        background-image url('/static/images/logo.png')
+        margin auto
+
+    .form-ctn
+        margin auto
+        text-align center
+        width 200px
+
+        .form-field:first-child
+            margin-top 0px
+
+        .form-field
+            margin 15px
+
+            .form-label
+                text-align left
+                font-size smallFontSize
+
+            input
+                clear none
+                border 1px solid white
+                font-size largeFontSize
+                max-width 168px
+
+        .form-btn
+            border 2px solid white
+            background black
+            color white
+            font-size mediumFontSize
+            text-transform uppercase
+            padding 5px
+            width 166px
+
+        .form-btn:active
+            background white
+            color black
+
+
+    #info-ctn
+        position absolute
+        top 30px
+        z-index 2
+        background black
+        color white
+        display none
+        width 100%
+        height 50%
+
+@media all and (max-height: 400px)
+    .login-wrapper
+        .logo-ctn 
+            display inline-block
+            margin 5px
+
+        .form-ctn
+            display inline-block
+            margin 0px

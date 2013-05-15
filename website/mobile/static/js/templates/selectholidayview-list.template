@@ -1,0 +1,17 @@
+<div class='sublist'>{{title}}</div>
+{{#if holidays.length}}
+<ul id='{{id}}'>
+{{#each holidays}}
+    <li data-id='{{id}}''>
+        <div class='label'>{{name}}</div>
+        {{#if ../offline}}
+        <div class='del-btn'></div>
+        {{else}}
+        <div class='download-btn'></div>
+        {{/if}}
+    </li>
+{{/each}}
+</ul>
+{{else}}
+<div class='empty-list'>No holiday available</div>
+{{/if}}

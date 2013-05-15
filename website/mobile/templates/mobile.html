@@ -3,9 +3,174 @@
 {% block main-title %} Mobile Website {% endblock %}
 
 {% block main-head %}
+<link rel="stylesheet" media="all" type="text/css" href="/static/css/mobile.css" />
+<script type='text/javascript' src='/static/js/lib/jquery-1.9.1.min.js' /></script>
+<script type='text/javascript' src='/static/js/lib/jquery.mobile-1.3.1.min.js' /></script>
+<script type='text/javascript' src='/static/js/lib/handlebars.js' /></script>
+<script type='text/javascript' src='/static/js/boot.js' /></script>
+<script type='text/javascript' src='/static/js/templatemgr.js' /></script>
+
+<script type='text/javascript' src='/static/js/application.js' /></script>
+<script type='text/javascript' src='/static/js/datamgr.js' /></script>
+<script type='text/javascript' src='/static/js/utils.js' /></script>
+<script type='text/javascript' src='/static/js/views/accommodationdetailview.js' /></script>
+<script type='text/javascript' src='/static/js/views/accommodationsview.js' /></script>
+<script type='text/javascript' src='/static/js/views/mainview.js' /></script>
+<script type='text/javascript' src='/static/js/views/loginview.js' /></script>
+<script type='text/javascript' src='/static/js/views/navigationview.js' /></script>
+<script type='text/javascript' src='/static/js/views/routedetailview.js' /></script>
+<script type='text/javascript' src='/static/js/views/placedetailview.js' /></script>
+<script type='text/javascript' src='/static/js/views/placesview.js' /></script>
+<script type='text/javascript' src='/static/js/views/routesview.js' /></script>
+<script type='text/javascript' src='/static/js/views/scheduleview.js' /></script>
+<script type='text/javascript' src='/static/js/views/selectholidayview.js' /></script>
+<script type='text/javascript' src='/static/js/views/svgview.js' /></script>
+
+
+<meta name="viewport" content="initial-scale=1.0 maximum-scale=1.0 user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 {% endblock %}
 
 {% block content %}
-heyghj
+<div id='main-ctn'>
+    <!-- select holiday view
+    <div id='header-ctn'>
+        <div id='back-btn' class='hidden'></div>
+        <div id='title'>Select Holiday</div>
+        <div id='settings-btn'></div>
+    </div>
+    <div id='content-ctn'>
+        <div class='list-ctn'>
+            <div class='sublist'>Offline</div>
+            <ul>
+                <li>
+                    <div class='label'>India Jul 2013</div>
+                    <div class='del-btn'></div>
+                </li>
+                <li>
+                    <div class='label'>Marokko Apr 2012</div>
+                    <div class='del-btn'></div>
+                </li>
+            </ul>
+            <div class='sublist'>Online</div>
+            <ul>
+                <li>
+                    <div class='label'>Sailing Sep 2010</div>
+                    <div class='download-btn'></div>
+                </li>
+                <li>
+                    <div class='label'>Trekking May 2008</div>
+                    <div class='download-btn'></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    -->
+
+    <!-- main view
+    <div id='header-ctn'>
+        <div id='back-btn'></div>
+        <div id='title'>India July 2012</div>
+        <div id='settings-btn'></div>
+    </div>
+    <div id='content-ctn'>
+        <div class='tiles-ctn'>
+            <div id='route-tile'>Route</div>
+            <div id='accomm-tile'>Accommodations</div>
+            <div id='places-tile'>Places</div>
+            <div id='schedule-tile'>Schedule</div>
+        </div>
+    </div>
+    -->
+    <!-- navigation view
+    <div id='header-ctn'>
+        <div id='back-btn'></div>
+        <div id='title'>Navigation</div>
+        <div id='settings-btn'></div>
+    </div>
+    <div id='content-ctn'>
+        <div id='arrow-ctn' style='-webkit-transform:rotate(7deg);'></div>
+	<div id='bottom-ctn'>
+	    <div id='left-info-ctn'>due in 7 min</div>
+            <div id='right-info-ctn'><p>750m</p><p>NW</p></div>
+	</div>
+    </div>
+    -->
+
+    <!-- list view
+    <div id='header-ctn'>
+        <div id='back-btn'></div>
+        <div id='title'>Route</div>
+        <div id='settings-btn'></div>
+    </div>
+    <div id='content-ctn'>
+        <div class='list-ctn'>
+            <div class='sublist'>Jul 27<sup>th</sup></div>
+            <ul>
+                <li>
+                    <div class='label'>Bus 32</div>
+                    <div class='info-ctn'>
+                        <p>07:45</p>
+                        <p>08:07</p>
+                    </div>
+                    <div class='map-btn'></div>
+                    <div class='navigate-btn'></div>
+                </li>
+            </ul>
+            <div class='sublist'>Jul 28<sup>th</sup></div>
+            <ul>
+                <li>
+                    <div class='label'>Flight OS7273</div>
+                    <div class='info-ctn'>
+                        <p>12:15</p>
+                        <p>18:27</p>
+                    </div>
+                    <div class='map-btn'></div>
+                    <div class='navigate-btn'></div>
+                </li>
+                <li>
+                    <div class='label'>Tram 7</div>
+                    <div class='info-ctn'>
+                        <p>17:12</p>
+                        <p>17:18</p>
+                    </div>
+                    <div class='map-btn'></div>
+                    <div class='navigate-btn'></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!--<div id='header-ctn'>
+        <div id='back-btn'></div>
+        <div id='title'>Route Details</div>
+        <div id='settings-btn'></div>
+    </div>
+    <div id='content-ctn'>
+        <div class='detail-label-ctn'>Departure</div>
+        <div class='detail-info-ctn'>07:45 at Grand Central Station</div>
+        <div class='detail-label-ctn'>Arrival</div>
+        <div class='detail-info-ctn'>08:07 at Vienna International Airport</div>
+        <div class='detail-label-ctn'>Info</div>
+        <div class='detail-info-ctn'>22 min, 12.3 km</div>
+        <div class='list-ctn'>
+            <div class='sublist'>Attached Files</div>
+            <ul>
+                <li>
+                    <div class='label'>Ticket_32.pdf</div>
+                </li>
+            </ul>
+        </div>
+        <div id='bottom-ctn'>
+            <div id='map-btn' class='map-btn'></div>
+            <div id='navigate-btn' class='navigate-btn'></div>
+        </div>
+    </div>-->
+</div>
 {% endblock %}
 
+{% block main-meta %}
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+{% endblock %}

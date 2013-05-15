@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html manifest="/manifest/cache.manifest">
+    <title>Let's do it offline</title>
+    <script src="/static/js/jquery.tools.min.js"></script>
+</head>
+<body>
+    <div class="toolbar">
+        <h1 id="pageTitle">Going offline</h1>
+        <a id="backButton" class="button" href="#"></a>
+    </div>
+    <ul id="menu" title="Sports" selected="true">
+        <li><a href="#download"><img height="80" width="80"
+src="/mobile/download/attachment/{{username}}/download.png" align="middle"/>
+            <span style="display:inline-block;
+ vertical-align:middle">Delete</span></a></li>
+        <li><a href="#delete"><img src="/mobile/download/attachment/{{username}}/delete.png"
+align="middle"/>
+        <span style="display:inline-block;
+vertical-align:middle">Settings</span></a></li>
+    </ul>
+    <div id="settings" title="Settings" class="panel">
+        <img src="/mobile/download/attachment/{{username}}/settings.png" />
+    </div>
+</body>
+</html>

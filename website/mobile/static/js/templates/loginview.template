@@ -1,0 +1,15 @@
+<div class='login-wrapper'>
+    <div class='logo-ctn'></div>
+    <div class='form-ctn'>
+        <div class='form-field'>
+            <div class='form-label'>Username:</div>
+            <input type='text' value='' id='username-input' />
+        </div>
+        <div class='form-field'>
+            <div class='form-label'>Password:</div>
+            <input type='password' value='' id='password-input' />
+        </div>
+        <input type='button' class='form-btn' id='login-btn' value='Login' />
+    </div>
+    <div id='info-ctn'></div>
+</div>
