@@ -57,8 +57,8 @@ describe('Application', function() {
 
         window.setTimeout(function() {
             app.settingsDone();
-            expect( $('#title').text() ).to.be('MyHoliday');
-            expect( $('#back-btn').css('display') ).to.be('block');
+            expect( $('#title').text() ).to.be('Select Holiday');
+            expect( $('#back-btn').css('display') ).to.be('none');
             done();
         }, 20);
     });
