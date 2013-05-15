@@ -17,6 +17,20 @@ body {
   margin: 0px;
   height: 100%;
   width: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+input {
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 .hidden {
   display: none;
@@ -262,6 +276,12 @@ body {
   text-align: center;
   line-height: 100%;
 }
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url("/static/css/opensans.woff") format('woff');
+}
 .detail-label-ctn {
   margin-left: 10px;
   margin-right: 10px;
@@ -275,6 +295,12 @@ body {
   font-size: 16px;
   text-align: left;
   color: #ddd;
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 #svg-ctn {
   background-color: #fff;

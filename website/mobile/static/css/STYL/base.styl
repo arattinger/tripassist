@@ -7,6 +7,7 @@ body
     margin 0px
     height 100%
     width 100%
+    userselect none
 
 smallbutton()
     width 42px
@@ -16,6 +17,10 @@ smallbutton()
     background-position center
     background-repeat no-repeat
     background-image url('/static/images/'arguments'.png')
+
+input {
+    userselect text
+}
 
 .hidden
     display: none

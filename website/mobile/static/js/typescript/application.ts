@@ -160,6 +160,9 @@ module TripAssist {
             if (this.viewStack.length > 1) {
                 this.viewStack[this.viewStack.length-1].unload();
                 this.viewStack.pop();
+                if (this.viewStack.length == 1) {
+                    $('#settings-btn').show();
+                }
                 // restore previous view
                 if (!this.viewStack[this.viewStack.length-1].restore(document.getElementById('content-ctn'))) {
                     this.renderView(null);
