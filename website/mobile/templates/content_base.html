@@ -1,7 +1,13 @@
-{% extends "manifest_base.html" %}
+{% extends "base.html" %}
 
 {% block main-content %}
 <div id="main-mobile-content">
+	<a href="/accounts/login/">
+      login
+    </a>
+	<a href="/accounts/logout/">
+      logout
+    </a>
   {% block content %}{% endblock %}
 </div>
 {% endblock %}
