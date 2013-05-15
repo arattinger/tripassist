@@ -63,6 +63,11 @@ var TripAssist;
                         history.pushState(null, null, '?' + view.name());
                     }
                 }
+                if(this.viewStack.length > 1) {
+                    $('#settings-btn').hide();
+                } else {
+                    $('#settings-btn').show();
+                }
                 this.renderView(data);
             }
         };

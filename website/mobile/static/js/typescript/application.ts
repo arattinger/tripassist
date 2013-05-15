@@ -132,6 +132,12 @@ module TripAssist {
                         history.pushState(null, null, '?' + view.name());
                     }
                 }
+                // hide settings button if not at main view
+                if (this.viewStack.length > 1) {
+                    $('#settings-btn').hide();
+                } else {
+                    $('#settings-btn').show();
+                }
                 this.renderView(data);
             }
         }

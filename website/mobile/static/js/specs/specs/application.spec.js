@@ -36,7 +36,7 @@ describe('Application', function() {
 
     it('selectholidayview loaded initially', function() {
         app.start();
-        expect ( $('#title').text() ).to.be('Select Holiday');
+        expect ( $('#title').text() ).to.be('select holiday');
     });
 
     it('loading a main view works too', function(done) {
@@ -57,7 +57,7 @@ describe('Application', function() {
 
         window.setTimeout(function() {
             app.settingsDone();
-            expect( $('#title').text() ).to.be('Select Holiday');
+            expect( $('#title').text() ).to.be('select holiday');
             expect( $('#back-btn').css('display') ).to.be('none');
             done();
         }, 20);
@@ -68,7 +68,7 @@ describe('Application', function() {
 
         window.setTimeout(function() {
             app.settingsDone();
-            expect( $('#title').text() ).to.be('Select Holiday');
+            expect( $('#title').text() ).to.be('select holiday');
             expect( $('#back-btn').css('display') ).to.be('none');
             done();
         }, 20);
