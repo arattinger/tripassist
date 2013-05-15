@@ -32,7 +32,7 @@ $(document).ready(function() {
 
             // add dummy holiday for interactive tests
             // TODO: remove
-            var dummy = [{
+            /*var dummy = [{
                 id: 1,
                 name: "Dummy Holiday",
                 created: 1224043400000,
@@ -40,7 +40,7 @@ $(document).ready(function() {
                 start: 1224043400000,
                 end: 1224047400000
             }];
-            localStorage["offlineHolidays"] = JSON.stringify(dummy);
+            localStorage["offlineHolidays"] = JSON.stringify(dummy);*/
 
             // create application and start it
             var app = new TripAssist.Application();
