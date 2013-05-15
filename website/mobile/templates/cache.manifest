@@ -22,6 +22,10 @@ CACHE MANIFEST
 /static/js/views/routedetailview.js
 /static/js/views/selectholidayview.js
 /static/js/views/svgview.js
+/static/js/views/loginview.js
+/static/js/views/placedetailview.js
+/static/js/views/placesview.js
+/static/js/views/scheduleview.js
 /static/js/templates/main.template
 /static/js/templates/accommodationdetailview.template
 /static/js/templates/accommodationsview.template
@@ -32,11 +36,27 @@ CACHE MANIFEST
 /static/js/templates/routedetailview.template
 /static/js/templates/selectholidayview-list.template
 /static/js/templates/svgview.template
+/static/js/templates/loginview.template
+/static/js/templates/placesview.template
+/static/js/templates/placedetailview.template
+/static/js/templates/scheduleview.template
+/static/js/templates/waiting.template
 /static/js/views/routesview.js
 /static/images/back.png
 /static/images/settings.png
 /static/images/delete.png
+/static/images/logo.png
+/static/images/map.png
+/static/images/navigate.png
+/static/images/arrow.png
 
 {% for attachment in attachments %}
 	/download/{{ attachment.attachment }}
 {% endfor %}
+
+/download/test/holidays.json
+/download/test/accommodations_1.json
+/download/test/places_1.json
+/download/test/routes_1.json
+/download/test/ac5a5ad88621adadf5f6.svg
+
