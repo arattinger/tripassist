@@ -86,7 +86,7 @@ class Holiday(models.Model):
     name = models.CharField(max_length=255, blank=True)
     created = models.DateTimeField(default=now)
     last_changed = models.DateTimeField(default=now)
-    accomodations = models.ManyToManyField(Accommodation, blank=True)
+    accommodations = models.ManyToManyField(Accommodation, blank=True)
     places = models.ManyToManyField(Place, blank=True)
     routes = models.ManyToManyField(Route, blank=True)
     description = models.TextField(blank=True)

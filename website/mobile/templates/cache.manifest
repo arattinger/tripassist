@@ -1,10 +1,10 @@
 CACHE MANIFEST
 # Version 0.2
-/mobile/download/attachment/{{username}}/testfile.txt
-/mobile/download/attachment/{{username}}/download.png
-/mobile/download/attachment/{{username}}/delete.png
-/mobile/download/attachment/{{username}}/settings.png
-/mobile/download/attachment/{{username}}/test.json
+/download/attachment/{{username}}/testfile.txt
+/download/attachment/{{username}}/download.png
+/download/attachment/{{username}}/delete.png
+/download/attachment/{{username}}/settings.png
+/download/attachment/{{username}}/test.json
 
 /static/css/mobile.css
 /static/js/boot.js
@@ -38,5 +38,5 @@ CACHE MANIFEST
 /static/images/delete.png
 
 {% for attachment in attachments %}
-	/mobile/download/{{ attachment.attachment }}
+	/download/{{ attachment.attachment }}
 {% endfor %}

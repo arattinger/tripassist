@@ -1,0 +1,18 @@
+{% extends "content_base.html" %}
+
+{% block main-title %} Add Route {% endblock %}
+
+{% block main-head %}
+
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'holiday_home' holiday %}" method="post">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+{% endblock %}
+
+{% block main-meta %}
+{% endblock %}
