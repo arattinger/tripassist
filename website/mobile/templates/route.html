@@ -7,7 +7,11 @@
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'holiday_home' holiday %}" method="post">
+{% if item_id == None %}
+<form action="{% url route holiday_id %}" method="post">
+{% else %}
+<form action="{% url route holiday_id item_id %}" method="post">
+{% endif %}
 {% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />
