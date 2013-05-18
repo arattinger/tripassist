@@ -1,5 +1,7 @@
 {% extends "content_base.html" %}
 
+{% load messages %}
+
 {% block main-title %} Homepage {% endblock %}
 
 {% block main-head %}
@@ -8,6 +10,7 @@
 
 {% block content %}
 <h1>Holidays</h1>
+{% render_messages messages %}
 <div class='tiles-wrapper'>
     <div class='tiles-ctn'>
         <div id='holiday-list'>

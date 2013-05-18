@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.template import RequestContext
 from django.conf import settings
 from os.path import join, basename
@@ -18,14 +19,14 @@ def mobile(request):
 @login_required
 def home(request):
     holiday_list = Holiday.objects.all()
-    data = {"holiday_list": holiday_list}
+    data = {'holiday_list': holiday_list}
     return render_to_response('homepage.html', data, RequestContext(request))
 
 
 @login_required
 def holiday_home(request, holiday_id):
     holiday_obj = Holiday.objects.get(pk=holiday_id)
-    data = {"holiday_obj": holiday_obj}
+    data = {'holiday_obj': holiday_obj}
     return render_to_response('holiday_home.html', data,
                               RequestContext(request))
 
@@ -38,9 +39,10 @@ def holiday(request):
             holiday_obj = form.save(commit=False)
             holiday_obj.user = request.user
             holiday_obj.save()
+            messages.success(request, 'Saved successfully!')
             return redirect('home')
         else:
-            print "error"
+            messages.error(request, 'Invalid input!')
     elif request.method == 'GET':
         form = HolidayForm()
     return render_to_response('holiday.html', {'form': form},
@@ -91,10 +93,10 @@ def form_builder(request, form, holiday_item, item_id):
                 form.save()
             else:
                 holiday_item.add(form.save())
-            print 'save and redirect'
+            messages.success(request, 'Saved successfully!')
             return None
         else:
-            print 'invalid input'
+            messages.error(request, 'Invalid input!')
     elif request.method == 'GET':
         if item_id:
             form.__init__(instance=holiday_item.get(pk=item_id))

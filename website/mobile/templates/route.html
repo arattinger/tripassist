@@ -1,5 +1,7 @@
 {% extends "content_base.html" %}
 
+{% load messages %}
+
 {% block main-title %} Add Route {% endblock %}
 
 {% block main-head %}
@@ -7,6 +9,9 @@
 {% endblock %}
 
 {% block content %}
+
+{% render_messages messages %}
+
 {% if item_id == None %}
 <form action="{% url route holiday_id %}" method="post">
 {% else %}
@@ -16,6 +21,7 @@
 {{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>
+
 {% endblock %}
 
 {% block main-meta %}
