@@ -30,11 +30,20 @@ var TripAssist;
             $('#main-ctn').html(this.mainTemplate());
             var self = this;
             $('#back-btn').on('tap', function () {
-                if(history && history.pushState) {
-                    history.back();
-                } else {
-                    self.unloadView();
-                }
+                $('#content-ctn').removeClass('viewin-left');
+                $('#content-ctn').removeClass('viewin-right');
+                $('#content-ctn').addClass('viewout-right');
+                window.setTimeout(function () {
+                    $('#content-ctn').removeClass('viewout-right');
+                    $('#content-ctn').empty();
+                    1;
+                    $('#content-ctn').addClass('viewin-left');
+                    if(history && history.pushState) {
+                        history.back();
+                    } else {
+                        self.unloadView();
+                    }
+                }, 300);
                 return false;
             });
             if(window.addEventListener) {
@@ -95,11 +104,19 @@ var TripAssist;
         Application.prototype.renderView = function (data) {
             var self = this;
             if(this.viewStack.length != 0) {
-                $('.content-ctn').html('');
-                var view = this.viewStack[this.viewStack.length - 1];
-                view.render(document.getElementById('content-ctn'), data, function () {
-                    self.renderTopBar();
-                });
+                var self = this;
+                $('#content-ctn').removeClass('viewin-left');
+                $('#content-ctn').removeClass('viewin-right');
+                $('#content-ctn').addClass('viewout-left');
+                window.setTimeout(function () {
+                    $('#content-ctn').removeClass('viewout-left');
+                    $('#content-ctn').empty();
+                    $('#content-ctn').addClass('viewin-right');
+                    var view = self.viewStack[self.viewStack.length - 1];
+                    view.render(document.getElementById('content-ctn'), data, function () {
+                        self.renderTopBar();
+                    });
+                }, 300);
             }
         };
         Application.prototype.renderTopBar = function () {
