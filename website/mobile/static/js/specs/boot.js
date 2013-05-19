@@ -8,9 +8,13 @@ $(document).ready(function() {
         'views/accommodationdetailview',
         'views/accommodationsview',
         'views/mainview',
+        'views/loginview',
+        'views/placesview',
+        'views/placedetailview',
         'views/navigationview',
         'views/routedetailview',
         'views/routesview',
+        'views/scheduleview',
         'views/selectholidayview',
         'views/svgview'
     ];
@@ -20,13 +24,18 @@ $(document).ready(function() {
         'main',
         'accommodationdetailview',
         'accommodationsview',
+        'loginview',
         'mainview',
         'navigationview',
+        'placesview',
+        'placedetailview',
         'routedetailview',
         'routesview',
+        'scheduleview',
         'selectholidayview',
         'selectholidayview-list',
-        'svgview'
+        'svgview',
+        'waiting'
     ];
 
     var loadClassCounter = 0;

@@ -1,10 +1,10 @@
 CACHE MANIFEST
 # Version 0.2
-/mobile/download/attachment/{{username}}/testfile.txt
-/mobile/download/attachment/{{username}}/download.png
-/mobile/download/attachment/{{username}}/delete.png
-/mobile/download/attachment/{{username}}/settings.png
-/mobile/download/attachment/{{username}}/test.json
+/download/attachment/{{username}}/testfile.txt
+/download/attachment/{{username}}/download.png
+/download/attachment/{{username}}/delete.png
+/download/attachment/{{username}}/settings.png
+/download/attachment/{{username}}/test.json
 
 /static/css/mobile.css
 /static/js/boot.js
@@ -12,16 +12,20 @@ CACHE MANIFEST
 /static/js/templatemgr.js
 /static/js/lib/jquery.mobile-1.3.1.min.js
 /static/js/lib/jquery-1.9.1.min.js
-/static/js/application.js?_={{timestamp}}
-/static/js/datamgr.js?_={{timestamp}}
-/static/js/utils.js?_={{timestamp}}
-/static/js/views/accommodationdetailview.js?_={{timestamp}}
-/static/js/views/accommodationsview.js?_={{timestamp}}
-/static/js/views/mainview.js?_={{timestamp}}
-/static/js/views/navigationview.js?_={{timestamp}}
-/static/js/views/routedetailview.js?_={{timestamp}}
-/static/js/views/selectholidayview.js?_={{timestamp}}
-/static/js/views/svgview.js?_={{timestamp}}
+/static/js/application.js
+/static/js/datamgr.js
+/static/js/utils.js
+/static/js/views/accommodationdetailview.js
+/static/js/views/accommodationsview.js
+/static/js/views/mainview.js
+/static/js/views/navigationview.js
+/static/js/views/routedetailview.js
+/static/js/views/selectholidayview.js
+/static/js/views/svgview.js
+/static/js/views/loginview.js
+/static/js/views/placedetailview.js
+/static/js/views/placesview.js
+/static/js/views/scheduleview.js
 /static/js/templates/main.template
 /static/js/templates/accommodationdetailview.template
 /static/js/templates/accommodationsview.template
@@ -32,11 +36,27 @@ CACHE MANIFEST
 /static/js/templates/routedetailview.template
 /static/js/templates/selectholidayview-list.template
 /static/js/templates/svgview.template
-/static/js/views/routesview.js?_={{timestamp}}
+/static/js/templates/loginview.template
+/static/js/templates/placesview.template
+/static/js/templates/placedetailview.template
+/static/js/templates/scheduleview.template
+/static/js/templates/waiting.template
+/static/js/views/routesview.js
 /static/images/back.png
 /static/images/settings.png
 /static/images/delete.png
+/static/images/logo.png
+/static/images/map.png
+/static/images/navigate.png
+/static/images/arrow.png
 
 {% for attachment in attachments %}
-	/mobile/download/{{ attachment.attachment }}
+	/download/{{ attachment.attachment }}
 {% endfor %}
+
+/download/test/holidays.json
+/download/test/accommodations_1.json
+/download/test/places_1.json
+/download/test/routes_1.json
+/download/test/ac5a5ad88621adadf5f6.svg
+

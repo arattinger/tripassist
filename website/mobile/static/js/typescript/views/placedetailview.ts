@@ -8,7 +8,7 @@
 /// <reference path="../models.ts" />
 
 module TripAssist {
-    export class RouteDetailView {
+    export class PlaceDetailView {
 
         private mainTemplate: any;
         private datamgr: TripAssist.DataManager;
@@ -16,47 +16,36 @@ module TripAssist {
         private stored: bool;
         private storedHTML: string;
         private currentCtn: HTMLElement;
-        private route: Route;
+        private place: Place;
 
         constructor(datamgr : TripAssist.DataManager, app: TripAssist.Application) {
             this.datamgr = datamgr;
             this.app = app;
-            this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('routedetailview.template'), {noEscape: true});
+            this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('placedetailview.template'), {noEscape: true});
             this.stored = false;
             this.storedHTML = "";
             this.currentCtn = null;
-            this.route = null;
+            this.place = null;
         }
 
         public title() {
-            return this.route == null ? "Route" : this.route.name;
+            return this.place == null ? "Place" : this.place.name;
         }
 
         public name() {
-            return "RouteDetailView";
+            return "PlaceDetailView";
         }
 
-        public render(ctn: HTMLElement, data: Route, callback: () => any) {
-            this.route = data;
+        public render(ctn: HTMLElement, data: Place, callback: () => any) {
+            this.place = data;
             this.currentCtn = ctn;
-            var diffInMin = Math.round((this.route.arrival_time.getTime() - this.route.departure_time.getTime()) / 1000 / 60);
-            var mins = diffInMin % 60;
-            var hours = Math.floor(diffInMin / 60);
-            var distanceInMetres = Utils.distanceInMetres({
-                    longitude: this.route.departure_longitude,
-                    latitude: this.route.departure_latitude
-                }, {
-                    longitude: this.route.arrival_longitude,
-                    latitude: this.route.arrival_latitude
-                });
             ctn.innerHTML = this.mainTemplate({
-                departureTime: this.route.departure_time.format('%b %d<sup>%o</sup>, %H:%M'),
-                arrivalTime: this.route.arrival_time.format('%b %d<sup>%o</sup>, %H:%M'),
-                departureAddress: this.route.departure_name,
-                arrivalAddress: this.route.arrival_name,
-                timeTravelled: (hours == 0 ? '' : hours + ' h ') + mins + ' min',
-                distanceTravelled: (distanceInMetres > 1000 ? (distanceInMetres / 1000).toFixed(1) + ' km' : (distanceInMetres.toFixed(0)) + ' m'),
-                attachments: this.route.files
+                address: this.place.address,
+                website: this.place.website,
+                email: this.place.email,
+                phone_number: this.place.phone_number,
+                attachments: this.place.files,
+                position: this.place.longitude != 0 && this.place.latitude != 0
             });
 
             this.addEvents();
@@ -79,17 +68,16 @@ module TripAssist {
             this.stored = false;
             this.storedHTML = null;
             this.currentCtn = null;
-            this.route = null;
+            this.place = null;
         }
 
         private addEvents() {
             var self = this;
             function navigateTo() {
                 var navItem = {
-                    name : self.route.name,
-                    longitude : self.route.departure_longitude,
-                    latitude : self.route.departure_latitude,
-                    due: self.route.departure_time
+                    name : self.place.name,
+                    longitude : self.place.longitude,
+                    latitude : self.place.latitude
                 };
                 self.app.loadView('NavigationView', navItem);
             }
@@ -108,6 +96,21 @@ module TripAssist {
                     token: token
                 });
                 return false;
+            });
+
+            $('#web-btn').on('taphold', function() {
+                window.open(this.innerHTML, '_blank');
+            });
+
+            $('#email-btn').on('taphold', function() {
+                window.open('mailto:'+this.innerHTML, 'link-target');
+            });
+
+            $('#phone-btn').on('taphold', function() {
+                // remove everything but '+' and digits
+                var phone = this.innerHTML;
+                phone = phone.replace(/[^\+0-9]+/g, '');
+                window.open('tel:'+phone, 'link-target');
             });
             
         }

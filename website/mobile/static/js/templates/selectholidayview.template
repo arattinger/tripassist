@@ -1,15 +1,3 @@
 <div class='list-ctn'>
-    <div class='sublist'>Offline</div>
-    {{#if offline_holidays.length}}
-    <ul>
-    {{#each offline_holidays}}
-        <li data-id='{{id}}'>
-            <div class='label'>{{name}}</div>
-            <div class='del-btn'></div>
-        </li>
-    {{/each}}
-    </ul>
-    {{else}}
-    <div class='empty-list'>No holiday is currently stored offline.</div>
-    {{/if}}
+    
 </div>

@@ -6,7 +6,7 @@
 /// <reference path="../application.ts" />
 
 module TripAssist {
-    export class MainView {
+    export class LoginView {
 
         private mainTemplate: any;
         private datamgr: TripAssist.DataManager;
@@ -19,32 +19,32 @@ module TripAssist {
         constructor(datamgr : TripAssist.DataManager, app: TripAssist.Application) {
             this.datamgr = datamgr;
             this.app = app;
-            this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('mainview.template'));
-            this.storedTitle = 'Main View';
+            this.mainTemplate = Handlebars.compile(TemplateManager.getTemplate('loginview.template'));
             this.stored = false;
             this.storedHTML = "";
             this.currentCtn = null;
         }
 
         public title() {
-            return this.storedTitle;
+            return 'Login';
         }
 
         public name() {
-            return "MainView";
+            return "LoginView";
         }
 
-        public render(ctn: HTMLElement, data: TripAssist.Holiday, callback: () => any) {
+        public render(ctn: HTMLElement, data: any, callback: () => any) {
             this.currentCtn = ctn;
-            this.storedTitle = data.name;
             ctn.innerHTML = this.mainTemplate({
             });
             this.addEvents();
+            $('#settings-btn').hide();
             callback();
         }
 
         public store() {
         this.stored = true;
+        $('#settings-btn').show();
         if (this.currentCtn)
             this.storedHTML = this.currentCtn.innerHTML;
         }
@@ -52,6 +52,7 @@ module TripAssist {
         public restore(ctn: HTMLElement) {
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
+            $('#settings-btn').hide();
             this.addEvents();
         }
 
@@ -59,27 +60,23 @@ module TripAssist {
             this.stored = false;
             this.storedHTML = null;
             this.currentCtn = null;
+            $('#settings-btn').show();
         }
 
         private addEvents() {
             var self = this;
-            $('#route-tile').on('tap', function() {
-                self.app.loadView('RoutesView', null);
-                return false;
-            });
-
-            $('#accomm-tile').on('tap', function() {
-                self.app.loadView('AccommodationsView', null);
-                return false;
-            });
-
-            $('#places-tile').on('tap', function() {
-                self.app.loadView('PlacesView', null);
-                return false;
-            });
-
-            $('#schedule-tile').on('tap', function() {
-                self.app.loadView('ScheduleView', null);
+            $('#login-btn').on('tap', function() {
+                self.datamgr.login($('#username-input').val(), $('#password-input').val(), function(success, errorMsg) {
+                    if (!success) {
+                        $('#info-ctn').html(errorMsg);
+                        $('#info-ctn').show();
+                        window.setTimeout(function() {
+                            $('#info-ctn').hide();
+                        }, 2000);
+                    } else {
+                        self.app.settingsDone();
+                    }
+                });
                 return false;
             });
         }

@@ -18,12 +18,11 @@ var TripAssist;
         };
         SelectHolidayView.prototype.render = function (ctn, data, callback) {
             this.currentCtn = ctn;
-            var offline_holidays = this.datamgr.getOfflineHolidays();
             ctn.innerHTML = this.mainTemplate({
-                offline_holidays: offline_holidays
             });
             this.addEvents();
             this.loadOnlineHolidays($('.list-ctn'));
+            this.loadOfflineHolidays($('.list-ctn'));
             callback();
         };
         SelectHolidayView.prototype.store = function () {
@@ -87,7 +86,10 @@ var TripAssist;
                             previousList.html(html);
                         } else {
                             var html = self.listTemplate({
-                                online_holidays: online_holidays
+                                title: 'Online',
+                                id: 'online-holidays-list',
+                                offline: false,
+                                holidays: online_holidays
                             });
                             ctn.append(html);
                         }
@@ -100,6 +102,38 @@ var TripAssist;
                 });
             }
             loadOnline();
+        };
+        SelectHolidayView.prototype.loadOfflineHolidays = function (ctn) {
+            var self = this;
+            function loadOffline() {
+                self.datamgr.getOfflineHolidays(function (holidays) {
+                    if(!self.stored) {
+                        var previousList = $('#offline-holidays-list');
+                        if(previousList.length) {
+                            previousList.empty();
+                            var html = "";
+                            for(var i = 0; i < holidays.length; i++) {
+                                html += "<li data-id='" + holidays[i].id + "'>\n" + "    <div class='label'>" + holidays[i].name + "'>\n" + "    <div class='download-btn'></div>";
+                            }
+                            previousList.html(html);
+                        } else {
+                            var html = self.listTemplate({
+                                title: 'Offline',
+                                offline: true,
+                                id: 'offline-holidays-list',
+                                holidays: holidays
+                            });
+                            ctn.append(html);
+                        }
+                        self.addEvents();
+                    }
+                }, function () {
+                    if(!self.stored) {
+                        window.setTimeout(loadOffline, 3000);
+                    }
+                });
+            }
+            loadOffline();
         };
         return SelectHolidayView;
     })();

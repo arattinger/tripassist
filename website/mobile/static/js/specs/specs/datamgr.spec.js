@@ -6,7 +6,8 @@ describe('DataManager', function() {
         var user = {
             username: "test"
         };
-        datamgr = new TripAssist.DataManager(user);
+        datamgr = new TripAssist.DataManager();
+        datamgr.login('test', 'emptypwd', null);
     });
 
     function createHoliday(id) {
@@ -19,13 +20,17 @@ describe('DataManager', function() {
         return holiday;
     }
 
-    it('retrieve empty offline holiday list', function() {
-        // remove all offline holidays
-        localStorage["offlineHolidays"] = [];
-        expect ( datamgr.getOfflineHolidays().length ).to.be(0);
+    it('retrieve empty offline holiday list', function(done) {
+        datamgr.getOfflineHolidays(function(holidays) {
+            expect( holidays.length ).to.be(1);
+            done();
+        }, function() {
+            expect( false ).to.be(true);
+            done();
+        });
     });
 
-    it('store single holiday offline', function() {
+    /*it('store single holiday offline', function() {
         var holiday = createHoliday(1);
         datamgr.addDownloadedHoliday(holiday);
         expect ( datamgr.getOfflineHolidays().length ).to.be(1);
@@ -43,18 +48,16 @@ describe('DataManager', function() {
         expect ( datamgr.getOfflineHolidays().length ).to.be(1);
         datamgr.removeDownloadedHoliday(2);
         expect ( datamgr.getOfflineHolidays().length ).to.be(0);
-    });
+    });*/
 
-    it('retrieve single holiday', function() {
-        var holiday1 = createHoliday(1);
-        var holiday2 = createHoliday(2);
-        datamgr.addDownloadedHoliday(holiday1);
-        datamgr.addDownloadedHoliday(holiday2);
-        expect ( datamgr.getOfflineHoliday(2).id ).to.be(2);
-
-        expect ( datamgr.getOfflineHoliday(2).name ).to.be('MyHoliday');
-        datamgr.removeDownloadedHoliday(1);
-        datamgr.removeDownloadedHoliday(2);
+    it('retrieve single holiday', function(done) {
+        datamgr.getOfflineHolidays(function(holidays) {
+            expect( datamgr.getOfflineHoliday(1).name ).to.be('Dummy Holiday');
+            done();
+        }, function() {
+            expect (false).to.be(true);
+            done();
+        });
     });
 
     it('load Holiday', function(done) {
@@ -104,7 +107,7 @@ describe('DataManager', function() {
     it('retrieve places list from places_1.json file', function(done) {
         datamgr.loadHoliday(1, function() {
             var list = datamgr.getPlacesList();
-            expect( list.length ).to.be(1);
+            expect( list.length ).to.be(3);
             expect( list[0].name ).to.be('Ristorante Milano');
             done();
         });
@@ -134,7 +137,7 @@ describe('DataManager', function() {
     });
 
     it('test attachment url', function() {
-        expect( datamgr.getAttachmentUrl('mytoken', '.ext') ).to.be('/mobile/download/test/mytoken.ext');
+        expect( datamgr.getAttachmentUrl('mytoken', '.ext') ).to.be('/download/test/mytoken.ext');
     });
 
 });

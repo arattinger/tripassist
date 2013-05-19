@@ -1,11 +1,9 @@
 var TripAssist;
 (function (TripAssist) {
     var DataManager = (function () {
-        function DataManager(user) {
-            this.user_ = user;
+        function DataManager() {
             this.offline_holidays_ = [];
             this.loaded_offline_ = false;
-            this.base_url_ = '/mobile/download/' + this.user_.username + '/';
             this.current_holiday_id_ = 0;
             this.loaded_holiday_ = false;
             this.routes_ = [];
@@ -13,9 +11,6 @@ var TripAssist;
             this.places_ = [];
             this.schedule_ = [];
         }
-        DataManager.prototype.storeOfflineHolidays = function () {
-            localStorage["offlineHolidays"] = JSON.stringify(this.offline_holidays_);
-        };
         DataManager.prototype.createSchedule = function () {
             for(var i = 0; i < this.routes_.length; i++) {
                 var route = this.routes_[i];
@@ -43,6 +38,28 @@ var TripAssist;
                 return a.start.getTime() - b.start.getTime();
             }
             this.schedule_.sort(mySort);
+        };
+        DataManager.prototype.setUsername = function (username) {
+            this.base_url_ = '/download/' + username + '/';
+        };
+        DataManager.prototype.login = function (username, password, callback) {
+            localStorage["userdata"] = JSON.stringify({
+                username: username,
+                password: password
+            });
+            this.setUsername(username);
+            if(callback) {
+                callback(true, '');
+            }
+        };
+        DataManager.prototype.loadUser = function () {
+            if(localStorage["userdata"]) {
+                var result = JSON.parse(localStorage['userdata']);
+                this.setUsername(result.username);
+                return result;
+            } else {
+                return null;
+            }
         };
         DataManager.prototype.getAttachmentUrl = function (token, extension) {
             return this.base_url_ + token + extension;
@@ -120,41 +137,44 @@ var TripAssist;
         DataManager.prototype.getOnlineHolidays = function (success, failure) {
             success([]);
         };
-        DataManager.prototype.getOfflineHolidays = function () {
+        DataManager.prototype.getOfflineHolidays = function (callback, failure) {
+            var self = this;
             if(!this.loaded_offline_) {
-                this.offline_holidays_ = [];
-                var json = localStorage["offlineHolidays"];
-                if(json) {
-                    this.offline_holidays_ = JSON.parse(localStorage["offlineHolidays"]);
-                }
-                this.loaded_offline_ = true;
+                $.ajax(this.base_url_ + 'holidays.json', {
+                    dataType: 'json',
+                    success: function (data, textStatus) {
+                        for(var i = 0; i < data.length; i++) {
+                            data[i].created = new Date(data[i].created);
+                            data[i].last_changed = new Date(data[i].last_changed);
+                            data[i].start = new Date(data[i].start);
+                            data[i].end = new Date(data[i].end);
+                        }
+                        self.offline_holidays_ = data;
+                        self.loaded_offline_ = true;
+                        callback(self.offline_holidays_);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
+                        failure();
+                    }
+                });
+            } else {
+                callback(self.offline_holidays_);
             }
-            return this.offline_holidays_;
         };
         DataManager.prototype.getOfflineHoliday = function (id) {
-            var holidays = this.getOfflineHolidays();
-            for(var i = 0; i < holidays.length; i++) {
-                if(holidays[i].id == id) {
-                    return holidays[i];
+            for(var i = 0; i < this.offline_holidays_.length; i++) {
+                if(this.offline_holidays_[i].id == id) {
+                    return this.offline_holidays_[i];
                 }
             }
             console.log("ERROR: holiday with id '" + id + "' not found!");
             return null;
         };
-        DataManager.prototype.addDownloadedHoliday = function (holiday) {
-            for(var i = 0; i < this.offline_holidays_.length; i++) {
-                if(this.offline_holidays_[i].id == holiday.id) {
-                    return;
-                }
-            }
-            this.offline_holidays_.push(holiday);
-            this.storeOfflineHolidays();
-        };
         DataManager.prototype.removeDownloadedHoliday = function (id) {
             for(var i = 0; i < this.offline_holidays_.length; i++) {
                 if(this.offline_holidays_[i].id == id) {
                     this.offline_holidays_.splice(i, 1);
-                    this.storeOfflineHolidays();
                     return;
                 }
             }
@@ -189,7 +209,7 @@ var TripAssist;
             }
             return null;
         };
-        DataManager.prototype.getPlacesList = function (holiday_id) {
+        DataManager.prototype.getPlacesList = function () {
             if(this.loaded_holiday_) {
                 return this.places_;
             }
