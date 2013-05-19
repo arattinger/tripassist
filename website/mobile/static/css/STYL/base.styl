@@ -3,7 +3,7 @@
 body
     background black
     color white
-    font-family Verdana, Sans-serif
+    font-family "Open Sans", "Segoe UI", Verdana, Sans-serif
     margin 0px
     height 100%
     width 100%
@@ -16,6 +16,19 @@ smallbutton()
     background-position center
     background-repeat no-repeat
     background-image url('/static/images/'arguments'.png')
+
+* 
+    -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+    userselect none
+    -moz-user-select none
+    -webkit-user-select none
+    -ms-user-select none
+
+input
+    userselect text
+    -moz-user-select text
+    -webkit-user-select text
+    -ms-user-select text
 
 .hidden
     display: none
@@ -35,11 +48,13 @@ smallbutton()
 
     #title
         float left
-        font-size titleFontSize
+        font-size mediumFontSize
         margin-left 10px
-        margin-top 10px
+        margin-top ((52 - mediumFontSize)/2)px
+        letter-spacing 0px
         overflow hidden
         text-overflow ellipsis
+        text-transform lowercase
 
 
 #content-ctn

@@ -13,6 +13,11 @@ var TripAssist;
             this.currentNavItem = null;
             this.checkSignalInterval = null;
             this.TIMEOUT_NO_SIGNAL = 120000;
+            this.mode = 'portrait';
+            var self = this;
+            $(window).on('resize orientationchange', function () {
+                self.onResize();
+            });
         }
         NavigationView.prototype.title = function () {
             return this.currentNavItem ? this.currentNavItem.name : "Navigation";
@@ -26,6 +31,7 @@ var TripAssist;
             ctn.innerHTML = this.mainTemplate({
             });
             this.startNavigation();
+            this.onResize();
             callback();
         };
         NavigationView.prototype.store = function () {
@@ -36,10 +42,15 @@ var TripAssist;
             window.clearInterval(this.checkSignalInterval);
         };
         NavigationView.prototype.restore = function (ctn) {
+            if(!this.stored) {
+                return false;
+            }
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.startNavigation();
+            this.onResize();
             this.checkSignalInterval = window.setInterval(this.checkSignal, this.TIMEOUT_NO_SIGNAL);
+            return true;
         };
         NavigationView.prototype.unload = function () {
             this.stored = false;
@@ -47,6 +58,21 @@ var TripAssist;
             this.currentCtn = null;
             this.currentNavItem = null;
             window.clearInterval(this.checkSignalInterval);
+        };
+        NavigationView.prototype.onResize = function () {
+            if(!this.stored) {
+                var landscape = $(window).width() > $(window).height();
+                this.mode = landscape ? 'landscape' : 'portrait';
+                var height = $('#arrow-ctn').parent().height() - 100;
+                height -= 50;
+                $('#arrow-ctn').css('height', height);
+                $('#arrow-ctn').css('width', height);
+                $('#arrow-ctn').css('-o-background-size', height + 'px ' + height + 'px');
+                $('#arrow-ctn').css('-webkit-background-size', height + 'px ' + height + 'px');
+                $('#arrow-ctn').css('-khtml-background-size', height + 'px ' + height + 'px');
+                $('#arrow-ctn').css('-moz-background-size', height + 'px ' + height + 'px');
+                $('#arrow-ctn').css('background-size', height + 'px ' + height + 'px');
+            }
         };
         NavigationView.prototype.checkSignal = function () {
             var now = new Date().getTime();
@@ -69,6 +95,9 @@ var TripAssist;
             this.checkSignalInterval = window.setInterval(this.checkSignal, this.TIMEOUT_NO_SIGNAL);
             function setArrow(phone_angle, target_angle) {
                 phone_angle = 360 - phone_angle;
+                if(self.mode == 'landscape') {
+                    phone_angle += 90;
+                }
                 var angle = parseInt(-phone_angle + target_angle, 10);
                 while(angle < 0) {
                     angle += 360;

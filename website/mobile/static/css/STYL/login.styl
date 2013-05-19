@@ -2,6 +2,7 @@
 
 .login-wrapper
     text-align center
+    margin auto
 
     .logo-ctn
         width 128px
@@ -34,12 +35,18 @@
                 max-width 168px
 
         .form-btn
-            border 1px solid white
-            background blue
+            border 2px solid white
+            background black
             color white
-            font-size largeFontSize
-            padding 3px
-            width 168px
+            font-size mediumFontSize
+            text-transform uppercase
+            padding 5px
+            width 166px
+
+        .form-btn:active
+            background white
+            color black
+
 
     #info-ctn
         position absolute
@@ -54,9 +61,9 @@
 @media all and (max-height: 400px)
     .login-wrapper
         .logo-ctn 
-            float left
+            display inline-block
             margin 5px
 
         .form-ctn
+            display inline-block
             margin 0px
-            float left

@@ -27,7 +27,7 @@ module TripAssist {
         }
 
         public title() {
-            return "Select Holiday";
+            return "select holiday";
         }
 
         public name() {
@@ -54,11 +54,13 @@ module TripAssist {
                 this.storedHTML = this.currentCtn.innerHTML;
         }
 
-        public restore(ctn: HTMLElement) {
+        public restore(ctn: HTMLElement) : bool {
+            if (!this.stored) return false;
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.addEvents();
             this.loadOnlineHolidays($('.list-ctn'));
+            return true;
         }
 
         public unload() {
@@ -118,13 +120,13 @@ module TripAssist {
                             var html = "";
                             for (var i = 0; i<online_holidays.length; i++) {
                                 html += "<li data-id='" + online_holidays[i].id + "'>\n"
-                                     +  "    <div class='label'>" + online_holidays[i].name + "'>\n"
+                                     +  "    <div class='label'>" + online_holidays[i].name + "'\n"
                                      +  "    <div class='download-btn'></div>";
                             }
                             previousList.html(html);
                         } else { // create new list
                             var html = self.listTemplate({
-                                title: 'Online',
+                                title: 'ONLINE',
                                 id: 'online-holidays-list',
                                 offline: false,
                                 holidays : online_holidays
@@ -155,13 +157,13 @@ module TripAssist {
                             var html = "";
                             for (var i = 0; i<holidays.length; i++) {
                                 html += "<li data-id='" + holidays[i].id + "'>\n"
-                                     +  "    <div class='label'>" + holidays[i].name + "'>\n"
+                                     +  "    <div class='label'>" + holidays[i].name + "'\n"
                                      +  "    <div class='download-btn'></div>";
                             }
                             previousList.html(html);
                         } else { // create new list
                             var html = self.listTemplate({
-                                title: 'Offline',
+                                title: 'OFFLINE',
                                 offline: true,
                                 id: 'offline-holidays-list',
                                 holidays : holidays
