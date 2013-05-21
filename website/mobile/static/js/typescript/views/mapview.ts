@@ -80,10 +80,11 @@ module TripAssist {
 
 
         private showMap() {
+            OfflineMap.clearCache();
             OfflineMap.addRectToCache(47.3000, 15.23, 47.87, 15.43, 10, function(progress, errorMsg) {
                 var map = document.getElementById('map');
                 if (progress == 100) {
-                    OfflineMap.render(47.074258, 15.437272, 7, map);
+                    OfflineMap.render(47.074258, 15.437272, 10, map);
                 } else {
                     if (errorMsg) {
                         map.innerHTML = 'ERROR: ' + errorMsg;
