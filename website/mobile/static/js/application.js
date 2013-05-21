@@ -11,6 +11,7 @@ var TripAssist;
                 new TripAssist.RoutesView(this.datamgr, this), 
                 new TripAssist.SVGView(this.datamgr, this), 
                 new TripAssist.NavigationView(this.datamgr, this), 
+                new TripAssist.MapView(this.datamgr, this), 
                 new TripAssist.PlacesView(this.datamgr, this), 
                 new TripAssist.ScheduleView(this.datamgr, this), 
                 new TripAssist.PlaceDetailView(this.datamgr, this), 

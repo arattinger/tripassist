@@ -88,6 +88,15 @@ var TripAssist;
                 };
                 self.app.loadView('NavigationView', navItem);
             }
+            function loadMap(id) {
+                var route = self.datamgr.getRoute(id);
+                var mapItem = {
+                    name: route.name,
+                    longitude: route.departure_longitude,
+                    latitude: route.departure_latitude
+                };
+                self.app.loadView('MapView', mapItem);
+            }
             function openDetail(id) {
                 var route = self.datamgr.getRoute(id);
                 self.app.loadView('RouteDetailView', route);
@@ -95,6 +104,11 @@ var TripAssist;
             $('.navigate-btn').on('tap', function () {
                 var id = this.parentNode.getAttribute('data-id');
                 navigateTo(id);
+                return false;
+            });
+            $('.map-btn').on('tap', function () {
+                var id = this.parentNode.getAttribute('data-id');
+                loadMap(id);
                 return false;
             });
             $('.label').on('tap', function () {

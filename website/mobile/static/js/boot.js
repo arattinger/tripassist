@@ -12,6 +12,7 @@ $(document).ready(function() {
         'accommodationdetailview',
         'accommodationsview',
         'mainview',
+        'mapview',
         'navigationview',
         'placesview',
         'placedetailview',
