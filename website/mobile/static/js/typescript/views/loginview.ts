@@ -49,11 +49,13 @@ module TripAssist {
             this.storedHTML = this.currentCtn.innerHTML;
         }
 
-        public restore(ctn: HTMLElement) {
+        public restore(ctn: HTMLElement) : bool {
+            if (!this.stored) return false;
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             $('#settings-btn').hide();
             this.addEvents();
+            return true;
         }
 
         public unload() {

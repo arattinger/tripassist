@@ -30,11 +30,20 @@ var TripAssist;
             $('#main-ctn').html(this.mainTemplate());
             var self = this;
             $('#back-btn').on('tap', function () {
-                if(history && history.pushState) {
-                    history.back();
-                } else {
-                    self.unloadView();
-                }
+                $('#content-ctn').removeClass('viewin-left');
+                $('#content-ctn').removeClass('viewin-right');
+                $('#content-ctn').addClass('viewout-right');
+                window.setTimeout(function () {
+                    $('#content-ctn').removeClass('viewout-right');
+                    $('#content-ctn').empty();
+                    1;
+                    $('#content-ctn').addClass('viewin-left');
+                    if(history && history.pushState) {
+                        history.back();
+                    } else {
+                        self.unloadView();
+                    }
+                }, 300);
                 return false;
             });
             if(window.addEventListener) {
@@ -63,39 +72,51 @@ var TripAssist;
                         history.pushState(null, null, '?' + view.name());
                     }
                 }
+                if(this.viewStack.length > 1) {
+                    $('#settings-btn').hide();
+                } else {
+                    $('#settings-btn').show();
+                }
                 this.renderView(data);
             }
         };
         Application.prototype.settingsDone = function () {
-            if(this.viewStack.length > 1) {
-                if(history && history.pushState) {
-                    history.back();
-                } else {
-                    this.unloadView();
-                }
-            } else {
-                this.viewStack = [
-                    this.views[1]
-                ];
-                this.renderView(null);
-            }
+            this.views[0].unload();
+            this.views[1].unload();
+            this.viewStack = [
+                this.views[1]
+            ];
+            this.renderView(null);
         };
         Application.prototype.unloadView = function () {
             if(this.viewStack.length > 1) {
                 this.viewStack[this.viewStack.length - 1].unload();
                 this.viewStack.pop();
-                this.viewStack[this.viewStack.length - 1].restore(document.getElementById('content-ctn'));
+                if(this.viewStack.length == 1) {
+                    $('#settings-btn').show();
+                }
+                if(!this.viewStack[this.viewStack.length - 1].restore(document.getElementById('content-ctn'))) {
+                    this.renderView(null);
+                }
                 this.renderTopBar();
             }
         };
         Application.prototype.renderView = function (data) {
             var self = this;
             if(this.viewStack.length != 0) {
-                $('.content-ctn').html('');
-                var view = this.viewStack[this.viewStack.length - 1];
-                view.render(document.getElementById('content-ctn'), data, function () {
-                    self.renderTopBar();
-                });
+                var self = this;
+                $('#content-ctn').removeClass('viewin-left');
+                $('#content-ctn').removeClass('viewin-right');
+                $('#content-ctn').addClass('viewout-left');
+                window.setTimeout(function () {
+                    $('#content-ctn').removeClass('viewout-left');
+                    $('#content-ctn').empty();
+                    $('#content-ctn').addClass('viewin-right');
+                    var view = self.viewStack[self.viewStack.length - 1];
+                    view.render(document.getElementById('content-ctn'), data, function () {
+                        self.renderTopBar();
+                    });
+                }, 300);
             }
         };
         Application.prototype.renderTopBar = function () {

@@ -105,7 +105,10 @@ describe('NavigationView', function() {
                     alpha: 305.0
                 });
                 var angle = $('#arrow-ctn').rotationDegrees();
-                expect( angle ).to.be(35);
+                var expected = 35;
+                var landscape = $(window).width() > $(window).height();
+                if (landscape) expected = 35 - 90 + 360;
+                expect( angle ).to.be(expected);
                 ctn.innerHTML = '';
                 done();
             }, 100);

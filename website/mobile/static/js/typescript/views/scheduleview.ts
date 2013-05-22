@@ -89,9 +89,11 @@ module TripAssist {
         }
 
         public restore(ctn: HTMLElement) {
+            if (!this.stored) return false;
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.addEvents();
+            return true;
         }
 
         public unload() {

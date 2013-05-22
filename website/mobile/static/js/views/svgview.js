@@ -42,10 +42,14 @@ var TripAssist;
             this.unsetZoomable();
         };
         SVGView.prototype.restore = function (ctn) {
+            if(!this.stored) {
+                return false;
+            }
             this.stored = false;
             ctn.innerHTML = this.storedHTML;
             this.addEvents();
             this.setZoomable();
+            return true;
         };
         SVGView.prototype.unload = function () {
             this.stored = false;

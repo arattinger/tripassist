@@ -83,11 +83,19 @@ module TripAssist {
             // add back functionality
             var self = this;
             $('#back-btn').on('tap', function() {
-                if (history && history.pushState) {
-                    history.back();
-                } else {
-                    self.unloadView();
-                }
+                $('#content-ctn').removeClass('viewin-left');
+                $('#content-ctn').removeClass('viewin-right');
+                $('#content-ctn').addClass('viewout-right');
+                window.setTimeout(function() {
+                    $('#content-ctn').removeClass('viewout-right');
+                    $('#content-ctn').empty();1
+                    $('#content-ctn').addClass('viewin-left');
+                    if (history && history.pushState) {
+                        history.back();
+                    } else {
+                        self.unloadView();
+                    }
+                }, 300);
                 return false;
             });
 
@@ -132,6 +140,12 @@ module TripAssist {
                         history.pushState(null, null, '?' + view.name());
                     }
                 }
+                // hide settings button if not at main view
+                if (this.viewStack.length > 1) {
+                    $('#settings-btn').hide();
+                } else {
+                    $('#settings-btn').show();
+                }
                 this.renderView(data);
             }
         }
@@ -140,16 +154,10 @@ module TripAssist {
          * to be called when login or settings are done
          */
         public settingsDone() : void {
-            if (this.viewStack.length > 1) {
-                if (history && history.pushState) {
-                    history.back();
-                } else {
-                    this.unloadView();
-                }
-            } else {
-                this.viewStack = [this.views[1]]; // select holiday view
-                this.renderView(null);
-            }
+            this.views[0].unload(); // unload login view properly
+            this.views[1].unload(); // restore select holiday view
+            this.viewStack = [this.views[1]]; // select holiday view
+            this.renderView(null);
         }
 
         /**
@@ -160,8 +168,13 @@ module TripAssist {
             if (this.viewStack.length > 1) {
                 this.viewStack[this.viewStack.length-1].unload();
                 this.viewStack.pop();
+                if (this.viewStack.length == 1) {
+                    $('#settings-btn').show();
+                }
                 // restore previous view
-                this.viewStack[this.viewStack.length-1].restore(document.getElementById('content-ctn'));
+                if (!this.viewStack[this.viewStack.length-1].restore(document.getElementById('content-ctn'))) {
+                    this.renderView(null);
+                }
             
                 this.renderTopBar();
             }
@@ -171,12 +184,24 @@ module TripAssist {
             var self = this;
             if (this.viewStack.length != 0) {
 
-                // clear content
-                $('.content-ctn').html('');
-                var view = this.viewStack[this.viewStack.length-1];
-                view.render(document.getElementById('content-ctn'), data, function() {
-                    self.renderTopBar();
-                });
+                var self = this;
+                $('#content-ctn').removeClass('viewin-left');
+                $('#content-ctn').removeClass('viewin-right');
+                $('#content-ctn').addClass('viewout-left');
+                window.setTimeout(function() {
+                    $('#content-ctn').removeClass('viewout-left');
+                    $('#content-ctn').empty();
+                    $('#content-ctn').addClass('viewin-right');
+                    var view = self.viewStack[self.viewStack.length-1];
+                    view.render(document.getElementById('content-ctn'), data, function() {
+                        self.renderTopBar();
+                    });
+                }, 300);
+
+                //var view = this.viewStack[this.viewStack.length-1];
+                //view.render(document.getElementById('content-ctn'), data, function() {
+                //    self.renderTopBar();
+                //});
             }
         }
 

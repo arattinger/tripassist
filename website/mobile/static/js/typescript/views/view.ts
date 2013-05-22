@@ -27,7 +27,7 @@ module TripAssist {
         /**
          * restores a view from a stored state
          */
-        restore(ctn: HTMLElement);
+        restore(ctn: HTMLElement) : bool;
 
         /**
          * unloads the entire view

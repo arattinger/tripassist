@@ -47,6 +47,14 @@ var TripAssist;
                 username: username,
                 password: password
             });
+            this.offline_holidays_ = [];
+            this.loaded_offline_ = false;
+            this.current_holiday_id_ = 0;
+            this.loaded_holiday_ = false;
+            this.routes_ = [];
+            this.accommodations_ = [];
+            this.places_ = [];
+            this.schedule_ = [];
             this.setUsername(username);
             if(callback) {
                 callback(true, '');
