@@ -12,9 +12,8 @@ ROUTE_CHOICES = (
 )
 PLACE_DEFAULT = 0
 PLACE_CHOICES = (
-    (0, 'Bus'),
-    (1, 'Train'),
-    (2, 'Plane'),
+    (0, 'Hotel'),
+    (1, 'Hostel'),
 )
 
 ACCOMMODATION_DEFAULT = 0
@@ -22,7 +21,7 @@ ACCOMMODATION_CHOICES = (
     (0, 'Landmark'),
     (1, 'Museum'),
     (2, 'Cultural'),
-    (2, 'Outdoor'),
+    (3, 'Outdoor'),
 )
 
 
