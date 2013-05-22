@@ -4,6 +4,27 @@ from django.contrib.auth.models import User
 from os.path import join
 
 
+ROUTE_DEFAULT = 0
+ROUTE_CHOICES = (
+    (0, 'Bus'),
+    (1, 'Train'),
+    (2, 'Plane'),
+)
+PLACE_DEFAULT = 0
+PLACE_CHOICES = (
+    (0, 'Hotel'),
+    (1, 'Hostel'),
+)
+
+ACCOMMODATION_DEFAULT = 0
+ACCOMMODATION_CHOICES = (
+    (0, 'Landmark'),
+    (1, 'Museum'),
+    (2, 'Cultural'),
+    (3, 'Outdoor'),
+)
+
+
 def _get_upload_dir(instance, filename):
     upload_dir = join("attachment", instance.user.username, filename)
     return upload_dir
@@ -18,7 +39,8 @@ class Attachment(models.Model):
 
 class Route(models.Model):
     name = models.CharField(max_length=255, blank=True)
-    type = models.PositiveSmallIntegerField()
+    type = models.PositiveSmallIntegerField(
+        default=ROUTE_DEFAULT, choices=ROUTE_CHOICES)
     created = models.DateTimeField(default=now)
     last_changed = models.DateTimeField(default=now)
 
@@ -43,8 +65,9 @@ class Route(models.Model):
 
 
 class Place(models.Model):
-    name = models.CharField(max_length=255, blank=True)
-    type = models.PositiveSmallIntegerField()
+    name = models.CharField(max_length=255)
+    type = models.PositiveSmallIntegerField(
+        default=PLACE_DEFAULT, choices=PLACE_CHOICES)
     created = models.DateTimeField(default=now)
     last_changed = models.DateTimeField(default=now)
     longitude = models.FloatField(null=True, blank=True)
@@ -63,7 +86,8 @@ class Place(models.Model):
 
 class Accommodation(models.Model):
     name = models.CharField(max_length=255, blank=True)
-    type = models.PositiveSmallIntegerField()
+    type = models.PositiveSmallIntegerField(
+        default=ACCOMMODATION_DEFAULT, choices=ACCOMMODATION_CHOICES)
     created = models.DateTimeField(default=now)
     last_changed = models.DateTimeField(default=now)
     longitude = models.FloatField(null=True, blank=True)

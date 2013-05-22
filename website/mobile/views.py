@@ -6,8 +6,8 @@ from django.conf import settings
 from os.path import join, basename
 import mimetypes
 from unicodedata import normalize
-from django.http import HttpResponse
-from models import Attachment, Holiday
+from django.http import HttpResponse, HttpResponseRedirect
+from models import Attachment, Holiday, Place, Route, Accommodation
 from forms import HolidayForm, RouteForm, AccommodationForm, PlaceForm
 import time
 
@@ -51,61 +51,42 @@ def holiday(request):
 
 @login_required
 def route(request, holiday_id, item_id=None):
-    holiday_obj = Holiday.objects.get(pk=holiday_id)
-    data = form_builder(request, RouteForm(), holiday_obj.routes, item_id)
-    if data is None:
-        return redirect('holiday_home', holiday_id=holiday_id)
-    data['holiday_id'] = holiday_id
-    return render_to_response('route.html', data, RequestContext(request))
+    return form_builder(request, RouteForm, Route, holiday_id, item_id,
+                        'route.html', 'routes')
 
 
 @login_required
 def accommodation(request, holiday_id, item_id=None):
-    holiday_obj = Holiday.objects.get(pk=holiday_id)
-    data = form_builder(request, AccommodationForm(),
-                        holiday_obj.accommodations, item_id)
-    if data is None:
-        return redirect('holiday_home', holiday_id=holiday_id)
-    data['holiday_id'] = holiday_id
-    return render_to_response('accommodation.html', data,
-                              RequestContext(request))
+    return form_builder(request, AccommodationForm, Accommodation, holiday_id,
+                        item_id, 'accommodation.html', 'accommodations')
 
 
 @login_required
 def place(request, holiday_id, item_id=None):
-    holiday_obj = Holiday.objects.get(pk=holiday_id)
-    data = form_builder(request, PlaceForm(), holiday_obj.places, item_id)
-    if data is None:
-        return redirect('holiday_home', holiday_id=holiday_id)
-    data['holiday_id'] = holiday_id
-    return render_to_response('place.html', data, RequestContext(request))
+    return form_builder(request, PlaceForm, Place, holiday_id, item_id,
+                        'place.html', 'places')
 
 
 @login_required
-def form_builder(request, form, holiday_item, item_id):
+def form_builder(request, form, model, holiday_id, item_id, html, field):
+    data = {'holiday_id': holiday_id}
+    inst = None
+    if item_id:
+        data['item_id'] = item_id
+        inst = model.objects.get(pk=item_id)
     if request.method == 'POST':
-        if item_id:
-            form.__init__(request.POST, instance=holiday_item.get(pk=item_id))
-        else:
-            form.__init__(request.POST)
-        if form.is_valid:
-            if item_id:
-                form.save()
-            else:
-                holiday_item.add(form.save())
+        form = form(request.POST, instance=inst)
+        if form.is_valid():
+            inst = form.save(inst)
+            holiday = Holiday.objects.get(pk=holiday_id)
+            getattr(holiday, field).add(inst)
+            holiday.save()
             messages.success(request, 'Saved successfully!')
-            return None
-        else:
-            messages.error(request, 'Invalid input!')
-    elif request.method == 'GET':
-        if item_id:
-            form.__init__(instance=holiday_item.get(pk=item_id))
-    data = {
-        'form': form,
-        'holiday_id': None,
-        'item_id': item_id,
-    }
-    return data
+            return HttpResponseRedirect('/holiday/' + str(holiday_id))
+        data['form'] = form
+    else:
+        data['form'] = form(instance=inst)
+    return render_to_response(html, data, RequestContext(request))
 
 
 def manifest(request):
