@@ -7,7 +7,7 @@ from os.path import join, basename
 import mimetypes
 from unicodedata import normalize
 from django.http import HttpResponse, HttpResponseRedirect
-from models import Attachment, Holiday, Place
+from models import Attachment, Holiday, Place, Route, Accommodation
 from forms import HolidayForm, RouteForm, AccommodationForm, PlaceForm
 import time
 
@@ -52,23 +52,23 @@ def holiday(request):
 @login_required
 def route(request, holiday_id, item_id=None):
     return form_builder(request, RouteForm, Route, holiday_id, item_id,
-                        'route.html')
+                        'route.html', 'routes')
 
 
 @login_required
 def accommodation(request, holiday_id, item_id=None):
     return form_builder(request, AccommodationForm, Accommodation, holiday_id,
-                        item_id, 'accommodation.html')
+                        item_id, 'accommodation.html', 'accommodations')
 
 
 @login_required
 def place(request, holiday_id, item_id=None):
     return form_builder(request, PlaceForm, Place, holiday_id, item_id,
-                        'place.html')
+                        'place.html', 'places')
 
 
 @login_required
-def form_builder(request, form, model, holiday_id, item_id, html):
+def form_builder(request, form, model, holiday_id, item_id, html, field):
     data = {'holiday_id': holiday_id}
     inst = None
     if item_id:
@@ -78,7 +78,7 @@ def form_builder(request, form, model, holiday_id, item_id, html):
         if form.is_valid():
             inst = form.save()
             holiday = Holiday.objects.get(pk=holiday_id)
-            holiday.places.add(inst)
+            getattr(holiday, field).add(inst)
             holiday.save()
             messages.success(request, 'Saved successfully!')
             return HttpResponseRedirect('/holiday/' + str(holiday_id))
