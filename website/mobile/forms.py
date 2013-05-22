@@ -1,10 +1,8 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
 from models import Holiday
 from models import Route
 from models import Accommodation
 from models import Place
-from widgets import JqSplitDateTimeWidget
-from fields import JqSplitDateTimeField
 
 
 class HolidayForm(ModelForm):
@@ -17,24 +15,23 @@ class HolidayForm(ModelForm):
 class RouteForm(ModelForm):
     class Meta:
         model = Route
-        departure_time = JqSplitDateTimeField(widget=JqSplitDateTimeWidget(
-            attrs={'date_class': 'datepicker', 'time_class': 'timepicker'}))
-        arrival_time = JqSplitDateTimeField(widget=JqSplitDateTimeWidget(
-            attrs={'date_class': 'datepicker', 'time_class': 'timepicker'}))
-        exclude = ("created", "last_changed",
-                   "departure_longitude", "departure_latitude",
-                   "departure_altitude",
-                   "arrival_longitude", "arrival_latitude",
-                   "arrival_altitude", "files")
+        widgets = {
+            'departure_time': TextInput(attrs={'class': 'datetimepicker'}),
+            'arrival_time': TextInput(attrs={'class': 'datetimepicker'}),
+        }
+        exclude = ("created", "last_changed", "departure_longitude",
+                   "departure_latitude", "departure_altitude",
+                   "arrival_longitude", "arrival_latitude", "arrival_altitude",
+                   "files")
 
 
 class AccommodationForm(ModelForm):
     class Meta:
         model = Accommodation
-        start = JqSplitDateTimeField(widget=JqSplitDateTimeWidget(
-            attrs={'date_class': 'datepicker', 'time_class': 'timepicker'}))
-        end = JqSplitDateTimeField(widget=JqSplitDateTimeWidget(
-            attrs={'date_class': 'datepicker', 'time_class': 'timepicker'}))
+        widgets = {
+            'start': TextInput(attrs={'class': 'datepicker'}),
+            'end': TextInput(attrs={'class': 'datepicker'}),
+        }
         exclude = ("created", "last_changed", "longitude", "latitude",
                    "altitude", "files")
 
