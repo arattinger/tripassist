@@ -1,5 +1,7 @@
 {% extends "content_base.html" %}
 
+{% load messages %}
+
 {% block main-title %} Add Accommodation {% endblock %}
 
 {% block main-head %}
@@ -7,11 +9,19 @@
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'holiday_home' holiday %}" method="post">
+
+{% render_messages messages %}
+
+{% if item_id == None %}
+<form action="{% url accommodation holiday_id %}" method="post">
+{% else %}
+<form action="{% url accommodation holiday_id item_id %}" method="post">
+{% endif %}
 {% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>
+
 {% endblock %}
 
 {% block main-meta %}

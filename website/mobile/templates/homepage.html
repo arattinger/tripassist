@@ -1,5 +1,7 @@
 {% extends "content_base.html" %}
 
+{% load messages %}
+
 {% block main-title %} Homepage {% endblock %}
 
 {% block main-head %}
@@ -8,6 +10,7 @@
 
 {% block content %}
 <h1>Holidays</h1>
+{% render_messages messages %}
 <div class='tiles-wrapper'>
     <div class='tiles-ctn'>
         <div id='holiday-list'>
@@ -15,7 +18,7 @@
             {% for holiday in holiday_list %}
                 <li>
                     <div class='holiday-tile'>
-                        <a href={% url 'holiday_home' holiday.name %}>
+                        <a href={% url holiday_home holiday.pk %}>
                             {{ holiday.name }}
                         </a>
                     </div>
@@ -24,7 +27,7 @@
             </ul>
         </div>
         <div id='add-holiday-tile'>
-            <a href={% url holiday %}>Add Holiday</a>
+            <a href={% url add_holiday %}>Add Holiday</a>
         </div>
     </div>
 </div>

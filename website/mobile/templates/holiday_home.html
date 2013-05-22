@@ -1,5 +1,7 @@
 {% extends "content_base.html" %}
 
+{% load messages %}
+
 {% block main-title %} Holiday {% endblock %}
 
 {% block main-head %}
@@ -8,47 +10,48 @@
 
 {% block content %}
 <h1>{{ holiday_obj.name }}</h1>
+{% render_messages messages %}
 <div class='tiles-wrapper'>
     <div class='tiles-ctn'>
         <div id='holiday-obj'>
             <div id='route-cnt'>
-            	<p>Routes</p>
-	            <ul>
-	            {% for route in holiday_obj.routes.all %}
-	                <li><a href={% url 'route' holiday_obj.name route.name %}>
-	                            {{ route.name }}
-	                </a></li>
-	            {% endfor %}
-	            </ul>
+                <p>Routes</p>
+                <ul>
+                {% for route in holiday_obj.routes.all %}
+                    <li><a href={% url route holiday_obj.pk route.pk %}>
+                                {{ route.name }}
+                    </a></li>
+                {% endfor %}
+                </ul>
             </div>
             <div id='route-tile'>
-            	<a href={% url 'add_route' holiday_obj.name %}>Add</a>
+                <a href={% url route holiday_obj.pk %}>Add</a>
             </div>
             <div id='accommodation-cnt'>
-            	<p>Accommodations</p>
-	            <ul>
-	            {% for accom in holiday_obj.accommodations.all %}
-	                <li><a href=
-	                    {% url 'accommodation' holiday_obj.name accom.name %}>
-	                        {{ accom.name }}
-	                </a></li>
-	            {% endfor %}
-	            </ul>
+                <p>Accommodations</p>
+                <ul>
+                {% for accom in holiday_obj.accommodations.all %}
+                    <li><a href=
+                        {% url accommodation holiday_obj.pk accom.pk %}>
+                            {{ accom.name }}
+                    </a></li>
+                {% endfor %}
+                </ul>
             </div>
             <div id='accommodation-tile'><a href=
-            	{% url 'add_accommodation' holiday_obj.name %}>Add</a></div>
+                {% url accommodation holiday_obj.pk %}>Add</a></div>
             <div id='place-cnt'>
-            	<p>Places</p>
-	            <ul>
-	            {% for place in holiday_obj.places.all %}
-	                <li><a href={% url 'place' holiday_obj.name place.name %}>
-	                            {{ place.name }}
-	                </a></li>
-	            {% endfor %}
-	            </ul>
+                <p>Places</p>
+                <ul>
+                {% for place in holiday_obj.places.all %}
+                    <li><a href={% url place holiday_obj.pk place.pk %}>
+                                {{ place.name }}
+                    </a></li>
+                {% endfor %}
+                </ul>
             </div>
             <div id='place-tile'><a href=
-            	{% url 'add_place' holiday_obj.name %}>Add</a></div>
+                {% url place holiday_obj.pk %}>Add</a></div>
         </div>
     </div>
 </div>
