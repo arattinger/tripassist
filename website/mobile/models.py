@@ -65,7 +65,7 @@ class Route(models.Model):
 
 
 class Place(models.Model):
-    name = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255)
     type = models.PositiveSmallIntegerField(
         default=PLACE_DEFAULT, choices=PLACE_CHOICES)
     created = models.DateTimeField(default=now)
