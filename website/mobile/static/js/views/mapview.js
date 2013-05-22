@@ -50,19 +50,9 @@ var TripAssist;
             this.allItems = [];
         };
         MapView.prototype.showMap = function () {
-            OfflineMap.clearCache();
-            OfflineMap.addRectToCache(47.3000, 15.23, 47.87, 15.43, 10, function (progress, errorMsg) {
-                var map = document.getElementById('map');
-                if(progress == 100) {
-                    OfflineMap.render(47.074258, 15.437272, 10, map);
-                } else {
-                    if(errorMsg) {
-                        map.innerHTML = 'ERROR: ' + errorMsg;
-                    } else {
-                        map.innerHTML = progress + ' % loaded';
-                    }
-                }
-            });
+            var self = this;
+            var map = document.getElementById('map');
+            OfflineMap.render(this.currentItem.latitude, this.currentItem.longitude, 17, map);
         };
         return MapView;
     })();

@@ -88,9 +88,24 @@ module TripAssist {
                 self.app.loadView('NavigationView', navItem);
             }
 
+            function loadMap() {
+                var mapItem = {
+                    name : self.accommodation.name,
+                    longitude : self.accommodation.longitude,
+                    latitude : self.accommodation.latitude
+                };
+                self.app.loadView('MapView', mapItem);
+            }
+
             $('#navigate-btn').on('tap', function() {
                 var id = this.parentNode.getAttribute('data-id');
                 navigateTo();
+                return false;
+            });
+
+            $('#map-btn').on('tap', function() {
+                var id = this.parentNode.getAttribute('data-id');
+                loadMap();
                 return false;
             });
 

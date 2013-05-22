@@ -90,6 +90,16 @@ module TripAssist {
                 self.app.loadView('NavigationView', navItem);
             }
 
+             function loadMap(id) {
+                var place = self.datamgr.getPlace(id);
+                var mapItem = {
+                    name : place.name,
+                    longitude : place.longitude,
+                    latitude : place.latitude
+                };
+                self.app.loadView('MapView', mapItem);
+            }
+
             function openDetail(id) {
                 var place = self.datamgr.getPlace(id);
                 self.store();
@@ -99,6 +109,12 @@ module TripAssist {
             $('.navigate-btn').on('tap', function() {
                 var id = this.parentNode.getAttribute('data-id');
                 navigateTo(id);
+                return false;
+            });
+
+            $('.map-btn').on('tap', function() {
+                var id = this.parentNode.getAttribute('data-id');
+                loadMap(id);
                 return false;
             });
 

@@ -126,6 +126,28 @@ module TripAssist {
                 self.app.loadView('NavigationView', navItem);
             }
 
+            function loadMap(id, type) {
+                var mapItem = null;
+                if (type == 'accommodation') {
+                    var accommodation = self.datamgr.getAccommodation(id);
+                    mapItem = {
+                        name : accommodation.name,
+                        longitude : accommodation.longitude,
+                        latitude : accommodation.latitude
+                    };
+                } else {
+                    var route = self.datamgr.getRoute(id);
+                    mapItem = {
+                        name : route.name,
+                        longitude : route.departure_longitude,
+                        latitude : route.departure_latitude,
+                        due: route.departure_time
+                    };
+                }
+                
+                self.app.loadView('MapView', mapItem);
+            }
+
             function openDetail(id, type) {
                 if (type == 'accommodation') {
                     var accommodation = self.datamgr.getAccommodation(id);
@@ -140,6 +162,13 @@ module TripAssist {
                 var id = this.parentNode.getAttribute('data-id');
                 var type = this.parentNode.getAttribute('data-type');
                 navigateTo(id, type);
+                return false;
+            });
+
+            $('.map-btn').on('tap', function() {
+                var id = this.parentNode.getAttribute('data-id');
+                var type = this.parentNode.getAttribute('data-type');
+                loadMap(id, type);
                 return false;
             });
 

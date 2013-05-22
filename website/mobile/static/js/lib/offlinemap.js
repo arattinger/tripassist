@@ -8,24 +8,29 @@ var OfflineMap = (function() {
     var cacheHits = 0, seeding = false;
     var seedCallback = false;
     // try cache before loading from remote resource
-    cacheRead1 = new OpenLayers.Control.CacheRead({}); // TODO: add possibility to also fetch from online resource, if online
+    cacheRead1 = new OpenLayers.Control.CacheRead({});
     cacheWrite = new OpenLayers.Control.CacheWrite({
         imageFormat: "image/jpeg",
         eventListeners: {
             cachefull: function() {
                 if (seeding) {
-                    alert('cache full');
                     if (seedCallback) {
                         seedCallback(0, 'Cache is full!');
                         seedCallback = false;
                     }
                     stopSeeding();
                 }
-                alert('cache full should not be here');
-                // TODO
             }
         }
     });
+
+    var markers;
+    var markerSize = new OpenLayers.Size(21,25);
+    var markerOffset = new OpenLayers.Pixel(-(markerSize.w/2), -markerSize.h);
+    // TODO: change to cached version (different marker for each type? (hotel, campsite, museum,...))
+    var markerIcon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', markerSize, markerOffset);
+
+    var items = [];
 
     // start seeding the cache
     function startSeeding() {
@@ -60,10 +65,9 @@ var OfflineMap = (function() {
         var extentWidth = seeding.extent.getWidth() / map.getResolutionForZoom(nextZoom);
         // adjust the layer's buffer size so we don't have to pan
         layer.buffer = Math.ceil((extentWidth / tileWidth - map.getSize().w / tileWidth) / 2);
-        map.zoomIn();
-        if (nextZoom === layer.numZoomLevels-1) {
+        //if (nextZoom === layer.numZoomLevels-1) {
             stopSeeding();
-        }
+        //}
     }
     
     // stop seeding (when done or when cache is full)
@@ -72,21 +76,42 @@ var OfflineMap = (function() {
         seeding.layer.events.unregister("loadend", null, seed);
         seeding.layer.buffer = seeding.buffer;
         map.setCenter(seeding.center, seeding.zoom);
-        if (!seeding.cacheWriteActive) {
-            cacheWrite.deactivate();
-        }
         seeding = false;
         cacheRead1.activate();
+        console.log('stopped seeding');
+        $('.map-hidden').remove();
         if(seedCallback) {
             seedCallback(100, null);
         }
     }
 
     function createMap(ctn, lon, lat, zoom) {
+
+        markers = new OpenLayers.Layer.Markers( "Markers" );
+        var popups = [];
+        // add items
+        for (var i = 0; i<items.length; i++) {
+            var lonlat = getLonLat(items[i].longitude, items[i].latitude);
+            var marker = new OpenLayers.Marker(lonlat, markerIcon.clone());
+            
+            var popup = new OpenLayers.Popup(null, lonlat, null,
+                items[i].text, true);
+            popup.autoSize = true;
+            
+            marker.popup = popup;
+            popups.push(popup);
+            popup.hide();
+            marker.events.register('click', marker, function() {
+                this.popup.toggle();
+            });
+            markers.addMarker(marker);
+        }
+
         map = new OpenLayers.Map({
             div: ctn,
             projection: "EPSG:900913",
             layers: [
+                markers, 
                 new OpenLayers.Layer.OSM("OpenStreetMap (CORS)", null, {
                     eventListeners: {
                         tileloaded: updateStatus,
@@ -97,6 +122,11 @@ var OfflineMap = (function() {
             center: getLonLat(lon, lat),
             zoom: zoom
         });
+
+        // add popups
+        for (var i = 0; i<popups.length; i++)
+            map.addPopup(popups[i]);
+
         map.addControls([cacheRead1, cacheWrite]);
     }
 
@@ -111,8 +141,7 @@ var OfflineMap = (function() {
                 // will throw an exception if CORS image requests are not supported
                 canvasContext.canvas.toDataURL();
             } else {
-                // TODO
-                console.log("Canvas not supported. Try a different browser.");
+                alert("Canvas not supported. Try a different browser.");
             }
         } catch(e) {
             // we remove the OSM layer if CORS image requests are not supported.
@@ -141,11 +170,13 @@ var OfflineMap = (function() {
     }
 
     var self = {};
-    self.addRectToCache = function(lat1, lon1, lat2, lon2, maxZoomLevel, callback) {
+    self.addMapToCache = function(lat, lon, callback) {
         var hiddenCtn = document.createElement('div');
         hiddenCtn.className = 'map-hidden';
         document.getElementById('content-ctn').appendChild(hiddenCtn);
-        createMap(hiddenCtn, lon1, lat1, 10);
+        console.log('createMap(' + hiddenCtn + ', ' + lon + ', ' + lat + ')');
+        createMap(hiddenCtn, lon, lat, 17);
+        seedCallback = callback;
         startSeeding();
     };
 
@@ -157,5 +188,18 @@ var OfflineMap = (function() {
     self.clearCache = function() {
         OpenLayers.Control.CacheWrite.clearCache();
     };
+
+    self.addItem = function(lat, lon, text) {
+        items.push({
+            longitude: lon,
+            latitude: lat,
+            text: text
+        });
+    };
+
+    self.clearItems = function() {
+        items = [];
+    };
+
     return self;
 })();

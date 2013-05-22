@@ -80,11 +80,22 @@ module TripAssist {
 
 
         private showMap() {
-            OfflineMap.clearCache();
-            OfflineMap.addRectToCache(47.3000, 15.23, 47.87, 15.43, 10, function(progress, errorMsg) {
+            var self = this;
+            var map = document.getElementById('map');
+            OfflineMap.render(this.currentItem.latitude, this.currentItem.longitude, 17, map);
+            /*OfflineMap.clearCache();
+            //OfflineMap.addRectToCache(47.3000, 15.23, 47.87, 15.43, 14, function(progress, errorMsg) {
+            OfflineMap.addMapToCache(self.currentItem.l, function(progress, errorMsg) {
                 var map = document.getElementById('map');
                 if (progress == 100) {
-                    OfflineMap.render(47.074258, 15.437272, 10, map);
+                    // add items (TODO: move out of here)
+                    var routes = self.datamgr.getRoutesList();
+                    for (var r = 0; r<routes.length; r++) {
+                        OfflineMap.addItem(routes[r].departure_latitude, routes[r].departure_longitude, routes[r].departure_name + '(' + routes[r].name + ')');
+                        OfflineMap.addItem(routes[r].arrival_latitude, routes[r].arrival_longitude, routes[r].arrival_name + '(' + routes[r].name + ')');
+                    }
+
+                    OfflineMap.render(47.074258, 15.437272, 17, map);
                 } else {
                     if (errorMsg) {
                         map.innerHTML = 'ERROR: ' + errorMsg;
@@ -92,7 +103,7 @@ module TripAssist {
                         map.innerHTML = progress + ' % loaded';
                     }
                 }
-            });
+            });*/
         }
     }
 }

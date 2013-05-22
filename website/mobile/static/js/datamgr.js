@@ -72,6 +72,57 @@ var TripAssist;
         DataManager.prototype.getAttachmentUrl = function (token, extension) {
             return this.base_url_ + token + extension;
         };
+        DataManager.prototype.cacheMaps = function (callback) {
+            OfflineMap.clearCache();
+            var failed = 0;
+            var waitingFor = [];
+            var errorMsg = null;
+            function addNextMap() {
+                var next = waitingFor.pop();
+                OfflineMap.addMapToCache(next.latitude, next.longitude, cachedCallback);
+            }
+            function cachedCallback(progress, error) {
+                if(error != null) {
+                    failed++;
+                    errorMsg = error;
+                }
+                if(waitingFor.length == 0) {
+                    callback(failed, errorMsg);
+                } else {
+                    addNextMap();
+                }
+            }
+            var routes = this.getRoutesList();
+            var places = this.getPlacesList();
+            var accommodations = this.getAccommodationsList();
+            for(var r = 0; r < routes.length; r++) {
+                waitingFor.push({
+                    latitude: routes[r].departure_latitude,
+                    longitude: routes[r].departure_longitude
+                });
+                waitingFor.push({
+                    latitude: routes[r].arrival_latitude,
+                    longitude: routes[r].arrival_longitude
+                });
+            }
+            for(var p = 0; p < places.length; p++) {
+                waitingFor.push({
+                    latitude: places[p].latitude,
+                    longitude: places[p].longitude
+                });
+            }
+            for(var a = 0; a < accommodations.length; a++) {
+                waitingFor.push({
+                    latitude: accommodations[a].latitude,
+                    longitude: accommodations[a].longitude
+                });
+            }
+            if(waitingFor.length == 0) {
+                callback(0, null);
+            } else {
+                addNextMap();
+            }
+        };
         DataManager.prototype.loadHoliday = function (holiday_id, callback) {
             var routes_loaded = false;
             var accommodations_loaded = false;
@@ -80,6 +131,20 @@ var TripAssist;
             function done() {
                 if(routes_loaded && accommodations_loaded && places_loaded) {
                     self.loaded_holiday_ = true;
+                    var routes = self.getRoutesList();
+                    var places = self.getPlacesList();
+                    var accommodations = self.getAccommodationsList();
+                    OfflineMap.clearItems();
+                    for(var r = 0; r < routes.length; r++) {
+                        OfflineMap.addItem(routes[r].departure_latitude, routes[r].departure_longitude, routes[r].departure_name + '(' + routes[r].name + ')');
+                        OfflineMap.addItem(routes[r].arrival_latitude, routes[r].arrival_longitude, routes[r].arrival_name + '(' + routes[r].name + ')');
+                    }
+                    for(var p = 0; p < places.length; p++) {
+                        OfflineMap.addItem(places[p].latitude, places[p].longitude, places[p].name);
+                    }
+                    for(var a = 0; a < accommodations.length; a++) {
+                        OfflineMap.addItem(accommodations[a].latitude, accommodations[a].longitude, accommodations[a].name);
+                    }
                     callback();
                 }
             }

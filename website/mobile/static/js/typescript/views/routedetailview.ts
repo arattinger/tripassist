@@ -96,9 +96,24 @@ module TripAssist {
                 self.app.loadView('NavigationView', navItem);
             }
 
+             function loadMap() {
+                var mapItem = {
+                    name : self.route.name,
+                    longitude : self.route.departure_longitude,
+                    latitude : self.route.departure_latitude
+                };
+                self.app.loadView('MapView', mapItem);
+            }
+
             $('#navigate-btn').on('tap', function() {
                 var id = this.parentNode.getAttribute('data-id');
                 navigateTo();
+                return false;
+            });
+
+            $('#map-btn').on('tap', function() {
+                var id = this.parentNode.getAttribute('data-id');
+                loadMap();
                 return false;
             });
 

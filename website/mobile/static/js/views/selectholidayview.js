@@ -20,6 +20,7 @@ var TripAssist;
             this.currentCtn = ctn;
             ctn.innerHTML = this.mainTemplate({
             });
+            $('#waiting-msg').hide();
             this.addEvents();
             this.loadOnlineHolidays($('.list-ctn'));
             this.loadOfflineHolidays($('.list-ctn'));
@@ -45,6 +46,7 @@ var TripAssist;
             this.stored = false;
             this.storedHTML = null;
             this.currentCtn = null;
+            $('#waiting-msg').hide();
         };
         SelectHolidayView.prototype.addEvents = function () {
             var self = this;
@@ -55,8 +57,23 @@ var TripAssist;
                 console.log('TODO: dowload holiday with id ' + id);
             }
             function openHoliday(id) {
+                $('#waiting-msg').show();
                 self.datamgr.loadHoliday(id, function () {
-                    self.app.loadView('MainView', self.datamgr.getOfflineHoliday(id));
+                    self.datamgr.cacheMaps(function (failed, errorMsg) {
+                        function loadMainView() {
+                            self.app.loadView('MainView', self.datamgr.getOfflineHoliday(id));
+                        }
+                        if(failed > 0) {
+                            $('waiting-msg').html(failed + ' maps failed to load: ' + errorMsg);
+                            window.setTimeout(function () {
+                                $('#waiting-msg').hide();
+                                loadMainView();
+                            }, 2000);
+                        } else {
+                            $('#waiting-msg').hide();
+                            loadMainView();
+                        }
+                    });
                 });
             }
             $('.del-btn').on('tap', function () {

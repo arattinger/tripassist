@@ -63,9 +63,22 @@ var TripAssist;
                 };
                 self.app.loadView('NavigationView', navItem);
             }
+            function loadMap() {
+                var mapItem = {
+                    name: self.place.name,
+                    longitude: self.place.longitude,
+                    latitude: self.place.latitude
+                };
+                self.app.loadView('MapView', mapItem);
+            }
             $('#navigate-btn').on('tap', function () {
                 var id = this.parentNode.getAttribute('data-id');
                 navigateTo();
+                return false;
+            });
+            $('#map-btn').on('tap', function () {
+                var id = this.parentNode.getAttribute('data-id');
+                loadMap();
                 return false;
             });
             $('li div').on('tap', function () {

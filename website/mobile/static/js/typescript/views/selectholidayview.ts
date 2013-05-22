@@ -39,7 +39,7 @@ module TripAssist {
             ctn.innerHTML = this.mainTemplate({
                 
             });
-
+            $('#waiting-msg').hide();
             this.addEvents();
             this.loadOnlineHolidays($('.list-ctn'));
             this.loadOfflineHolidays($('.list-ctn'));
@@ -67,6 +67,7 @@ module TripAssist {
             this.stored = false;
             this.storedHTML = null;
             this.currentCtn = null;
+            $('#waiting-msg').hide();
         }
 
         private addEvents() {
@@ -81,8 +82,25 @@ module TripAssist {
             }
 
             function openHoliday(id) {
+                // todo: map caching should be performed when new holiday is downloaded
+                $('#waiting-msg').show();
                 self.datamgr.loadHoliday(id, function() {
-                    self.app.loadView('MainView', self.datamgr.getOfflineHoliday(id));
+                    self.datamgr.cacheMaps(function(failed, errorMsg) {
+                        function loadMainView() {
+                            self.app.loadView('MainView', self.datamgr.getOfflineHoliday(id));
+                        }
+
+                        if (failed > 0) {
+                            $('waiting-msg').html(failed + ' maps failed to load: ' + errorMsg);
+                            window.setTimeout(function() {
+                                $('#waiting-msg').hide();
+                                loadMainView();
+                            }, 2000);
+                        } else {
+                            $('#waiting-msg').hide();
+                            loadMainView();
+                        }
+                    });
                 });
             }
 
