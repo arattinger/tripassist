@@ -26,7 +26,7 @@ class AccommodationForm(ModelForm):
     class Meta:
         model = Accommodation
         exclude = ("created", "last_changed", "longitude", "latitude",
-                   "altitude", "files", "start", "end")
+                   "altitude", "files")
 
 
 class PlaceForm(ModelForm):
