@@ -72,11 +72,12 @@ def form_builder(request, form, model, holiday_id, item_id, html, field):
     data = {'holiday_id': holiday_id}
     inst = None
     if item_id:
+        data['item_id'] = item_id
         inst = model.objects.get(pk=item_id)
     if request.method == 'POST':
         form = form(request.POST, instance=inst)
         if form.is_valid():
-            inst = form.save()
+            inst = form.save(inst)
             holiday = Holiday.objects.get(pk=holiday_id)
             getattr(holiday, field).add(inst)
             holiday.save()
