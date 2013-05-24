@@ -647,8 +647,11 @@ input {
   max-width: 200px;
   max-height: 200px;
   margin: 10px;
-  border: 1px solid #f00;
   position: absolute;
+  background-color: #fff;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
   right: 50%;
   left: 0%;
   top: 0%;
@@ -658,19 +661,26 @@ input {
   max-width: 200px;
   max-height: 200px;
   margin: 10px;
-  border: 1px solid #f00;
   position: absolute;
+  background-color: #fff;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
   right: 0%;
   left: 50%;
   top: 0%;
   bottom: 50%;
+  background-image: url("/static/images/accommodations.png");
 }
 .tiles-wrapper .tiles-ctn #places-tile {
   max-width: 200px;
   max-height: 200px;
   margin: 10px;
-  border: 1px solid #f00;
   position: absolute;
+  background-color: #fff;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
   right: 50%;
   left: 0%;
   top: 50%;
@@ -680,12 +690,16 @@ input {
   max-width: 200px;
   max-height: 200px;
   margin: 10px;
-  border: 1px solid #f00;
   position: absolute;
+  background-color: #fff;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
   right: 0%;
   left: 50%;
   top: 50%;
   bottom: 0%;
+  background-image: url("/static/images/schedule.png");
 }
 @font-face {
   font-family: 'Open Sans';
