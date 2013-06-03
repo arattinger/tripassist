@@ -128,3 +128,7 @@ def download(request, filename):
     response['Content-Length'] = getsize(resultfile)
 
     return response
+    # look in filename for type (holyday or place etc) and return json
+    # data holds content of json file
+    # look for model to json wrapper or do it by hand
+    # return render_to_response('holiday.json', data, RequestContext(request))

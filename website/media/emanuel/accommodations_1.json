@@ -1,0 +1,40 @@
+[
+    {
+        "id": 1,
+        "name": "Hotel d'Amour",
+        "created": 1224043200000,
+        "last_changed": 1224043200000,
+        "longitude": 47.13,
+        "latitude": 16.45,
+        "altitude": 235,
+        "website": "http://www.hoteldamour.fr",
+        "email": "office@hoteldamour.fr",
+        "phone_number": "+51 7568566",
+        "address": "Rue du poisson 53, Nice",
+        "start": 1369778400000,
+        "end": 1369864800000,
+        "files": [
+            {
+                "id": 2,
+                "filename": "Hotel reservation.pdf",
+                "token": "adil920askd72ald82af"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Hôtel du mar",
+        "created": 1224043200002,
+        "last_changed": 1224043200034,
+        "longitude": 47.17,
+        "latitude": 16.42,
+        "altitude": 212,
+        "website": "http://www.hoteldumar.fr",
+        "email": "",
+        "phone_number": "",
+        "address": "Champs Elysée 53, Nice",
+        "start": 1369864800000,
+        "end": 1370124000000,
+        "files": []
+    }
+]
