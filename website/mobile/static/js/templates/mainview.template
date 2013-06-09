@@ -1,9 +1,9 @@
 <div class='tiles-wrapper'>
     <div class='tiles-ctn'>
         <div class='dummy-tile'></div>
-        <div id='route-tile'>Route</div>
+        <div id='route-tile' title='Route'></div>
         <div id='accomm-tile' title='Accommodations'></div>
-        <div id='places-tile'>Places</div>
+        <div id='places-tile' title='Places'></div>
         <div id='schedule-tile' title='Schedule'></div>
     </div>
 </div>
