@@ -20,6 +20,7 @@
   
   <link rel="stylesheet" href="/static/css/jquery-ui-1.10.3.custom.min.css" />
   <link rel="stylesheet" href="/static/css/jquery-ui-timepicker-addon.css" />
+  <link rel="stylesheet" href="/static/css/website.css" />
   <script src="/static/js/lib/jquery-1.9.1.min.js" type="text/javascript"></script>
   <script src="/static/js/lib/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
   <script src="/static/js/lib/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
@@ -28,8 +29,13 @@
 </head>
 
 <body>
+
 <div class="ez-wm">
   <div id="main-header-wrapper" class="ez-box">
+    <a href={% url home %}>
+      <img id="logo-img" alt="Tripassist Logo">
+    </a>
+    <h1>Trip Assistant</h1>
   </div>
 
   <div id="main-content-wrapper" class="ez-box">
