@@ -10,6 +10,36 @@ from django.http import HttpResponse, HttpResponseRedirect
 from models import Attachment, Holiday, Place, Route, Accommodation
 from forms import HolidayForm, RouteForm, AccommodationForm, PlaceForm
 import time
+from django.forms.models import model_to_dict
+import json
+
+
+def serialize_foreign_key(data, model, field):
+    new_data = []
+    for model_id in data[field]:
+        new_data.append(model_to_dict(model.objects.get(id=model_id),
+                        fields=[], exclude=[]))
+    data[field] = new_data
+
+
+@login_required
+def get_serialized_holiday(request, holiday_id=None):
+    if holiday_id:
+        # Return all model information from a single holiday as json
+        holiday = Holiday.objects.filter(user=request.user).get(id=holiday_id)
+        holiday_data = model_to_dict(holiday, fields=[], exclude=[])
+        serialize_foreign_key(holiday_data, Accommodation, 'accommodations')
+        serialize_foreign_key(holiday_data, Place, 'places')
+        serialize_foreign_key(holiday_data, Route, 'routes')
+
+    else:
+        holidays = Holiday.objects.filter(user=request.user)
+        holiday_data = []
+        for holiday in holidays:
+            holiday_data.append(model_to_dict(holiday, fields=[], exclude=[]))
+
+    dthandler = lambda obj: obj.isoformat() if hasattr(obj, 'isoformat') else None
+    return HttpResponse(json.dumps(holiday_data, default=dthandler))
 
 
 def mobile(request):
@@ -18,7 +48,7 @@ def mobile(request):
 
 @login_required
 def home(request):
-    holiday_list = Holiday.objects.all()
+    holiday_list = Holiday.objects.filter(user=request.user)
     data = {'holiday_list': holiday_list}
     return render_to_response('homepage.html', data, RequestContext(request))
 
