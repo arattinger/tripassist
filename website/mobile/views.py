@@ -62,6 +62,39 @@ def holiday_home(request, holiday_id):
 
 
 @login_required
+def edit_holiday(request, holiday_id):
+    holiday_obj = Holiday.objects.get(pk=holiday_id)
+    if request.method == 'POST':
+        if 'change_holiday_name' in request.POST:
+            holiday_obj.name = request.POST['holiday_name']
+            holiday_obj.save()
+            messages.success(request, 'Saved successfully!')
+        elif 'delete_selection' in request.POST:
+            fields = request.POST.getlist("route")
+            for field_id in fields:
+                instance = Route.objects.get(id=field_id)
+                instance.delete()
+            fields = request.POST.getlist("accom")
+            for field_id in fields:
+                instance = Accommodation.objects.get(id=field_id)
+                instance.delete()
+            fields = request.POST.getlist("place")
+            for field_id in fields:
+                instance = Place.objects.get(id=field_id)
+                instance.delete()
+            messages.success(request, 'Nodes deleted!')
+        elif 'erase_holiday' in request.POST:
+            holiday_obj.delete()
+            # delete dependencies? show warning (message box)!
+            messages.success(request, 'Holiday deleted!')
+            return redirect('home')
+
+    data = {'holiday_obj': holiday_obj}
+    return render_to_response('edit_holiday.html', data,
+                              RequestContext(request))
+
+
+@login_required
 def holiday(request):
     if request.method == 'POST':
         form = HolidayForm(request.POST)
@@ -104,10 +137,14 @@ def form_builder(request, form, model, holiday_id, item_id, html, field):
     if item_id:
         data['item_id'] = item_id
         inst = model.objects.get(pk=item_id)
+        data['title'] = inst.name
+    else:
+        data['title'] = 'Add %s' % (field)
     if request.method == 'POST':
         form = form(request.POST, instance=inst)
         if form.is_valid():
             inst = form.save(inst)
+            inst.save()
             holiday = Holiday.objects.get(pk=holiday_id)
             getattr(holiday, field).add(inst)
             holiday.save()

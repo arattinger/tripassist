@@ -1,0 +1,71 @@
+{% extends "content_base.html" %}
+
+{% load messages %}
+
+{% block main-title %} Holiday {% endblock %}
+
+{% block main-head %}
+
+{% endblock %}
+
+{% block content %}
+<div class='tiles-wrapper'>
+<div class='tiles-ctn'>
+
+<form action="{% url edit_holiday holiday_obj.pk %}" method="post">
+{% csrf_token %}
+
+<div id='holiday-header-tile'>
+<h1>{{ holiday_obj.name }}</h1>
+<input id='erase-button' type='submit' name='erase_holiday' value='' alt='Erase Holiday'>
+</div>
+{% render_messages messages %}
+
+<input type="text" name="holiday_name" value="{{ holiday_obj.name }}">
+<input type="submit" name="change_holiday_name" value="Save" />
+
+<div id='holiday-obj'>
+    <div id='route-cnt' class='header-item-tile'>
+        <h3>Routes</h3>
+        <dl>
+        {% for route in holiday_obj.routes.all %}
+            <dd><div class='holiday-tile'>
+                <input type='checkbox' name='route' value='{{ route.pk }}'>
+                {{ route.name }}
+            </div></dd>
+        {% endfor %}
+        </dl>
+    </div>
+    <div id='accommodation-cnt' class='header-item-tile'>
+        <h3>Accommodations</h3>
+        <dl>
+        {% for accom in holiday_obj.accommodations.all %}
+            <dd><div class='holiday-tile'>
+                <input type="checkbox" name="accom" value='{{ accom.pk }}'>
+                {{ accom.name }}
+            </div></dd>
+        {% endfor %}
+        </dl>
+    </div>
+    <div id='place-cnt' class='header-item-tile'>
+        <h3>Places</h3>
+        <dl>
+        {% for place in holiday_obj.places.all %}
+            <dd><div class='holiday-tile'>
+                <input type="checkbox" name="place" value='{{ place.pk }}'>
+                {{ place.name }}
+            </div></dd>
+        {% endfor %}
+        </dl>
+    </div>
+</div>
+<input type="submit" name="delete_selection" value="Delete Selection">
+<button type="button"><a href={% url holiday_home holiday_obj.pk %}>Cancel</a></button>
+</form>
+
+</div>
+</div>
+{% endblock %}
+
+{% block main-meta %}
+{% endblock %}

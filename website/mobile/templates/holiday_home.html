@@ -14,6 +14,7 @@
 
 <div id='holiday-header-tile'>
 <h1>{{ holiday_obj.name }}</h1>
+<a href={% url edit_holiday holiday_obj.pk %}><img class='edit-icon' alt="Edit Holiday"></a>
 </div>
 {% render_messages messages %}
 
@@ -52,7 +53,7 @@
     </div>
     <div id='place-cnt' class='header-item-tile'>
         <h2>Places</h2>
-            <a href={% url route holiday_obj.pk %}>
+            <a href={% url place holiday_obj.pk %}>
             <img class="add-icon" alt="Add Place">
             </a>
         <dl>

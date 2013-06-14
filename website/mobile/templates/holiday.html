@@ -12,10 +12,13 @@
 
 {% render_messages messages %}
 
+<h1>New Holiday</h1>
+
 <form action="{% url add_holiday %}" method="post">
 {% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />
+<button type="button"><a href={% url home %}>Cancel</a></button>
 </form>
 {% endblock %}
 
