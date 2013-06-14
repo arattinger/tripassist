@@ -28,9 +28,9 @@ def get_serialized_holiday(request, holiday_id=None):
         # Return all model information from a single holiday as json
         holiday = Holiday.objects.filter(user=request.user).get(id=holiday_id)
         holiday_data = model_to_dict(holiday, fields=[], exclude=[])
+        serialize_foreign_key(holiday_data, Route, 'routes')
         serialize_foreign_key(holiday_data, Accommodation, 'accommodations')
         serialize_foreign_key(holiday_data, Place, 'places')
-        serialize_foreign_key(holiday_data, Route, 'routes')
 
     else:
         holidays = Holiday.objects.filter(user=request.user)

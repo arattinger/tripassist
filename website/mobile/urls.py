@@ -20,6 +20,6 @@ urlpatterns = patterns(
     url(r'^holiday/(?P<holiday_id>\d+)/place/add/$', views.place, name='place'),
     url(r'^manifest/$', views.manifest),
     url(r'^manifest/cache.manifest$', views.cache_manifest),
-    url(r'^holidays.json$', views.get_serialized_holiday),
-    url(r'^holidays_(?P<holiday_id>.*).json$', views.get_serialized_holiday),
+    url(r'^download/holidays.json$', views.get_serialized_holiday),
+    url(r'^download/holiday_(?P<holiday_id>\d+).json$', views.get_serialized_holiday),
 )
