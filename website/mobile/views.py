@@ -168,6 +168,7 @@ def cache_manifest(request):
         "attachments": attachments,
         "username": request.user.username,
         "timestamp": int(time.time()),
+        "no_of_holidays": range(1, len(Holiday.objects.filter(user=request.user))+1),
     }
     return render_to_response('cache.manifest', data, RequestContext(request))
 
