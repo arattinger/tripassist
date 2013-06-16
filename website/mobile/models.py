@@ -100,8 +100,8 @@ class Accommodation(models.Model):
     address = models.CharField(max_length=255, blank=True)
     files = models.ManyToManyField(Attachment, blank=True)
     description = models.TextField(blank=True)
-    start = models.DateField(null=True, blank=True)
-    end = models.DateField(null=True, blank=True)
+    start = models.DateField()
+    end = models.DateField()
 
     def __unicode__(self):
         return u"%s: %s" % (self.name, self.type)
