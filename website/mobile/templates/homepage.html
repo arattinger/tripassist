@@ -12,12 +12,19 @@
 <div class='tiles-wrapper'>
 <div class='tiles-ctn'>
 
-<div id='holiday-header-tile'>
-<h1>Holidays</h1>
-<a href={% url add_holiday %}><img class='add-icon' alt="Add Holiday"></a>
-</div>
+<nav id="access" role="navigation">
+        <div><ul class="menu"><li class="current-menu-item current_page_item"><a href="/holiday/">holidays</a></li>
+        <li class=""><a href="https://github.com/arattinger/tripassist">github</a></li>
+        <li class=""><a href="/accounts/logout/">logout</a></li>
+        </ul></div></nav>
 
 {% render_messages messages %}
+
+<br><br><br><br>
+
+<div>
+  <a href="{% url add_holiday %}" class="btn btn-block btn-inverse">Add Holiday</a>
+</div>
 
 <div id='holiday-list'>
 <dl>
