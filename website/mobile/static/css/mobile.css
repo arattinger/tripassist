@@ -656,6 +656,7 @@ input {
   left: 0%;
   top: 0%;
   bottom: 50%;
+  background-image: url("/static/images/routes.png");
 }
 .tiles-wrapper .tiles-ctn #accomm-tile {
   max-width: 200px;
@@ -685,6 +686,7 @@ input {
   left: 0%;
   top: 50%;
   bottom: 0%;
+  background-image: url("/static/images/places.png");
 }
 .tiles-wrapper .tiles-ctn #schedule-tile {
   max-width: 200px;
