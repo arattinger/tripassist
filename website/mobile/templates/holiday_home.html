@@ -9,51 +9,66 @@
 {% endblock %}
 
 {% block content %}
-<h1>{{ holiday_obj.name }}</h1>
-{% render_messages messages %}
 <div class='tiles-wrapper'>
-    <div class='tiles-ctn'>
-        <div id='holiday-obj'>
-            <div id='route-cnt'>
-                <p>Routes</p>
-                <ul>
-                {% for route in holiday_obj.routes.all %}
-                    <li><a href={% url route holiday_obj.pk route.pk %}>
-                                {{ route.name }}
-                    </a></li>
-                {% endfor %}
-                </ul>
-            </div>
-            <div id='route-tile'>
-                <a href={% url route holiday_obj.pk %}>Add</a>
-            </div>
-            <div id='accommodation-cnt'>
-                <p>Accommodations</p>
-                <ul>
-                {% for accom in holiday_obj.accommodations.all %}
-                    <li><a href=
-                        {% url accommodation holiday_obj.pk accom.pk %}>
-                            {{ accom.name }}
-                    </a></li>
-                {% endfor %}
-                </ul>
-            </div>
-            <div id='accommodation-tile'><a href=
-                {% url accommodation holiday_obj.pk %}>Add</a></div>
-            <div id='place-cnt'>
-                <p>Places</p>
-                <ul>
-                {% for place in holiday_obj.places.all %}
-                    <li><a href={% url place holiday_obj.pk place.pk %}>
-                                {{ place.name }}
-                    </a></li>
-                {% endfor %}
-                </ul>
-            </div>
-            <div id='place-tile'><a href=
-                {% url place holiday_obj.pk %}>Add</a></div>
-        </div>
+<div class='tiles-ctn'>
+
+<div id='holiday-header-tile'>
+<h1>{{ holiday_obj.name }}</h1>
+<a href={% url edit_holiday holiday_obj.pk %}><img class='edit-icon' alt="Edit Holiday"></a>
+</div>
+{% render_messages messages %}
+
+<div id='holiday-obj'>
+    <div id='route-cnt' class='header-item-tile'>
+        <h2>Routes</h2>
+            <a href={% url route holiday_obj.pk %}>
+            <img class="add-icon" alt="Add Route">
+            </a>
+        <dl>
+        {% for route in holiday_obj.routes.all %}
+            <dd><div class='holiday-tile'>
+                <a href={% url route holiday_obj.pk route.pk %}>
+                        <img class="select-icon" alt="View Route">
+                        {{ route.name }}
+                </a>
+            </div></dd>
+        {% endfor %}
+        </dl>
     </div>
+    <div id='accommodation-cnt' class='header-item-tile'>
+        <h2>Accommodations</h2>
+            <a href={% url accommodation holiday_obj.pk %}>
+            <img class="add-icon" alt="Add Accommodation">
+            </a>
+        <dl>
+        {% for accom in holiday_obj.accommodations.all %}
+            <dd><div class='holiday-tile'>
+                <a href={% url accommodation holiday_obj.pk accom.pk %}>
+                    <img class="select-icon" alt="View Accommodation">
+                    {{ accom.name }}
+            </a>
+            </div></dd>
+        {% endfor %}
+        </dl>
+    </div>
+    <div id='place-cnt' class='header-item-tile'>
+        <h2>Places</h2>
+            <a href={% url place holiday_obj.pk %}>
+            <img class="add-icon" alt="Add Place">
+            </a>
+        <dl>
+        {% for place in holiday_obj.places.all %}
+            <dd><div class='holiday-tile'>
+                <a href={% url place holiday_obj.pk place.pk %}>
+                    <img class="select-icon" alt="View Place">
+                    {{ place.name }}
+            </a>
+            </div></dd>
+        {% endfor %}
+        </dl>
+    </div>
+</div>
+</div>
 </div>
 {% endblock %}
 

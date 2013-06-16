@@ -9,27 +9,33 @@
 {% endblock %}
 
 {% block content %}
-<h1>Holidays</h1>
-{% render_messages messages %}
 <div class='tiles-wrapper'>
-    <div class='tiles-ctn'>
-        <div id='holiday-list'>
-            <ul>
-            {% for holiday in holiday_list %}
-                <li>
-                    <div class='holiday-tile'>
-                        <a href={% url holiday_home holiday.pk %}>
-                            {{ holiday.name }}
-                        </a>
-                    </div>
-                </li>
-            {% endfor %}
-            </ul>
+<div class='tiles-ctn'>
+
+<div id='holiday-header-tile'>
+<h1>Holidays</h1>
+<a href={% url add_holiday %}><img class='add-icon' alt="Add Holiday"></a>
+</div>
+
+{% render_messages messages %}
+
+<div id='holiday-list'>
+<dl>
+{% for holiday in holiday_list %}
+    <dd>
+        <div class='holiday-tile'>
+            <h2>
+            <a href={% url holiday_home holiday.pk %}>
+                <img class="select-icon" alt="Click to view Holiday">
+                {{ holiday.name }}
+            </a>
+            </h2>
         </div>
-        <div id='add-holiday-tile'>
-            <a href={% url add_holiday %}>Add Holiday</a>
-        </div>
-    </div>
+    </dd>
+{% endfor %}
+</dl>
+</div>
+</div>
 </div>
 {% endblock %}
 

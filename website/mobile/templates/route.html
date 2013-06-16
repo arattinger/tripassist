@@ -2,13 +2,15 @@
 
 {% load messages %}
 
-{% block main-title %} Add Route {% endblock %}
+{% block main-title %} Route {% endblock %}
 
 {% block main-head %}
 
 {% endblock %}
 
 {% block content %}
+
+<h1>{{ title }}</h1>
 
 {% render_messages messages %}
 
@@ -20,6 +22,7 @@
 {% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />
+<button type="button"><a href={% url holiday_home holiday_id %}>Cancel</a></button>
 </form>
 
 {% endblock %}
