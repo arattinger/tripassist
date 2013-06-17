@@ -56,11 +56,6 @@ var TripAssist;
             this.places_ = [];
             this.schedule_ = [];
             this.setUsername(username);
-            console.log("login called");
-            $.post('/accounts/api_login/', {
-                'username': username,
-                'password': password
-            });
             if(callback) {
                 callback(true, '');
             }
