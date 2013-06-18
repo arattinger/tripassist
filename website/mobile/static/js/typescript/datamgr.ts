@@ -59,7 +59,8 @@ module TripAssist {
          }
 
         private setUsername(username: string) : void {
-            this.base_url_ = '/download/' + username + '/';
+            //this.base_url_ = '/download/' + username + '/';
+            this.base_url_ = '/download/';  // TODO: remove if username is needed in url
         }
 
         constructor () {
@@ -94,8 +95,18 @@ module TripAssist {
             this.schedule_ = [];
             // TODO: check username online?
             this.setUsername(username);
-            if (callback)
-                callback(true, '');
+
+            // login request
+            var success = false;
+            $.post('/accounts/api_login/', {
+                'username': username,
+                'password': password
+            }, function(data) {
+              success = JSON.parse(data)['state'];
+            });
+            if(callback) {
+                callback(success, '');
+            }
         }
 
         /**
@@ -147,56 +158,37 @@ module TripAssist {
                 this.schedule_ = [];
                 this.current_holiday_id_ = holiday_id;
 
-                $.ajax(this.base_url_ + 'routes_' + this.current_holiday_id_ + '.json', {
+                $.ajax(this.base_url_ + 'holiday_' + this.current_holiday_id_ + '.json', {
                     dataType: 'json',
                     success: function(data, textStatus) {
                         // create real date objects
-                        for (var i = 0; i<data.length; i++) {
-                            data[i].departure_time = new Date(data[i].departure_time);
-                            data[i].arrival_time = new Date(data[i].arrival_time);
-                            data[i].created = new Date(data[i].created);
-                            data[i].last_changed = new Date(data[i].last_changed);
+                        for (var i = 0; i<data.routes.length; i++) {
+                            data.routes[i].departure_time = new Date(data.routes[i].departure_time);
+                            data.routes[i].arrival_time = new Date(data.routes[i].arrival_time);
+                            data.routes[i].created = new Date(data.routes[i].created);
+                            data.routes[i].last_changed = new Date(data.routes[i].last_changed);
                         }
-                        self.routes_ = data;
+                        self.routes_ = data.routes;
                         routes_loaded = true;
-                        done();
-                    },
 
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
-                    }
-                });
-
-                $.ajax(this.base_url_ + 'accommodations_' + this.current_holiday_id_ + '.json', {
-                    dataType: 'json',
-                    success: function(data, textStatus) {
-                        // create real date objects
-                        for (var i = 0; i<data.length; i++) {
-                            data[i].start = new Date(data[i].start);
-                            data[i].end = new Date(data[i].end);
-                            data[i].created = new Date(data[i].created);
-                            data[i].last_changed = new Date(data[i].last_changed);
+                        for (var i = 0; i<data.accommodations.length; i++) {
+                            data.accommodations[i].departure_time = new Date(data.accommodations[i].departure_time);
+                            data.accommodations[i].arrival_time = new Date(data.accommodations[i].arrival_time);
+                            data.accommodations[i].created = new Date(data.accommodations[i].created);
+                            data.accommodations[i].last_changed = new Date(data.accommodations[i].last_changed);
                         }
-                        self.accommodations_ = data;
+                        self.accommodations_ = data.accommodations;
                         accommodations_loaded = true;
-                        done();
-                    },
 
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log('ERROR: ' + textStatus + ': ' + errorThrown);
-                    }
-                });
-
-                $.ajax(this.base_url_ + 'places_' + this.current_holiday_id_ + '.json', {
-                    dataType: 'json',
-                    success: function(data, textStatus) {
-                        // create real date objects
-                        for (var i = 0; i<data.length; i++) {
-                            data[i].created = new Date(data[i].created);
-                            data[i].last_changed = new Date(data[i].last_changed);
+                        for (var i = 0; i<data.places.length; i++) {
+                            data.places[i].departure_time = new Date(data.places[i].departure_time);
+                            data.places[i].arrival_time = new Date(data.places[i].arrival_time);
+                            data.places[i].created = new Date(data.places[i].created);
+                            data.places[i].last_changed = new Date(data.places[i].last_changed);
                         }
-                        self.places_ = data;
+                        self.places_ = data.places;
                         places_loaded = true;
+
                         done();
                     },
 
@@ -277,7 +269,7 @@ module TripAssist {
                     //this.storeOfflineHolidays();
                     return;
                 }
-            }   
+            }
         }
 
         /**

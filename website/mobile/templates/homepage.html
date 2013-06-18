@@ -1,5 +1,7 @@
 {% extends "content_base.html" %}
 
+{% load messages %}
+
 {% block main-title %} Homepage {% endblock %}
 
 {% block main-head %}
@@ -7,26 +9,40 @@
 {% endblock %}
 
 {% block content %}
-<h1>Holidays</h1>
 <div class='tiles-wrapper'>
-    <div class='tiles-ctn'>
-        <div id='holiday-list'>
-            <ul>
-            {% for holiday in holiday_list %}
-                <li>
-                    <div class='holiday-tile'>
-                        <a href={% url 'holiday_home' holiday.name %}>
-                            {{ holiday.name }}
-                        </a>
-                    </div>
-                </li>
-            {% endfor %}
-            </ul>
+<div class='tiles-ctn'>
+
+<nav id="access" role="navigation">
+        <div><ul class="menu"><li class="current-menu-item current_page_item"><a href="/holiday/">holidays</a></li>
+        <li class=""><a href="https://github.com/arattinger/tripassist">github</a></li>
+        <li class=""><a href="/accounts/logout/">logout</a></li>
+        </ul></div></nav>
+
+{% render_messages messages %}
+
+<br><br><br><br>
+
+<div>
+  <a href="{% url add_holiday %}" class="btn btn-block btn-inverse">Add Holiday</a>
+</div>
+
+<div id='holiday-list'>
+<dl>
+{% for holiday in holiday_list %}
+    <dd>
+        <div class='holiday-tile'>
+            <h2>
+            <a href={% url holiday_home holiday.pk %}>
+                <img class="select-icon" alt="Click to view Holiday">
+                {{ holiday.name }}
+            </a>
+            </h2>
         </div>
-        <div id='add-holiday-tile'>
-            <a href={% url 'holiday' %}>Add Holiday</a>
-        </div>
-    </div>
+    </dd>
+{% endfor %}
+</dl>
+</div>
+</div>
 </div>
 {% endblock %}
 

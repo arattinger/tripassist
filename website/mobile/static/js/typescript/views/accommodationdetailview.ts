@@ -39,6 +39,8 @@ module TripAssist {
         public render(ctn: HTMLElement, data: Accommodation, callback: () => any) {
             this.accommodation = data;
             this.currentCtn = ctn;
+            console.log(this.accommodation);
+            window.acc = this.accommodation;
             var diffInDays = Math.round((this.accommodation.end.getTime() - this.accommodation.start.getTime()) / 1000 / 60 / 60 / 24);
             ctn.innerHTML = this.mainTemplate({
                 start: this.accommodation.start.format('%b %d<sup>%o</sup>'),
@@ -118,7 +120,7 @@ module TripAssist {
                 phone = phone.replace(/[^\+0-9]+/g, '');
                 window.open('tel:'+phone, 'link-target');
             });
-            
+
         }
 
     }

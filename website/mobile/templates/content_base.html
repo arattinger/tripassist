@@ -1,7 +1,16 @@
-{% extends "manifest_base.html" %}
+{% extends "base.html" %}
 
 {% block main-content %}
 <div id="main-mobile-content">
-  {% block content %}{% endblock %}
+
+    {% if user.is_anonymous %}
+    <div id="login-wrapper">
+      <button type="button">
+        <a href="/accounts/login/">Login</a>
+      </button>
+  </div>
+    {% endif %}
+
+{% block content %}{% endblock %}
 </div>
 {% endblock %}

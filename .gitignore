@@ -70,3 +70,6 @@ Thumbs.db
 # not js libs
 !website/mobile/static/js/lib
 !website/mobile/static/js/specs/lib
+
+# User files
+website/media/attachment/
