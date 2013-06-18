@@ -134,16 +134,24 @@ def place(request, holiday_id, item_id=None):
 def form_builder(request, form, model, holiday_id, item_id, html, field):
     data = {'holiday_id': holiday_id}
     inst = None
+    init_attachments = None
     if item_id:
-        data['item_id'] = item_id
         inst = model.objects.get(pk=item_id)
         data['title'] = inst.name
+        data['item_id'] = item_id
+        if inst.files.count() > 0:
+            init_attachments = {"attachments": inst.files.all()}
     else:
         data['title'] = 'Add %s' % (field)
     if request.method == 'POST':
         form = form(request.POST, instance=inst)
         if form.is_valid():
             inst = form.save(inst)
+            if 'file' in request.FILES: #fileitem.name:
+                fileitem = request.FILES['file']
+                newFile = Attachment(attachment=fileitem, user=request.user)
+                newFile.save()
+                inst.files.add(newFile)
             inst.save()
             holiday = Holiday.objects.get(pk=holiday_id)
             getattr(holiday, field).add(inst)
@@ -152,7 +160,7 @@ def form_builder(request, form, model, holiday_id, item_id, html, field):
             return HttpResponseRedirect('/holiday/' + str(holiday_id))
         data['form'] = form
     else:
-        data['form'] = form(instance=inst)
+        data['form'] = form(instance=inst, initial=init_attachments)
     return render_to_response(html, data, RequestContext(request))
 
 
