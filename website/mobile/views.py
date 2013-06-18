@@ -39,6 +39,9 @@ def get_serialized_holiday(request, holiday_id=None):
         holiday_data = []
         for holiday in holidays:
             holiday_data.append(model_to_dict(holiday, fields=[], exclude=[]))
+            serialize_foreign_key(holiday_data[-1], Route, 'routes')
+            serialize_foreign_key(holiday_data[-1], Accommodation, 'accommodations')
+            serialize_foreign_key(holiday_data[-1], Place, 'places')
 
     dthandler = lambda obj: obj.isoformat() if hasattr(obj, 'isoformat') else None
     return HttpResponse(json.dumps(holiday_data, default=dthandler))
