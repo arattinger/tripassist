@@ -95,8 +95,18 @@ module TripAssist {
             this.schedule_ = [];
             // TODO: check username online?
             this.setUsername(username);
-            if (callback)
-                callback(true, '');
+
+            // login request
+            var success = false;
+            $.post('/accounts/api_login/', {
+                'username': username,
+                'password': password
+            }, function(data) {
+              success = JSON.parse(data)['state'];
+            });
+            if(callback) {
+                callback(success, '');
+            }
         }
 
         /**
@@ -259,7 +269,7 @@ module TripAssist {
                     //this.storeOfflineHolidays();
                     return;
                 }
-            }   
+            }
         }
 
         /**

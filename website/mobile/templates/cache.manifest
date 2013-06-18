@@ -1,10 +1,5 @@
 CACHE MANIFEST
-# Version 0.2
-/download/attachment/{{username}}/testfile.txt
-/download/attachment/{{username}}/download.png
-/download/attachment/{{username}}/delete.png
-/download/attachment/{{username}}/settings.png
-/download/attachment/{{username}}/test.json
+# Version 0.3
 
 /static/css/mobile.css
 /static/css/opensans.woff
@@ -50,14 +45,17 @@ CACHE MANIFEST
 /static/images/map.png
 /static/images/navigate.png
 /static/images/arrow.png
+/static/images/routes.png
+/static/images/accommodations.png
+/static/images/places.png
+/static/images/schedule.png
 
 {% for attachment in attachments %}
-	/download/{{ attachment.attachment }}
+	/download/{{username}}/{{ attachment.attachment }}
 {% endfor %}
 
-/download/test/holidays.json
-/download/test/accommodations_1.json
-/download/test/places_1.json
-/download/test/routes_1.json
-/download/test/ac5a5ad88621adadf5f6.svg
+/download/holidays.json
 
+{% for holiday in no_of_holidays %}
+	/download/holiday_{{ holiday }}.json
+{% endfor %}

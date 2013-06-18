@@ -2,15 +2,15 @@
 
 {% block main-content %}
 <div id="main-mobile-content">
-  <div id="login-wrapper">
-    <button type="button">
+
     {% if user.is_anonymous %}
-      <a href="/accounts/login/">Login</a>
-    {% else %}
-      <a href="/accounts/logout/">Logout</a>
-    {% endif %}
-    </button>
+    <div id="login-wrapper">
+      <button type="button">
+        <a href="/accounts/login/">Login</a>
+      </button>
   </div>
+    {% endif %}
+
 {% block content %}{% endblock %}
 </div>
 {% endblock %}

@@ -12,6 +12,7 @@ from forms import HolidayForm, RouteForm, AccommodationForm, PlaceForm
 import time
 from django.forms.models import model_to_dict
 import json
+from django.views.decorators.csrf import csrf_exempt
 
 
 def serialize_foreign_key(data, model, field):
@@ -22,6 +23,7 @@ def serialize_foreign_key(data, model, field):
     data[field] = new_data
 
 
+@csrf_exempt
 @login_required
 def get_serialized_holiday(request, holiday_id=None):
     if holiday_id:
@@ -37,6 +39,9 @@ def get_serialized_holiday(request, holiday_id=None):
         holiday_data = []
         for holiday in holidays:
             holiday_data.append(model_to_dict(holiday, fields=[], exclude=[]))
+            serialize_foreign_key(holiday_data[-1], Route, 'routes')
+            serialize_foreign_key(holiday_data[-1], Accommodation, 'accommodations')
+            serialize_foreign_key(holiday_data[-1], Place, 'places')
 
     dthandler = lambda obj: obj.isoformat() if hasattr(obj, 'isoformat') else None
     return HttpResponse(json.dumps(holiday_data, default=dthandler))
@@ -46,6 +51,7 @@ def mobile(request):
     return render_to_response('mobile.html', {}, RequestContext(request))
 
 
+@csrf_exempt
 @login_required
 def home(request):
     holiday_list = Holiday.objects.filter(user=request.user)
@@ -53,6 +59,7 @@ def home(request):
     return render_to_response('homepage.html', data, RequestContext(request))
 
 
+@csrf_exempt
 @login_required
 def holiday_home(request, holiday_id):
     holiday_obj = Holiday.objects.get(pk=holiday_id)
@@ -61,6 +68,7 @@ def holiday_home(request, holiday_id):
                               RequestContext(request))
 
 
+@csrf_exempt
 @login_required
 def edit_holiday(request, holiday_id):
     holiday_obj = Holiday.objects.get(pk=holiday_id)
@@ -94,6 +102,7 @@ def edit_holiday(request, holiday_id):
                               RequestContext(request))
 
 
+@csrf_exempt
 @login_required
 def holiday(request):
     if request.method == 'POST':
@@ -112,6 +121,7 @@ def holiday(request):
                               RequestContext(request))
 
 
+@csrf_exempt
 @login_required
 def route(request, holiday_id, item_id=None):
     return form_builder(request, RouteForm, Route, holiday_id, item_id,
@@ -169,6 +179,7 @@ def manifest(request):
     return render_to_response('manifest.html', data, RequestContext(request))
 
 
+@csrf_exempt
 @login_required
 def cache_manifest(request):
     attachments = Attachment.objects.filter(user=request.user)
@@ -176,10 +187,13 @@ def cache_manifest(request):
         "attachments": attachments,
         "username": request.user.username,
         "timestamp": int(time.time()),
+        "no_of_holidays": range(1, len(Holiday.objects.filter(user=request.user))+1),
     }
     return render_to_response('cache.manifest', data, RequestContext(request))
 
 
+@csrf_exempt
+@login_required
 def download(request, filename):
     # if not have_permissions(request, uuid):
     #     return HttpResponseForbidden()
