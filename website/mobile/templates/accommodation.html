@@ -1,17 +1,31 @@
 {% extends "content_base.html" %}
 
-{% block main-title %} Add Accommodation {% endblock %}
+{% load messages %}
+
+{% block main-title %} Accommodation {% endblock %}
 
 {% block main-head %}
 
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'holiday_home' holiday %}" method="post">
+
+<h1>{{ title }}</h1>
+
+{% render_messages messages %}
+
+{% if item_id == None %}
+<form action="{% url accommodation holiday_id %}" method="post" enctype="multipart/form-data">
+{% else %}
+<form action="{% url accommodation holiday_id item_id %}" method="post" enctype="multipart/form-data">
+{% endif %}
 {% csrf_token %}
 {{ form.as_p }}
+<p>Add attachment: <input type="file" name="file"></p>
 <input type="submit" value="Submit" />
+<button type="button"><a href={% url holiday_home holiday_id %}>Cancel</a></button>
 </form>
+
 {% endblock %}
 
 {% block main-meta %}

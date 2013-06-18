@@ -100,7 +100,7 @@ module TripAssist {
                 return false;
             });
 
-            // add delete functionality
+            // add download functionality
             $('.download-btn').on('tap', function() {
                 var id = this.parentNode.getAttribute('data-id');
                 downloadHoliday(id);

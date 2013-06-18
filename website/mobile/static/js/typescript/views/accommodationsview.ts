@@ -37,7 +37,10 @@ module TripAssist {
             this.currentCtn = ctn;
             var accommodations = this.datamgr.getAccommodationsList();
             function sortAccommodations(a : Accommodation, b : Accommodation) {
-                return a.start.getTime() - b.start.getTime();
+
+            	window.a = a;
+            	window.b = b;
+                return new Date(a.start).getTime() - new Date(b.start).getTime();
             }
             accommodations.sort(sortAccommodations);
             var sublists = [];
@@ -59,7 +62,7 @@ module TripAssist {
                 });
 
             }
-            if (sublist) 
+            if (sublist)
                 sublists.push(sublist);
             ctn.innerHTML = this.mainTemplate({
                 sublists: sublists
