@@ -21,7 +21,7 @@
 {% endif %}
 {% csrf_token %}
 {{ form.as_p }}
-<p>File: <input type="file" name="file"></p>
+<p>Add attachment: <input type="file" name="file"></p>
 <input type="submit" value="Submit" />
 <button type="button"><a href={% url holiday_home holiday_id %}>Cancel</a></button>
 </form>

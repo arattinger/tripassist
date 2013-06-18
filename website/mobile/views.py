@@ -157,12 +157,13 @@ def form_builder(request, form, model, holiday_id, item_id, html, field):
         form = form(request.POST, instance=inst)
         if form.is_valid():
             inst = form.save(inst)
-            if 'file' in request.FILES: #fileitem.name:
+            inst.save()
+            if 'file' in request.FILES:
                 fileitem = request.FILES['file']
                 newFile = Attachment(attachment=fileitem, user=request.user)
                 newFile.save()
                 inst.files.add(newFile)
-            inst.save()
+                inst.save()
             holiday = Holiday.objects.get(pk=holiday_id)
             getattr(holiday, field).add(inst)
             holiday.save()
