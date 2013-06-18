@@ -97,12 +97,16 @@ module TripAssist {
             this.setUsername(username);
 
             // login request
-            console.log("login called");
-            $.post('/accounts/api_login/',
-                {'username': username, 'password': password});
-
-            if (callback)
-                callback(true, '');
+            var success = false;
+            $.post('/accounts/api_login/', {
+                'username': username,
+                'password': password
+            }, function(data) {
+              success = JSON.parse(data)['state'];
+            });
+            if(callback) {
+                callback(success, '');
+            }
         }
 
         /**

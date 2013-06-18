@@ -70,13 +70,15 @@ var TripAssist;
             this.places_ = [];
             this.schedule_ = [];
             this.setUsername(username);
-            console.log("login called");
+            var success = false;
             $.post('/accounts/api_login/', {
                 'username': username,
                 'password': password
+            }, function (data) {
+                success = JSON.parse(data)['state'];
             });
             if(callback) {
-                callback(true, '');
+                callback(success, '');
             }
         };
         DataManager.prototype.loadUser = function () {
